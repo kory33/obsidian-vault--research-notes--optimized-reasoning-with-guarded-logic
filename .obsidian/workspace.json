@@ -1,0 +1,150 @@
+{
+  "main": {
+    "id": "cf70668d1245249c",
+    "type": "split",
+    "children": [
+      {
+        "id": "9833284ab08b7a4c",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "e41051eebd410904",
+            "type": "leaf",
+            "state": {
+              "type": "diff-view",
+              "state": {
+                "file": ".obsidian/plugins/obsidian-git/manifest.json",
+                "staged": false
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "ad845b03817373f1",
+    "type": "split",
+    "children": [
+      {
+        "id": "29fed3e5c8a191a9",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "b5ab18c15897ee17",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "1be3ea3b72ea875b",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "0892f9f3c41a55aa",
+            "type": "leaf",
+            "state": {
+              "type": "starred",
+              "state": {}
+            }
+          },
+          {
+            "id": "f4b4f04c9b64a994",
+            "type": "leaf",
+            "state": {
+              "type": "git-view",
+              "state": {}
+            }
+          }
+        ],
+        "currentTab": 3
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "7f50c2612b506ce1",
+    "type": "split",
+    "children": [
+      {
+        "id": "0dfdcbff622c32cf",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "ccb038858ce4d8ca",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "0efbfdecbc3ce650",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "6d363f5b22cdeeb3",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "49a60b92e0e20d77",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 336.5
+  },
+  "active": "e41051eebd410904",
+  "lastOpenFiles": [
+    "2022-10-31.md",
+    "references/Papers.md",
+    "README.md",
+    "Portal.md",
+    "references/papers/A general Datalog-based framework for tractable query answering over ontologies.md"
+  ]
+}
