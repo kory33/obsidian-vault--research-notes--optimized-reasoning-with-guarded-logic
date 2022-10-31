@@ -9,4 +9,9 @@ The aim of the research is to solve the "open world querying problem" in case of
 ## Internal Links
 
 ### References
+ 
  - [[Papers]]: summarises papers 
+
+## External Links
+
+ - [Project Handbook 2022](https://www.cs.ox.ac.uk/teaching/courses/projects/handbook/Project%20Handbook%202022.pdf)
