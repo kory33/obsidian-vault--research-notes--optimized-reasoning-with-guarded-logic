@@ -15,3 +15,9 @@ The aim of the research is to solve the "open world querying problem" in case of
 ## External Links
 
  - [Project Handbook 2022](https://www.cs.ox.ac.uk/teaching/courses/projects/handbook/Project%20Handbook%202022.pdf)
+
+## Meta Information
+
+Contents of this repository is mainly authored on Kondo's machine, git-managed and then synchronized to a [GitHub Repository](https://github.com/kory33/obsidian-vault--private--yr-2022-2023-personal-research-notes).
+
+TODO: setup a CI on GitHub that releases the page behind an authenticating proxy that allows just a few users (maybe just Kondo and professor Benedikt?) to access. I mean, why not? Should be fun to set that up.
