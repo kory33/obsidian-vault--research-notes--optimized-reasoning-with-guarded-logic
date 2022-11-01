@@ -22,7 +22,7 @@ There are two impossible combinations, namely:
  - `x` gets witnessed in the head and $y$ and $z$ get witnessed in _different_ tentacles
  - `z` gets witnessed in the head and $y$ and $x$ get witnessed in _different_ tentacles
 
-Let us take the first case as an example. If $y$ and $z$ are instantiated as nulls $n_1$ and $n_2$ in _different tentacles_, then there is nowhere in the infinite tree-like chase structure that proves $R(n_1, n_2)$, which uses $n_1$ and $n_2$ at the same time. So we conclude that: _if_ $y$ and $z$ are to be instantiated with nulls, _then_ that must be happen on the same tentacle.
+To see why, suppose $y$ and $z$ are instantiated as nulls $n_1$ and $n_2$ in _different tentacles_. Then there is nowhere in the infinite tree-like chase structure that proves $R(n_1, n_2)$, which uses $n_1$ and $n_2$ at the same time. So we conclude that: _if_ $y$ and $z$ are to be instantiated with nulls, _then_ that must be happen on the same tentacle.
 
 Generalising the example above, we can see that: if the query contains an atom $P(\vec{u})$ within the existential, then every vector witnessing $\vec{u}$ in $P(\vec{u})$ always have all the nulls appear in the single tentacle.
 
