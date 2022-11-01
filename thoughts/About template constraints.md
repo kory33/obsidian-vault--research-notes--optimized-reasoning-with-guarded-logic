@@ -32,4 +32,15 @@ So we can deduce to a certain extent how the instantiation of variables may be d
 
 In this section, we shall write $\Sigma$ for the generic set of rules.
 
-TODO: the first step is probably to limit "head-tentacle interface" by "_the first_ non-full rule from $\Sigma$ applied the the head of the squid"
+When a pseudoquery is proven in a tentacle of the infinite chase, one might imagine the following situation:
+
+![[Pasted image 20221101171150.png]]
+
+However, this diagram needs a slight modification: we will always get a set different from $\operatorname{Sat}(\operatorname{rew}(\Sigma), I_i)$ in the $i$-th step of this short-cut proof. This is because we cannot salvage atoms that are not facts (i.e. ones containing nulls) from branches steming from $I_i$. So on top of $I_i$, we are only going to add ***facts*** that are derived from $I_i$ using $\Sigma$ (my guess is that this is in general not even a subset of $\operatorname{Sat}(\operatorname{rew}(\Sigma), I_i)$; is this true?). So we wrill write fact-saturated sets of $I_i$ with $\Sigma$ as $\operatorname{Sat}_{\mathrm{facts}}(\operatorname{rew}(\Sigma), I_i)$.
+
+Also, by splitting the pseudoquery we can assume that a pseudoquery is realized in $I_n$ as oppsed to $\operatorname{Sat}_{\mathrm{facts}}(\operatorname{rew}(\Sigma), I_n)$, since if we are assuming all variables in an atom $F(\vec{t})$ to be realized in the squid head, we may treat $F(\vec{t})$ as a separate query (TODO: this is really hand-wavy!).
+
+In fact we will have something like the following:
+
+![[Pasted image 20221101171906.png]]
+
