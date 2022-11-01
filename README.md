@@ -1,6 +1,6 @@
 # `"Optimized Reasoning with Guarded Logic"`
 
-This is the personal vault of Ryosuke Kondo summarising random and organized notes concerning my fourth year research `"Optimized Reasoning with Guarded Logic"`.
+This is the personal vault of Ryosuke Kondo filled with both random and organized notes concerning my fourth year research `"Optimized Reasoning with Guarded Logic"`.
 
 ## About the Project
 
