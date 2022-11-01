@@ -9,8 +9,20 @@ The aim of the research is to solve the "open world querying problem" in case of
 ## Internal Links
 
 ### References
- 
- - [[Papers]]: summarises papers 
+
+ - [[Papers]] (summarises papers that I think will be useful at some point)
+
+### Thoughts
+
+Some random thoughts regarding the research.
+
+ - [[About template constraints]]
+
+### Notes
+
+A collection of more structured notes.
+
+ - [[Notations and Definitions]]
 
 ## External Links
 
@@ -19,5 +31,3 @@ The aim of the research is to solve the "open world querying problem" in case of
 ## Meta Information
 
 Contents of this repository is mainly authored on Kondo's machine, git-managed and then synchronized to a [GitHub Repository](https://github.com/kory33/obsidian-vault--private--yr-2022-2023-personal-research-notes).
-
-TODO: setup a CI on GitHub that releases the page behind an authenticating proxy that allows just a few users (maybe just Kondo and professor Benedikt?) to access. I mean, why not? Should be fun to set that up.
