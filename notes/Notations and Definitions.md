@@ -22,6 +22,7 @@ $$
 \def\exlift{{\operatorname{Lift}_\exists}}
 \def\Sat{{\operatorname{Sat}}}
 
+\def\consts{{\operatorname{consts}}}
 \def\chase{{\operatorname{chase}}}
 \def\chaseHead{{\operatorname{chaseHead}}}
 $$
@@ -103,7 +104,7 @@ We shall describe how an instance can be "extended" by applying a GTGD. (*Questi
  - *the chase head $\chaseHead_\nu(D, \sigma)$* to be the fact $$\sigma[\vec{y} \xrightarrow{\nu} \Nulls](\eta).$$ Intuitively, this is a new fact generated from $I$ by applying the rule $D$.
  - *the one-step chase $\chase_\nu(I; D, \sigma)$ of $I$ with $(D, \sigma)$ (through $\nu$)* to be an instance defined by  $$\set{\chaseHead_\nu(D, \sigma)} \cup \set{\ F \in I\ |\ F \text{ is } \Sigma \text{-guarded by }\chaseHead_\nu(D, \sigma) \ }.$$
 
-A *chase-like tree $T$* is a directed rooted tree $T_0$ together with the *instance assignment* $\operatorname{Instance}_T: V(T_0) \rightarrow \Instances$ that assigns instances to vertices of $T_0$.
+A *chase-like tree $T$ on an instance* is a directed rooted tree $(T_0, v_r)$ together with the *instance assignment* $\operatorname{Instance}_T: V(T_0) \rightarrow \Instances$ of instances to vertices.
 
 Suppose for now that a coding function $\#: \Formulae^{< \omega} \times \mathbb{N} \rightarrow \mathbb{N}$ (hence an injection into $\mathbb{N}$) on pairs of a finite sequence of formulae and a number is given. Precompose $\#$ with the canonical null-picking function $\nu_{\mathrm{id}}(i \in \mathbb{N}) = n_i$ and curry to obtain a $\Formulae^{< \omega}$-indexed family $\set{ \widehat{\#_{\vec{F}}} }_{\vec{F} \in \Formulae^{\omega}}$ of null-picking functions: More explicitly, for each $\vec{F} \in \Formulae^{\omega}$, we have $$
 \begin{align}
@@ -112,4 +113,4 @@ Suppose for now that a coding function $\#: \Formulae^{< \omega} \times \mathbb{
 \end{align}
 $$
 
-Given a finite set of TGDs $\Sigma$ and a base instance $I$, define the *canonically completed chase-like tree $\lim_\Sigma I$* to be a  (TODO define this as a directed limit)
+Given a finite set of TGDs $\Sigma$ and a base instance $I$, define the *canonically completed chase-like tree $\lim_\Sigma I$* to be a  (TODO define this as a directed limit) (TODO: the null picking functions above is not necessary, because the completed tree has infinite chains for each infinite sequence of **pairs of GTGD and substitution**. It may be useful to define the notion of a finite substitution instead of working with general infinite substitutions.)
