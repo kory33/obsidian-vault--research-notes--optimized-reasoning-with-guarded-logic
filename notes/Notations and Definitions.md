@@ -140,12 +140,12 @@ Given a base instance $I$, define, by induction on finite chase-paths $\vec{d} \
 $$
 For a base instance $I$ and a finite chase-path $\vec{d}$, we say that $\vec{d}$ is *a valid chase-path on $I$* if either $\operatorname{CC}_\vec{d}(I) \neq \emptyset$ or both $I$ and $\vec{d}$ are empty.
 
-Now define the *canonically $\Sigma$-completed chase-like tree $\operatorname{\Sigma\mathrm{CCT}}(I)$* of a base instance with:
+Now define the *canonically $\Sigma$-completed chase-like tree $\operatorname{\mathrm{CCT}}_\Sigma(I)$* of a base instance with:
  - the set $(\ChaseStepDir^{< \omega})_{\mathrm{valid}}$ of *all* valid chase-paths on $I$ as the vertex set
  - (labelled) edges of the form $\vec{p} \xrightarrow{d} \vec{p} \concat (d)$ for each pair of vertices (hence valid chase-paths) $\vec{p}$ and $\vec{p} \concat (d)$
  - the instance assignment function defined by $$
 \begin{array}{c c}
-\operatorname{Instance}_{\operatorname{\Sigma\mathrm{CCT}}(I)}:
+\operatorname{Instance}_{\operatorname{\mathrm{CCT}}_\Sigma(I)}:
   &(\ChaseStepDir^{< \omega})_{\mathrm{valid}} & \longrightarrow &\Instances \\
   &\vec{d} &\longmapsto &\operatorname{CC}_\vec{d}(I)
 \end{array}
