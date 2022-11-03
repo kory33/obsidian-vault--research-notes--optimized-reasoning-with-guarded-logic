@@ -1,3 +1,9 @@
+---
+tag:
+  - thoughts
+  - template-constraints
+---
+
 ## Constraints on Partitioning Imposed by the Query
 
 Suppose that the following query is given as $Q = \exists xyz. R(x, y) \wedge R(y, z)$.

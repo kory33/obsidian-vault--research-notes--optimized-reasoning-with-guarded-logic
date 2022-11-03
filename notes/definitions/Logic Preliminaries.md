@@ -1,3 +1,9 @@
+---
+tag:
+  - notes
+  - definitions
+---
+
 > This note builds on [[General Notations]].
 
 This note mainly pulls definitions from [Rewriting the Infinite Chase](https://krr-oxford.github.io/Guarded-saturation/files/p2537-benedikt-long.pdf), but with a few modifications.

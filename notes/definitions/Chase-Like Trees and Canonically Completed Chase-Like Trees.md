@@ -1,3 +1,9 @@
+---
+tag:
+  - notes
+  - definitions
+---
+
 > This note builds on [[Rewriting, Existential Lifting and Saturation]]
 
 We shall define a tree structure that "stems from a base instance $I$ and witnesses every possible conclusion that can be $\Sigma$-deduced from $I$". To make this precise, we define a few concepts in this section. So fix a finite set $\Sigma$ of head-normal GTGDs.
