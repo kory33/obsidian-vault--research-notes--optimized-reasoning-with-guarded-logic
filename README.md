@@ -24,7 +24,9 @@ Some random thoughts regarding the research.
 
 A collection of more structured notes.
 
- - [[Notations and Definitions]]
+ - Definitions:
+	 - Every other notes (should) depend on definitions given in this folder. The definition are organized into a DAG that starts from [[General Notations]].
+ - [[Decomposing the Larger Problem into Smaller Subproblems]]
 
 ## External Links
 
