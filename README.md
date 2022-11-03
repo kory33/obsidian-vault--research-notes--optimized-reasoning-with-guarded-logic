@@ -18,7 +18,7 @@ See [[Notations and Definitions]] for summary of concepts used in the above desc
 
 Some random thoughts regarding the research.
 
- - [[About template constraints]]
+ - [[2022-11-01 About template constraints]]
 
 ### Notes
 
