@@ -55,7 +55,7 @@ Given a finite collection $\Predicates = \set{P_1, P_2, \ldots, P_N}$ of predica
  - *the set $\Terms$ of (non-null) terms* as $\Vars \cup \Consts$
  - *the set $\NullableTerms$ of nullable terms* as $\Vars \cup \Consts \cup \Nulls$
  - _the set $\FactualTerms$ of factual terms_ as $\Nulls \cup \Consts$
- - _the set $\Atoms$ of atomic formulae (resp. the set $\Facts$ of facts)_ to be a set of formal expression $P(t_1, t_2, \ldots, t_{\Arity(P)})$ with $P \in \Predicates$, $t_i \in \Terms$ (resp. $FactualTerms$) for each $1 \leq i \leq \Arity(P)$
+ - _the set $\Atoms$ of atomic formulae (resp. the set $\Facts$ of facts)_ to be a set of formal expression $P(t_1, t_2, \ldots, t_{\Arity(P)})$ with $P \in \Predicates$, $t_i \in \Terms$ (resp. $\FactualTerms$) for each $1 \leq i \leq \Arity(P)$
  - *the set $\Formulae$ of (first-order) formulas under the sigunature $(\Predicates, \Consts)$* to be a set of formal expressions inductively built up from $\Atoms$ using unary connective $\neg$, binary connectives $\wedge, \vee, \rightarrow$ and quantifiers $\exists x.$ and $\forall x.$ (where $x \in \Vars$)
 
 Semantics (interpretation, logical-consequence relation and truth) of formulae is defined using the standard terminology. We also follow standard conventions concerning variables being *bound* and *free*.
@@ -99,9 +99,9 @@ Given a set $\Sigma$ of TGDs and an instance $I$, the *saturation $\Sat_\Sigma(I
 
 ### Chase-Like Trees and Canonically Completed Chase-Like Trees
 
-We shall define a tree structure that "stems from a base instance $I$ and witnesses every possible conclusion that can be $\Sigma$-deduced from $I$". To make this precise, we define a few concepts in this section. So fix a finite set $\Sigma$ of GTGDs.
+We shall define a tree structure that "stems from a base instance $I$ and witnesses every possible conclusion that can be $\Sigma$-deduced from $I$". To make this precise, we define a few concepts in this section. So fix a finite set $\Sigma$ of head-normal GTGDs.
 
-We say that _a set $G$ of factual terms is $\Sigma$-guarded by a set of nullable terms $\vec{t}$_ when $G \subseteq \consts(\Sigma) \cup \vec{t}$ .
+We say that _a set $G$ of factual terms is $\Sigma$-guarded by a set of factual terms $\vec{t}$_ when $G \subseteq \consts(\Sigma) \cup \vec{t}$ .
 
 Injective functions of the form $\nu: \mathbb{N} \rightarrow \Nulls$ will be referred to as *null-picking functions*. For a null-picking function $\nu$, a vector $\vec{y} = (y_1, \ldots, y_n)$ of variables and a factual substitution $\sigma$ whose domain is disjoint from $\vec{y}$, we define *the factual substitution $\sigma[\vec{y} \xrightarrow{\nu} \Nulls]$* with domain $\domain(\sigma) + \elems(\vec{y})$ that substitutes each $y_i$ to distinct nulls (chosen by $\nu$) and follows $\sigma$ elsewhere: $$
 \sigma[\vec{y} \xrightarrow{\nu} \Nulls](x)=
@@ -133,7 +133,7 @@ Given a base instance $I$, define, by induction on finite chase-paths $\vec{d} \
   \operatorname{CC}_{()}(I) &= \Sat_\Sigma(I) \\
   \operatorname{CC}_{\vec{d} \concat (D, \sigma)}(I) &=
     \begin{cases}
-      \Sat_\Sigma(\chase_\nu(\operatorname{CC}_\vec{d}(I); D, \sigma)) & \text{if $\operatorname{CC}_\vec{d}(I)$ can be $D$-chased with $\sigma$} \\
+      \Sat_\Sigma(\chase_{\widehat{\#_{\vec{d}}}}(\operatorname{CC}_\vec{d}(I); D, \sigma)) & \text{if $\operatorname{CC}_\vec{d}(I)$ can be $D$-chased with $\sigma$} \\
       \emptyset & \text{otherwise}
     \end{cases}
 \end{align}
