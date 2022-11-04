@@ -6,9 +6,9 @@ tag:
 
 > This note builds on [[General Notations]].
 
-This note mainly pulls definitions from [Rewriting the Infinite Chase](https://krr-oxford.github.io/Guarded-saturation/files/p2537-benedikt-long.pdf), but with a few modifications.
+This note mainly pulls definitions from [Rewriting the Infinite Chase](https://krr-oxford.github.io/Guarded-saturation/files/p2537-benedikt-long.pdf), but with quite a lot of modifications.
 
-We assume a countably infinite collection $\Vars = \set{x_1, x_2, x_3, \ldots}$ of variables, the ordered set $\Nulls = \set{\ n_i \mid i \in \mathbb{N}\ }$ of *labelled nulls* and some given fixed (at most countable) set $\Consts = \set{c_1, c_2, \ldots}$ of constants.
+We assume the countably infinite collection $\Vars = \set{x_1, x_2, x_3, \ldots}$ of variables, the ordered set $\Nulls = \set{\ n_i \mid i \in \mathbb{N}\ }$ of *labelled nulls* and some given fixed (at most countable) set $\Consts = \set{c_1, c_2, \ldots}$ of constants.
 
 Given a finite collection $\Predicates = \set{P_1, P_2, \ldots, P_N}$ of predicates with finite arities $\Arity(P_i)$ associated to each of them (both of which we will not explicitly write from now on), we define:
  - *the set $\Terms$ of (non-null) terms* as $\Vars \cup \Consts$
