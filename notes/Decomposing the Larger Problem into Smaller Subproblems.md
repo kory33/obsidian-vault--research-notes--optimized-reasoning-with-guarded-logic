@@ -4,5 +4,5 @@ tags:
   - idea
 ---
 
-> We shall build on definitions given in [[Chase-Like Trees and Canonically Completed Chase-Like Trees]].
+> We shall build on definitions given in [[Chase-Like Trees and Saturated Chase-Like Trees]].
 
