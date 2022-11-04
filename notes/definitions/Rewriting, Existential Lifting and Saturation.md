@@ -14,4 +14,10 @@ where
 
 The *existential lifting $\exlift(I)$ of an instance $I$* is a set $\set{\ \exlift(F) \mid F \in I\ }$ of formulae.
 
-Given a set $\Sigma$ of TGDs and an instance $I$, the *saturation $\Sat_\Sigma(I)$ of $I$ under $\Sigma$* is the instance defined by $$\Sat_\Sigma(I) := I \cup \set{\ F \in \BaseFacts \mid \Sigma \wedge \exlift(I) \models F\ }$$ i.e. $I$ together with the set of all base facts $\Sigma$-derivable from $I$.
+Given a Datalog program $\Sigma$ and an instance $I$, we define the *$k$-th partial Datalog-saturation $\Sat^k_\Sigma(I)$ of $I$ by $\Sigma$* by induction on $k \in \mathbb{N}$, by $$
+\begin{align}
+  \Sat^0_\Sigma(I) &= I \\
+  \Sat^{k + 1}_\Sigma(I) &= \Sat^k_\Sigma(I) \cup \set{\ \sigma(\eta) \mid (\forall \vec{x}. \beta \rightarrow \eta) \in \Sigma, \sigma \text{ covers } \vec{x}, \sigma(\beta) \subseteq \Sat^k_\Sigma(I)\ }
+\end{align}$$
+We define the *Datalog saturation $\Sat_\Sigma(I)$ of $I$ by a Datalog program $\Sigma$* as $$\Sat_\Sigma(I) = \bigcup_{k \in \mathbb{N}} \Sat^k_\Sigma(I)$$
+More generally, for an arbitrary finite collection $\Sigma$ of GTDGs and an instance $I$, we define *the full saturation $\FullSat_\Sigma(I)$ of $I$ by $\Sigma$* as $$\FullSat_\Sigma(I) = \Sat_{\Sigma_\rew}(I)$$ for *some* Datalog rewriting $\Sigma_\rew$ of $\Sigma$. This definition is well-defined, since any two Datalog rewritings produce the same Datalog saturation by definition. 

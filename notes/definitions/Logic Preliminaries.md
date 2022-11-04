@@ -38,6 +38,7 @@ We now define subclasses of objects defined above:
   - a TGD $\forall \vec{x}. (\beta \rightarrow \exists \vec{y}. \eta)$ is a *guarded-TGD (or GTGD)* if $\beta$ contains an atom $P(\vec{t})$ such that $\vec{t} \supseteq \vec{x}$.
   - a Conjunctive Query (CQ) is a formula of the form $\exists \vec{x}. \bigwedge_i A_i$ where each $A_i$ is an atomic formula.
 
+We say that a Datalog program $\Sigma_\rew$ is a *Datalog rewriting* of a finite collection $\Sigma$ of GTDGs when for every base instance $I$ and a base fact $F$, $$I \wedge \Sigma \models F \Longleftrightarrow I \wedge \Sigma_\rew \models F.$$
 A *factual substitution* is a partial function $\sigma: \Vars \rightharpoonup \FactualTerms$ with a finite domain. A factual substitution canonically extends to a partial function $\Atoms \rightharpoonup \Facts$ that is defined on atoms all of whose variables are in the domain of $\sigma$. We identity this extension of $\sigma$ with $\sigma$ by an abuse of notation. We write $\FactualSubstitutions = (\Vars \rightharpoonup \FactualTerms)_{< \omega}$ for the countable set of all factual substitutions.
 
 We say that a factual substitution $\sigma$ *covers* a set $\vec{y}$ of variables when $\elems(\vec{y}) \subseteq \domain(\sigma)$, and that $\sigma$ *covers* an atom $A$ (resp. a vector of atoms $\vec{A}$) when $\sigma$ covers the set $\vars(A)$ (resp. $\vars(\vec{A})$) of variables in $A$ (resp. $\vec{A}$).
