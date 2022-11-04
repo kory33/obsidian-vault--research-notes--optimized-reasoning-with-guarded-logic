@@ -25,7 +25,7 @@ We shall describe how an instance can be "extended" by applying a GTGD. (*Questi
 
 A *chase-like tree $T$ on an instance* is a directed rooted tree $(T_0, v_r)$ together with the *instance assignment* $\operatorname{Instance}_T: V(T_0) \rightarrow \Instances$ of instances to vertices.
 
-For a chase-like tree $T$ with the instance assignment $\operatorname{Instance}_T$, we define the set $\TreeFacts(T)$ as the set $\bigcup \mathrm{im} \operatorname{Instance}_T$.
+For a chase-like tree $T$ with the instance assignment $\operatorname{Instance}_T$, we define the instance $\TreeFacts(T)$ as the union $\bigcup \mathrm{im} \operatorname{Instance}_T$ of image of the instance assignment.
 
 We shall call a pair $(D, \sigma) \in \Sigma \times \FactualSubstitutions$ a *chase-step direction*, and write $\ChaseStepDir$ for the set $\Sigma \times \FactualSubstitutions$ of all chase-step directions. We call a finite (resp. infinite) sequence of chase-step directions a *finite (resp. infinite) chase-path*.
 
@@ -49,12 +49,12 @@ Given a base instance $I$, define, by induction on finite chase-paths $\vec{d} \
 $$
 For a base instance $I$ and a finite chase-path $\vec{d}$, we say that $\vec{d}$ is *a valid chase-path on $I$* if either $\operatorname{CC}_\vec{d}(I) \neq \emptyset$ or both $I$ and $\vec{d}$ are empty.
 
-Now define the *$\Sigma$-saturated chase-like tree $\operatorname{\mathrm{SCT}}_\Sigma(I)$ of a base instance $I$* with:
+Now define the *$\Sigma$-saturated chase-like tree $\SatTree_\Sigma(I)$ of a base instance $I$* with:
  - the set $(\ChaseStepDir^{< \omega})_{\mathrm{valid}}$ of *all* valid chase-paths on $I$ as the vertex set
  - (labelled) edges of the form $\vec{p} \xrightarrow{d} \vec{p} \concat (d)$ for each pair of vertices (hence valid chase-paths) $\vec{p}$ and $\vec{p} \concat (d)$
  - the instance assignment function defined by $$
 \begin{array}{c c}
-\operatorname{Instance}_{\operatorname{\mathrm{SCT}}_\Sigma(I)}:
+\operatorname{Instance}_{\SatTree_\Sigma(I)}:
   &(\ChaseStepDir^{< \omega})_{\mathrm{valid}} & \longrightarrow &\Instances \\
   &\vec{d} &\longmapsto &\operatorname{CC}_\vec{d}(I)
 \end{array}
