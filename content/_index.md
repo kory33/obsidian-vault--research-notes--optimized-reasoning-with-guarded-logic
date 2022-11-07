@@ -1,27 +1,41 @@
 ---
-title: 🪴 Quartz 3.
-enableToc: false
+title: Optimized Reasoning with Guarded Logic
 ---
 
-Host your second brain and [digital garden](https://jzhao.xyz/posts/networked-thought) for free. Quartz features
+This is the personal vault of Ryosuke Kondo filled with both random and organized notes concerning my fourth year project `"Optimized Reasoning with Guarded Logic"`.
 
-1. Extremely fast natural-language [[notes/search]]
-2. Customizable and hackable design based on [Hugo](https://gohugo.io/)
-3. Automatically generated backlinks, link previews, and local graph
-4. Built-in [[notes/CJK + Latex Support (测试) | CJK + Latex Support]] and [[notes/callouts | Admonition-style callouts]]
-5. Support for both Markdown Links and Wikilinks
+## About the Project
 
-Check out some of the [amazing gardens that community members](notes/showcase.md) have published with Quartz or read about [why I made Quartz](notes/philosophy.md) to begin with.
+The aim of the project is to solve the "open world querying problem" in case of existential conjunctive queries together with a finite collection of Guarded Tuple Generating Dependencies (GTGDs) set as axioms.
 
-## Get Started
-> 📚 Step 1: [Setup your own digital garden using Quartz](notes/setup.md)
+The problem in the case of atomic queries has been solved by [`Rewriting the Infinite Chase`](https://krr-oxford.github.io/Guarded-saturation/files/p2537-benedikt-long.pdf) by means of rewriting the given set of GTGD rules to Datalog rules. This project tries to extend this result.
 
-Returning user? Figure out how to [[notes/updating|update]] your existing Quartz garden.
+See [[Notations and Definitions]] for summary of concepts used in the above description.
 
-If you prefer browsing the contents of this site through a list instead of a graph, you see a list of all [setup-related notes](/tags/setup).
+## Internal Links
 
-### Troubleshooting
-- 🚧 [Troubleshooting and FAQ](notes/troubleshooting.md)
-- 🐛 [Submit an Issue](https://github.com/jackyzha0/quartz/issues)
-- 👀 [Discord Community](https://discord.gg/cRFFHYye7t)
+### References
 
+ - [[Papers]] (summarises papers that I think will be useful at some point)
+
+### Thoughts
+
+Some random thoughts regarding the project.
+
+ - [[2022-11-01 About template constraints]]
+
+### Notes
+
+A collection of more structured notes.
+
+ - Definitions:
+	 - Every other notes (should) depend on definitions given in this folder. The definition are organized into a DAG that starts from [[General Notations]].
+ - [[Decomposing the Larger Problem into Smaller Subproblems]]
+
+## External Links
+
+ - [Project Handbook 2022](https://www.cs.ox.ac.uk/teaching/courses/projects/handbook/Project%20Handbook%202022.pdf)
+
+## Meta Information
+
+Contents of this repository is mainly authored on Kondo's machine using [Obsidian](https://obsidian.md), git-managed and then synchronized to a git repository [hosted on GitHub](https://github.com/kory33/obsidian-vault--research-notes--optimized-reasoning-with-guarded-logic).
