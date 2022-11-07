@@ -4,44 +4,7 @@ tag:
   - definitions
 ---
 
-$$
-\newcommand\isDefinedAt[2]{{#1 \downarrow #2}}
-\def\domain{{\operatorname{dom}}}
-
-\def\elems{{\operatorname{elems}}}
-\def\concat{{^\frown}}
-
-\def\Vars{{\mathrm{Vars}}}
-\def\Nulls{{\mathrm{Nulls}}}
-\def\Consts{{\mathrm{Consts}}}
-\def\Predicates{{\mathrm{Predicates}}}
-\def\Arity{{\operatorname{Arity}}}
-\def\FactualTerms{{\mathrm{FactualTerms}}}
-\def\Terms{{\mathrm{Terms}}}
-\def\NullableTerms{{\mathrm{NullableTerms}}}
-\def\Atoms{{\mathrm{Atoms}}}
-\def\Formulae{{\mathrm{Formulae}}}
-
-\def\FactualSubstitutions{{\mathrm{FactualSubstitutions}}}
-
-\def\Facts{{\mathrm{Facts}}}
-\def\BaseFacts{{\mathrm{BaseFacts}}}
-\def\Instances{{\mathrm{Instances}}}
-
-\def\exlift{{\operatorname{Lift}_\exists}}
-\def\Sat{{\operatorname{Sat}}}
-\def\FullSat{{\operatorname{FullSat}}}
-
-\def\TreeFacts{{\operatorname{TreeFacts}}}
-\def\consts{{\operatorname{consts}}}
-\def\vars{{\operatorname{vars}}}
-\def\chase{{\operatorname{chase}}}
-\def\chaseHead{{\operatorname{chaseHead}}}
-\def\rew{{\operatorname{rew}}}
-
-\def\ChaseStepDir{{\operatorname{ChaseStepDir}}}
-\def\SatTree{{\operatorname{SatTree}}}
-$$
+MathJax macros: $$\def\elems{{\operatorname{elems}}}$$
 
 > This section defines general notations used throughout the notes.
 
