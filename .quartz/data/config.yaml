@@ -1,6 +1,6 @@
-name: Jacky Zhao
+name: Ryosuke Kondo
 enableToc: true
-openToc: false
+openToc: true
 enableLinkPreview: true
 enableLatex: true
 enableCodeBlockTitle: true
@@ -9,7 +9,7 @@ enableCallouts: true
 enableSPA: true
 enableFooter: true
 enableContextualBacklinks: true
-enableRecentNotes: false
+enableRecentNotes: true
 enableGitHubEdit: true
 GitHubLink: https://github.com/jackyzha0/quartz/tree/hugo/content
 enableSemanticSearch: false
@@ -18,9 +18,9 @@ description:
   Host your second brain and digital garden for free. Quartz features extremely fast full-text search,
   Wikilink support, backlinks, local graph, tags, and link previews.
 page_title:
-  "🪴 Quartz 3.3"
+  "Optimized Reasoning with Guarded Logic"
 links:
   - link_name: Twitter
-    link: https://twitter.com/_jzhao
+    link: https://twitter.com/Kory__3
   - link_name: Github
-    link: https://github.com/jackyzha0
+    link: https://github.com/kory33

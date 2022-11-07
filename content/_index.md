@@ -1,5 +1,7 @@
 ---
 title: Optimized Reasoning with Guarded Logic
+tags:
+  - readme
 ---
 
 This is the personal vault of Ryosuke Kondo filled with both random and organized notes concerning my fourth year project `"Optimized Reasoning with Guarded Logic"`.
