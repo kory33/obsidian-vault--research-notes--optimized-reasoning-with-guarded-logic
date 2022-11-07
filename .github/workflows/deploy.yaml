@@ -13,7 +13,7 @@ jobs:
           fetch-depth: 0
 
       - name: Copy quartz Files to Repository Root
-        run: mv -r .quartz .
+        run: mv .quartz/* .
 
       - name: Build Link Index
         uses: jackyzha0/hugo-obsidian@v2.18
