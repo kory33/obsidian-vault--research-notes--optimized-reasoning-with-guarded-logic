@@ -2,13 +2,33 @@
 {{ $raw := .RawContent }}
 {{ $page := .Page }}
 
-{{/* Revert goldmark preprocessing */}}
-{{$latex := findRE "(?:\\${2}([^\\$]+)\\${2})|(?:\\$([^\\$]*)\\$)" $content}}
+{{/* Revert goldmark preprocessing within LaTeX blocks */}}
+{{$latex := findRE "(?:\\${2}((.|\\s)+?)\\${2})|(?:\\$((.|\\s)+?)\\$)" $content}}
 {{range $latex}}
   {{/* "revert" backslash + space/line breaks, because Markdown preprocessing converts "\\\n" to a "\n" */}}
   {{$fixed := replaceRE "\\\\( +|\\n)" "\\\\$1" .}}
   {{/* "revert" underscores (we rely that input math formulae surround asterisks by at least one space so that they are not mapped to <em>-s ) */}}
   {{$fixed = replaceRE "</?em>" "_" $fixed}}
+
+  {{/* "revert" [...](...) elements which have been wrongly taken to be links */}}'
+  {{$links := findRE `<a([^>]|\n)*?>.*?<\/a>` $fixed}}
+  {{range $links}}
+    {{$link := .}}
+    {{/* initial <a> tag with a bunch of attributes */}}
+    {{$linkTag := index (findRE "<a[^>]*?>" $link) 0 }}
+
+    {{$withoutInitialTag := replace $link $linkTag "" }}
+    {{/* the content which had been in [...] part before preprocessing */}}
+    {{$linkInner := replace $withoutInitialTag `</a>` "" }}
+
+    {{/* the content which had been in (...) part before preprocessing, except that is is now URL-encoded */}}
+    {{$dataSrc := replaceRE `(?:.|\s)*data-src="(.*?)"(?:.|\s)*` "$1" $linkTag}}
+    {{/* we parse this as a url and get out as a path */}}
+    {{$decodedDataSrc := (urls.Parse $dataSrc).Path }}
+
+    {{$fixed = replace $fixed . (printf "[%s](%s)" $linkInner $decodedDataSrc)}}
+  {{end}}
+
   {{$content = replace $content . $fixed}}
 {{end}}
 
@@ -99,7 +119,4 @@
   {{ $content = $content | replaceRE "blockquote class=callout" "blockquote" }}
 {{end}}
 
-<xmp>
-  {{ $content | safeHTML }}
-</xmp>
 {{ $content | safeHTML }}
