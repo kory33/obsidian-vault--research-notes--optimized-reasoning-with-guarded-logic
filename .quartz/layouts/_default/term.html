@@ -9,6 +9,7 @@
     {{partial "header.html" .}}
     <article>
         <h1>{{ i18n "tag" }}: {{ .Title }}</h1>
+        {{partial "mathjax-preamble.html" .}}
         {{with .Params.description}}
             <p>{{.}}</p>
         {{end}}
