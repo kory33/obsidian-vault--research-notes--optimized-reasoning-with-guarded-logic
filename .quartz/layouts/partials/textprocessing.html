@@ -2,13 +2,6 @@
 {{ $raw := .RawContent }}
 {{ $page := .Page }}
 
-{{/* Escape slashes for Latex to fix line breaks */}}
-{{$latex := findRE "(?:\\${2}([^\\$]+)\\${2})|(?:\\$([^\\$]*)\\$)" $content}}
-{{range $latex}}
-  {{$fixed := replaceRE "\\\\(?: +|\\n)" "\\\\ " .}}
-  {{$content = replace $content . $fixed}}
-{{end}}
-
 {{/* Wikilinks */}}
 {{$wikilinks := $content | findRE "!?\\[\\[\\S[^\\[\\]\\|]*(?:\\|[^\\[\\]]*)?\\S\\]\\]" }}
 {{$codefences := $raw | findRE "\\x60[^\\x60\\n]+\\x60"}}
