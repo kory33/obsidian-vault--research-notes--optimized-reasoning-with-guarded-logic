@@ -154,18 +154,6 @@
       {{if $data.enableCodeBlockTitle | default $.Site.Data.config.enableCodeBlockTitle -}}
       addTitleToCodeBlocks();
       {{- end -}}
-      {{if $data.enableLatex | default $.Site.Data.config.enableLatex}}
-      renderMathInElement(doc.body, {
-        delimiters: [
-          {left: '$$', right: '$$', display: true},
-          {left: '$', right: '$', display: false},
-        ],
-        macros: {
-          '’': "'"
-        },
-        throwOnError : false
-      });
-      {{end}}
     };
   </script>
   {{if $data.enableSPA | default $.Site.Data.config.enableSPA}}

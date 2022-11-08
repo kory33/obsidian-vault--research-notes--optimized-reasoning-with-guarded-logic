@@ -42,16 +42,6 @@ function initPopover(baseURL, useContextualBacklinks, renderLatex) {
 
         if (el) {
           li.appendChild(el)
-          if (renderLatex) {
-            renderMathInElement(el, {
-              delimiters: [
-                { left: '$$', right: '$$', display: false },
-                { left: '$', right: '$', display: false },
-              ],
-              throwOnError: false
-            })
-          }
-
           li.addEventListener("mouseover", () => {
             // fix tooltip positioning
             window.FloatingUIDOM.computePosition(li, el, {
