@@ -99,7 +99,4 @@
   {{ $content = $content | replaceRE "blockquote class=callout" "blockquote" }}
 {{end}}
 
-<xmp>
-  {{ $content | safeHTML }}
-</xmp>
 {{ $content | safeHTML }}
