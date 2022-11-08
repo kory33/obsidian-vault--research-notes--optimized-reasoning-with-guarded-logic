@@ -2,6 +2,16 @@
 {{ $raw := .RawContent }}
 {{ $page := .Page }}
 
+{{/* Revert goldmark postprocessing */}}
+{{$latex := findRE "(?:\\${2}([^\\$]+)\\${2})|(?:\\$([^\\$]*)\\$)" $content}}
+{{range $latex}}
+  {{/* "revert" backslash + space/line breaks, because Markdown preprocessing converts "\\\n" to a "\n" */}}
+  {{$fixed := replaceRE "\\\\( +|\\n)" "\\\\$1" .}}
+  {{/* "revert" underscores (we rely that input math formulae surround asterisks by at least one space so that they are not mapped to <em>-s ) */}}
+  {{$fixed = replaceRE "</?em>" "_" $fixed}}
+  {{$content = replace $content . $fixed}}
+{{end}}
+
 {{/* Wikilinks */}}
 {{$wikilinks := $content | findRE "!?\\[\\[\\S[^\\[\\]\\|]*(?:\\|[^\\[\\]]*)?\\S\\]\\]" }}
 {{$codefences := $raw | findRE "\\x60[^\\x60\\n]+\\x60"}}
@@ -89,4 +99,7 @@
   {{ $content = $content | replaceRE "blockquote class=callout" "blockquote" }}
 {{end}}
 
+<xmp>
+  {{ $content | safeHTML }}
+</xmp>
 {{ $content | safeHTML }}
