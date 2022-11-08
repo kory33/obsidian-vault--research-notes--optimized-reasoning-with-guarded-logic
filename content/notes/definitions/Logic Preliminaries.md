@@ -1,4 +1,5 @@
 ---
+title: Logic Preliminaries
 tag:
   - notes
   - definitions

@@ -1,4 +1,5 @@
 ---
+title: Rewriting, Existential Lifting and Saturation
 tag:
   - notes
   - definitions

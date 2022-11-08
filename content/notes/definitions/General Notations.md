@@ -1,4 +1,5 @@
 ---
+title: General Notations
 tag:
   - notes
   - definitions

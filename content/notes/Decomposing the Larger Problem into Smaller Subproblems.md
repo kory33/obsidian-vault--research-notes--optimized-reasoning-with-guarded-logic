@@ -1,4 +1,5 @@
 ---
+title: Decomposing the Larger Problem into Smaller Subproblems
 tags:
   - notes
   - idea

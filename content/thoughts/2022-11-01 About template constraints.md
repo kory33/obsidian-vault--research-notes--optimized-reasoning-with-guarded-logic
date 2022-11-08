@@ -1,4 +1,5 @@
 ---
+title: "2022-11-01: About template constraints"
 tag:
   - thoughts
   - template-constraints
