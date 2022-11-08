@@ -29,6 +29,9 @@
     {{$fixed = replace $fixed . (printf "[%s](%s)" $linkInner $decodedDataSrc)}}
   {{end}}
 
+  {{/* "restore" escapes on #, because goldmark seems to remove them */}}
+  {{$fixed := replaceRE "#" "\\#" $fixed}}
+
   {{$content = replace $content . $fixed}}
 {{end}}
 
