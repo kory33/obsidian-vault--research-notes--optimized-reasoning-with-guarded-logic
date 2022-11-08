@@ -60,5 +60,9 @@ function initPopover(baseURL, useContextualBacklinks, renderLatex) {
           })
         }
       })
+  }).then(() => {
+    if (renderLatex) {
+      MathJax.typeset()
+    }
   })
 }
