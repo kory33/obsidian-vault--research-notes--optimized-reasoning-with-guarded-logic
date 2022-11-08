@@ -1,0 +1,6 @@
+{{ $preambleContent := resources.Get "mathjax/preamble.sty" | resources.Fingerprint }}  
+<div>
+$$
+  {{ $preambleContent }}
+$$
+</div>
