@@ -14,6 +14,9 @@ jobs:
 
       - name: Copy quartz Files to Repository Root
         run: mv .quartz/* .
+      
+      - name: Copy preamble.sty to assets/mathjax
+        run: mkdir -p ./assets/mathjax && cp ./preamble.sty ./assets/mathjax/
 
       - name: Build Link Index
         uses: jackyzha0/hugo-obsidian@v2.18
