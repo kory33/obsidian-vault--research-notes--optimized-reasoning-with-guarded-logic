@@ -1,3 +1,9 @@
+---
+title: Papers
+tags:
+  - references
+---
+
 ## `Rewriting the Infinite Chase`
 
 Link: [latest version on GitHub pages](https://krr-oxford.github.io/Guarded-saturation/files/p2537-benedikt-long.pdf)
