@@ -9,8 +9,7 @@
   {{$fixed := replaceRE "\\\\( +|\\n)" "\\\\$1" .}}
   {{/* "revert" underscores (we rely that input math formulae surround asterisks by at least one space so that they are not mapped to <em>-s ) */}}
   {{$fixed = replaceRE "</?em>" "_" $fixed}}
-
-  {{/* "revert" [...](...) elements which have been wrongly taken to be links */}}'
+  {{/* "revert" [...](...) elements which have been wrongly taken to be links */}}
   {{$links := findRE `<a([^>]|\n)*?>.*?<\/a>` $fixed}}
   {{range $links}}
     {{$link := .}}
