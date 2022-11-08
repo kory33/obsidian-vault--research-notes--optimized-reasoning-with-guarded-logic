@@ -37,7 +37,7 @@ TODO: we also need to encode "the choice of facts that we take along $(D, \sigma
 
 Fix a coding function (hence a computable injection into $\mathbb{N}$) $$\#: \ChaseStepDir^{< \omega} \times \mathbb{N} \rightarrow \mathbb{N}$$ on pairs of a finite chase-path and a natural. Precompose $\#$ to the canonical null-picking function $\nu_{\mathrm{id}}(i \in \mathbb{N}) = n_i$ and curry to obtain a $\ChaseStepDir^{< \omega}$-indexed family $\set{ \widehat{\#_\vec{d}}}_{\vec{d} \in \ChaseStepDir^{< \omega}}$ of null-picking functions: More explicitly, for each $\vec{d} \in \ChaseStepDir^{< \omega}$, we have $$
 \begin{align}
-\widehat{\#_{\vec{d}}}\ : \mathbb{N} & \rightarrow \Nulls\\
+\widehat{\#_{\vec{d}}} : \mathbb{N} & \rightarrow \Nulls\\
                                    i & \mapsto n_{\#(\vec{d}, i)}
 \end{align}
 $$
