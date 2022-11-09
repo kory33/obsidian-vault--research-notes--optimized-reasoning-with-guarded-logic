@@ -12,11 +12,18 @@ jobs:
           # Fetch all history for .GitInfo and .Lastmod
           fetch-depth: 0
 
-      - name: Copy quartz Files to Repository Root
-        run: mv .quartz/* .
-      
-      - name: Copy preamble.sty to assets/mathjax
-        run: mkdir -p ./assets/mathjax && cp ./preamble.sty ./assets/mathjax/
+      # TODO: we may have to throw away Wikilinks at this point (I mean, keep them in the source but convert them here)
+      #       because hugo-obsidian, the tool to build indices, does not seem to handle Wikilinks.
+      - name: Move files around to prepare for the Build
+        run: |
+          # copy quartz files to repository root
+          mv .quartz/* .
+
+          # copy preamble.sty to assets/mathjax
+          mkdir -p ./assets/mathjax && cp ./preamble.sty ./assets/mathjax/
+
+          # move image files to global assets directory
+          mv ./content/images ./assets/
 
       - name: Build Link Index
         uses: jackyzha0/hugo-obsidian@v2.18

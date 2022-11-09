@@ -18,7 +18,8 @@ update-force: ## Forcefully pull all changes and don't ask to patch
 
 serve: ## Serve Quartz locally
 	rm -r ../target && mkdir -p ../target
-	cp -r ../content ../target
 	cp -r . ../target
+	cp -r ../content/images ../target/assets/ 
+	cp -r ../content ../target
 	mkdir -p ../target/assets/mathjax && cp ../preamble.sty ../target/assets/mathjax/
 	cd ../target && hugo-obsidian -input=content -output=assets/indices -index -root=. && hugo server --enableGitInfo --minify

@@ -51,8 +51,8 @@
     {{if (hasPrefix . "!")}}
       {{$inner := . | strings.TrimPrefix "![[" | strings.TrimSuffix "]]" }}
       {{$split := split $inner "|"}}
-      <!-- TODO: image URL is not resolved by relref... -->
-      {{$path := index $split 0 | relURL}}
+      {{$imageFileName := index $split 0 }}
+      {{$path := (resources.GetMatch (printf "**/%s" $imageFileName)).RelPermalink}}
       {{$width := index $split 1}}
       {{$img := printf "<img src=\"%s\" width=\"%s\" />" $path (default "auto" $width)}}
       {{$content = replace $content . $img}}
