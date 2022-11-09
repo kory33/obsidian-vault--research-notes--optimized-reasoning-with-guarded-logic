@@ -12,7 +12,7 @@ The aim of the project is to solve the "open world querying problem" in case of 
 
 The problem in the case of atomic queries has been solved by [`Rewriting the Infinite Chase`](https://krr-oxford.github.io/Guarded-saturation/files/p2537-benedikt-long.pdf) by means of rewriting the given set of GTGD rules to Datalog rules. This project tries to extend this result.
 
-See [[Notations and Definitions]] for summary of concepts used in the above description.
+See (TODO: link to definition page) for summary of concepts used in the above description.
 
 ## Internal Links
 
