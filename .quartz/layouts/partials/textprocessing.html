@@ -51,6 +51,7 @@
     {{if (hasPrefix . "!")}}
       {{$inner := . | strings.TrimPrefix "![[" | strings.TrimSuffix "]]" }}
       {{$split := split $inner "|"}}
+      <!-- TODO: image URL is not resolved by relref... -->
       {{$path := index $split 0 | relURL}}
       {{$width := index $split 1}}
       {{$img := printf "<img src=\"%s\" width=\"%s\" />" $path (default "auto" $width)}}
@@ -68,7 +69,7 @@
       <!-- heading link -->
       {{$block := default "" (index $reference 1)}}
       {{$block = strings.TrimRight "/" (cond (eq $block "") $block (printf "#%s" $block)) | urlize | lower}}
-      {{$href := strings.TrimRight "/" ($page.GetPage $title).RelPermalink}}
+      {{$href := strings.TrimRight "/" (relref $page $title)}}
       <!-- if alias given, use alias, else title -->
       {{$display := default $title (index $split 1)}}
       <!-- ADDED LINE TO REMOVE SUBFOLDER FROM TITLE: -->
