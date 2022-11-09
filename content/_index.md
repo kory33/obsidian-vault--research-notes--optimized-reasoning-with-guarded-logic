@@ -10,9 +10,9 @@ This is the personal vault of Ryosuke Kondo filled with both random and organize
 
 The aim of the project is to solve the "open world querying problem" in case of existential conjunctive queries together with a finite collection of Guarded Tuple Generating Dependencies (GTGDs) set as axioms.
 
-The problem in the case of atomic queries has been solved by [`Rewriting the Infinite Chase`](https://krr-oxford.github.io/Guarded-saturation/files/p2537-benedikt-long.pdf) by means of rewriting the given set of GTGD rules to Datalog rules. This project tries to extend this result.
+The problem in the case of atomic queries has been solved by [`Rewriting the Infinite Chase`](https://krr-oxford.github.io/Guarded-saturation/files/p2537-benedikt-long.pdf) by means of rewriting the given set of GTGD rules to Datalog rules. This project tries to extend this result to binary (or possibly, general) conjunctive queries.
 
-See (TODO: link to definition page) for summary of concepts used in the above description.
+See [[Rewriting, Existential Lifting and Saturation]] for concepts involved.
 
 ## Internal Links
 
