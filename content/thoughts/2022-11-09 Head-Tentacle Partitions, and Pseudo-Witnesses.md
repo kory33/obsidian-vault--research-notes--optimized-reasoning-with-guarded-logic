@@ -38,13 +38,13 @@ Let us tinker with this example.
 
 **Question.** Given a finite set $\Sigma$ of GTGDs, is $$
 \left(
-\Sigma \cup \left\{
+\Sigma \cup \left\lbrace
   \begin{aligned}
   & \forall u, v. R(u, v) \rightarrow \mathrm{Subgoal}_\mathrm{left}(v), \\
   & \forall v, w. R(v, w) \rightarrow \mathrm{Subgoal}_\mathrm{right}(v), \\
   & \forall v. \mathrm{Subgoal}_\mathrm{left}(v) \wedge \mathrm{Subgoal}_\mathrm{right}(v) \rightarrow \mathrm{Goal}^Q() \\
 \end{aligned}
-\right\}
+\right\rbrace
 \right)_\mathrm{rew}
 $$ a query-rule-rewriting of $(\Sigma, Q)$?
 
