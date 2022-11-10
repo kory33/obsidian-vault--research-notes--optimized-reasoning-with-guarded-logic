@@ -11,12 +11,14 @@ This note mainly pulls definitions from [Rewriting the Infinite Chase](https://k
 
 We assume the countably infinite collection $\Vars = \set{x_1, x_2, x_3, \ldots}$ of variables, the ordered set $\Nulls = \set{\ n_i \mid i \in \mathbb{N}\ }$ of *labelled nulls* and some given fixed (at most countable) set $\Consts = \set{c_1, c_2, \ldots}$ of constants.
 
-Given a finite collection $\Predicates = \set{P_1, P_2, \ldots, P_N}$ of predicates with finite arities $\Arity(P_i)$ associated to each of them (both of which we will not explicitly write from now on), we define:
- - *the set $\Terms$ of (non-null) terms* as $\Vars \cup \Consts$
- - *the set $\NullableTerms$ of nullable terms* as $\Vars \cup \Consts \cup \Nulls$
- - _the set $\FactualTerms$ of factual terms_ as $\Nulls \cup \Consts$
- - _the set $\Atoms$ of atomic formulae (resp. the set $\Facts$ of facts)_ to be a set of formal expression $P(t_1, t_2, \ldots, t_{\Arity(P)})$ with $P \in \Predicates$, $t_i \in \Terms$ (resp. $\FactualTerms$) for each $1 \leq i \leq \Arity(P)$
- - *the set $\Formulae$ of (first-order) formulas under the sigunature $(\Predicates, \Consts)$* to be a set of formal expressions inductively built up from $\Atoms$ using unary connective $\neg$, binary connectives $\wedge, \vee, \rightarrow$ and quantifiers $\exists x.$ and $\forall x.$ (where $x \in \Vars$)
+Given a finite collection $\Predicates = \set{P_1, P_2, \ldots, P_N}$ of predicate symbols with finite arities $\Arity(P_i) \in \mathbb{N}$ associated to each of them, we say that a tuple $(\Vars, \Nulls, \Consts, \Predicates, \set{\Arity(P_i)}_{1 \leq i \leq N})$, is a *first-order language*. For a first order language $\mathcal{L} = (\Vars_\mathcal{L}, \Nulls_\mathcal{L}, \Consts_\mathcal{L}, \Predicates_\mathcal{L}, \set{\Arity_\mathcal{L}(P_i)}_{1 \leq i \leq N})$, we define:
+ - *the set $\Terms_\mathcal{L}$ of (non-null) terms* as $\Vars_\mathcal{L} \cup \Consts_\mathcal{L}$
+ - *the set $\NullableTerms_\mathcal{L}$ of nullable terms* as $\Vars_\mathcal{L} \cup \Consts_\mathcal{L} \cup \Nulls_\mathcal{L}$
+ - _the set $\FactualTerms_\mathcal{L}$ of factual terms_ as $\Nulls_\mathcal{L} \cup \Consts_\mathcal{L}$
+ - _the set $\Atoms_\mathcal{L}$ of atomic formulae (resp. the set $\Facts_\mathcal{L}$ of facts)_ to be a set of formal expression $P(t_1, t_2, \ldots, t_{\Arity_\mathcal{L}(P)})$ with $P \in \Predicates_\mathcal{L}$, $t_i \in \Terms_\mathcal{L}$ (resp. $\FactualTerms_\mathcal{L}$) for each $1 \leq i \leq \Arity_\mathcal{L}(P)$
+ - *the set $\Formulae_\mathcal{L}$ of (first-order) formulas under the sigunature $(\Predicates_\mathcal{L}, \Consts_\mathcal{L})$* to be a set of formal expressions inductively built up from $\Atoms_\mathcal{L}$ using unary connective $\neg$, binary connectives $\wedge, \vee, \rightarrow$ and quantifiers $\exists x.$ and $\forall x.$ (where $x \in \Vars_\mathcal{L}$)
+
+For most of the following definitions, we will assume some fixed first-order language $\mathcal{L}$ and omit the subscript $_\mathcal{L}$ unless it becomes necessary to specify the language.
 
 Semantics (interpretation, logical-consequence relation and truth) of formulae is defined using the standard terminology. We also follow standard conventions concerning variables being *bound* and *free*.
 
