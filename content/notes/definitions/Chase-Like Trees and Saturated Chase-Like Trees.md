@@ -41,17 +41,17 @@ Fix a coding function (hence a computable injection into $\mathbb{N}$) $$\#: \Ch
 $$
 This family of null-picking functions will be used in the following definition to formally ensure that no null introduced in one branch is brought to its sibling branches.
 
-Given a base instance $I$, define, by induction on finite chase-paths $\vec{d} \in \ChaseStepDir^{< \omega}$, the *canonical completion $\operatorname{CC}_\vec{d}(I)$ of $I$ along $\vec{d}$* by $$
+Given a base instance $I$, define, by induction on finite chase-paths $\vec{d} \in \ChaseStepDir^{< \omega}$, the *shortcut chase $\operatorname{SC}_\vec{d}(I)$ of $I$ along $\vec{d}$* by $$
 \begin{align}
-  \operatorname{CC}_{()}(I) &= \FullSat_\Sigma(I) \\
-  \operatorname{CC}_{\vec{d} \concat (D, \sigma)}(I) &=
+  \operatorname{SC}_{()}(I) &= \FullSat_\Sigma(I) \\
+  \operatorname{SC}_{\vec{d} \concat (D, \sigma)}(I) &=
     \begin{cases}
-      \FullSat_\Sigma(\chase_{\widehat{\#_{\vec{d}}}}(\operatorname{CC}_\vec{d}(I); D, \sigma)) & \text{if $\operatorname{CC}_\vec{d}(I)$ can be $D$-chased with $\sigma$} \\
+      \FullSat_\Sigma(\chase_{\widehat{\#_{\vec{d}}}}(\operatorname{SC}_\vec{d}(I); D, \sigma)) & \text{if $\operatorname{SC}_\vec{d}(I)$ can be $D$-chased with $\sigma$} \\
       \emptyset & \text{otherwise}
     \end{cases}
 \end{align}
 $$
-For a base instance $I$ and a finite chase-path $\vec{d}$, we say that $\vec{d}$ is *a valid chase-path on $I$* if either $\operatorname{CC}_\vec{d}(I) \neq \emptyset$ or both $I$ and $\vec{d}$ are empty.
+For a base instance $I$ and a finite chase-path $\vec{d}$, we say that $\vec{d}$ is *a valid chase-path on $I$* if either $\operatorname{SC}_\vec{d}(I) \neq \emptyset$ or both $I$ and $\vec{d}$ are empty.
 
 Now define the *$\Sigma$-saturated chase-like tree $\SatTree_\Sigma(I)$ of a base instance $I$* with:
  - the set $(\ChaseStepDir^{< \omega})_{\mathrm{valid, gen}}$ of *all* valid generative chase-paths on $I$ as the vertex set
@@ -60,6 +60,6 @@ Now define the *$\Sigma$-saturated chase-like tree $\SatTree_\Sigma(I)$ of a bas
 \begin{array}{c c}
 \operatorname{Instance}_{\SatTree_\Sigma(I)}:
   &(\ChaseStepDir^{< \omega})_{\mathrm{valid, gen}} & \longrightarrow &\Instances \\
-  &\vec{d} &\longmapsto &\operatorname{CC}_\vec{d}(I)
+  &\vec{d} &\longmapsto &\operatorname{SC}_\vec{d}(I)
 \end{array}
 $$
