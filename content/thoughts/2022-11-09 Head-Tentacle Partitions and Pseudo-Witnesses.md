@@ -1,3 +1,9 @@
+---
+title: 2022-11-09 Head-Tentacle Partitions and Pseudo-Witnesses
+tag:
+  - thoughts
+---
+
 We explorered before in [[2022-11-01 About template constraints#Constraints on Partitioning Imposed by the Query]] a few possibility on how the entire query can be witnessed by nulls in different tentacles.
 
 Let us be more precise and formal.
