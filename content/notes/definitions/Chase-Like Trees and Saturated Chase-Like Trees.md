@@ -31,10 +31,7 @@ For a chase-like tree $T$ with the instance assignment $\operatorname{Instance}_
 
 We shall call a pair $(D, \sigma) \in \Sigma \times \FactualSubstitutions$ a *chase-step direction*, and write $\ChaseStepDir$ for the set $\Sigma \times \FactualSubstitutions$ of all chase-step directions. We call a finite (resp. infinite) sequence of chase-step directions a *finite (resp. infinite) chase-path*.
 
----
-TODO: we also need to encode "the choice of facts that we take along $(D, \sigma)$ when applying the chase step", otherwise (I think) we can't quite argue about what we are trying to.
-
----
+We say that a chase-step direction $(D, \sigma)$ is *generative* if $D$ is a non-full rule, and that a chase-path $\vec{d}$ is *generative* if each $(D, \sigma) \in \vec{d}$ is generative.
 
 Fix a coding function (hence a computable injection into $\mathbb{N}$) $$\#: \ChaseStepDir^{< \omega} \times \mathbb{N} \rightarrow \mathbb{N}$$ on pairs of a finite chase-path and a natural. Precompose $\#$ to the canonical null-picking function $\nu_{\mathrm{id}}(i \in \mathbb{N}) = n_i$ and curry to obtain a $\ChaseStepDir^{< \omega}$-indexed family $\set{ \widehat{\#_\vec{d}}}_{\vec{d} \in \ChaseStepDir^{< \omega}}$ of null-picking functions: More explicitly, for each $\vec{d} \in \ChaseStepDir^{< \omega}$, we have $$
 \begin{align}
@@ -57,12 +54,12 @@ $$
 For a base instance $I$ and a finite chase-path $\vec{d}$, we say that $\vec{d}$ is *a valid chase-path on $I$* if either $\operatorname{CC}_\vec{d}(I) \neq \emptyset$ or both $I$ and $\vec{d}$ are empty.
 
 Now define the *$\Sigma$-saturated chase-like tree $\SatTree_\Sigma(I)$ of a base instance $I$* with:
- - the set $(\ChaseStepDir^{< \omega})_{\mathrm{valid}}$ of *all* valid chase-paths on $I$ as the vertex set
- - (labelled) edges of the form $\vec{p} \xrightarrow{d} \vec{p} \concat (d)$ for each pair of vertices (hence valid chase-paths) $\vec{p}$ and $\vec{p} \concat (d)$
+ - the set $(\ChaseStepDir^{< \omega})_{\mathrm{valid, gen}}$ of *all* valid generative chase-paths on $I$ as the vertex set
+ - (labelled) edges of the form $\vec{p} \xrightarrow{d} \vec{p} \concat (d)$ for each pair of vertices (hence valid , generative chase-paths) $\vec{p}$ and $\vec{p} \concat (d)$
  - the instance assignment function defined by $$
 \begin{array}{c c}
 \operatorname{Instance}_{\SatTree_\Sigma(I)}:
-  &(\ChaseStepDir^{< \omega})_{\mathrm{valid}} & \longrightarrow &\Instances \\
+  &(\ChaseStepDir^{< \omega})_{\mathrm{valid, gen}} & \longrightarrow &\Instances \\
   &\vec{d} &\longmapsto &\operatorname{CC}_\vec{d}(I)
 \end{array}
 $$
