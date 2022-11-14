@@ -17,7 +17,7 @@ update-force: ## Forcefully pull all changes and don't ask to patch
 	git checkout upstream/hugo -- layouts .github Makefile assets/js assets/styles/base.scss assets/styles/darkmode.scss config.toml data
 
 serve: ## Serve Quartz locally
-	rm -r ../target && mkdir -p ../target
+	(rm -r ../target || true) && mkdir -p ../target
 	cp -r . ../target
 	cp -r ../content/images ../target/assets/ 
 	cp -r ../content ../target
