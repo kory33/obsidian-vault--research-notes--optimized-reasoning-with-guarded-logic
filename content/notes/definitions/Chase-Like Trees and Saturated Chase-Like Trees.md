@@ -29,9 +29,9 @@ A *chase-like tree $T$ on an instance* is a directed rooted tree $(T_0, v_r)$ to
 For a chase-like tree $T$ with the instance assignment $\operatorname{Instance}_T$, we define the instance $\TreeFacts(T)$ as the union $\bigcup \mathrm{im} \operatorname{Instance}_T$ of image of the instance assignment.
 
 
-We shall call a pair $(D, \sigma) \in \Sigma \times \FactualSubstitutions$ a *chase-step direction*, and write $\ChaseStepDir$ for the set $\Sigma \times \FactualSubstitutions$ of all chase-step directions. We call a finite (resp. infinite) sequence of chase-step directions a *finite (resp. infinite) chase-path*.
+We shall call a pair $(\tau, \sigma) \in \Sigma \times \FactualSubstitutions$ a *chase-step direction*, and write $\ChaseStepDir$ for the set $\Sigma \times \FactualSubstitutions$ of all chase-step directions. We call a finite (resp. infinite) sequence of chase-step directions a *finite (resp. infinite) chase-path*.
 
-We say that a chase-step direction $(D, \sigma)$ is *generative* if $D$ is a non-full rule, and that a chase-path $\vec{d}$ is *generative* if each $(D, \sigma) \in \vec{d}$ is generative.
+We say that a chase-step direction $(\tau, \sigma)$ is *generative* if $\tau$ is a non-full rule, and that a chase-path $\vec{d}$ is *generative* if each $(\tau, \sigma) \in \elems(\vec{d})$ is generative.
 
 Fix a coding function (hence a computable injection into $\mathbb{N}$) $$\#: \ChaseStepDir^{< \omega} \times \mathbb{N} \rightarrow \mathbb{N}$$ on pairs of a finite chase-path and a natural. Precompose $\#$ to the canonical null-picking function $\nu_{\mathrm{id}}(i \in \mathbb{N}) = n_i$ and curry to obtain a $\ChaseStepDir^{< \omega}$-indexed family $\set{ \widehat{\#_\vec{d}}}_{\vec{d} \in \ChaseStepDir^{< \omega}}$ of null-picking functions: More explicitly, for each $\vec{d} \in \ChaseStepDir^{< \omega}$, we have $$
 \begin{align}
