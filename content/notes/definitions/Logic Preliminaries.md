@@ -46,4 +46,4 @@ A *factual substitution* is a partial function $\sigma: \Vars \rightharpoonup \F
 
 We say that a factual substitution $\sigma$ *covers* a set $\vec{y}$ of variables when $\elems(\vec{y}) \subseteq \domain(\sigma)$, and that $\sigma$ *covers* an atom $A$ (resp. a vector of atoms $\vec{A}$) when $\sigma$ covers the set $\vars(A)$ (resp. $\vars(\vec{A})$) of variables in $A$ (resp. $\vec{A}$).
 
-We say that a (potentially infinite) set $\mathcal{F}$ of facts *witnesses a closed conjunctive query $\exists \vec{x}. \bigwedge_{1 \leq i \leq n} A_i$* if there exists a factual substitution $\sigma$ covering $\vec{A}$ such that $$\set{\ \sigma(A_i) \mid 1 \leq i \leq n \ } \subseteq \mathcal{F}.$$
+We say that a factual substitution $\sigma$ together with a (potentially infinite) set $\mathcal{F}$ of facts *witnesse a closed conjunctive query $\exists \vec{x}. \bigwedge_{1 \leq i \leq n} A_i$* if $\sigma$ covers $\vec{A}$ and $$\set{\ \sigma(A_i) \mid 1 \leq i \leq n \ } \subseteq \mathcal{F}.$$
