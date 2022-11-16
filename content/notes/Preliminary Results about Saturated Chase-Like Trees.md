@@ -28,6 +28,8 @@ Clearly, $\Intro(t)$ is the root node $()$ if and only if $t$ is a constant.
 
 ### Witness Decomposition
 
+^d79951
+
 Now, we shall see how a witness on $\SatTree$ for a CQ is constrained. We begin with some preliminary definitions.
 
 > **Definition**. For a boolean conjunctive query $Q$ and its witness $(\sigma, \mathcal{F})$, the *set of touchdowners* $\touchDowners(\sigma)$ of $\sigma$ is the set $\sigma^{-1}[\consts(\mathcal{F})]$ of variables that get sent to constants in $\mathcal{F}$.
@@ -52,12 +54,17 @@ First we have the following proposition, which states that "vertices adjacent in
 
 From this proposition, we can now deduce the *witness decomposition*, as described in the following lemma:
 
-> **Lemma**. For a binary conjunctive query $Q = \exists \vec{x}. \bigwedge_{j \in J} Q_j(\vec{x'}_j)$, a witness $(\sigma, \SatTree_\Sigma(I))$ and a connected component $V$ of $\mathcal{H}(Q - \touchDowners(\sigma))$, $\sigma$ sends variables in $V$ to nulls whose introduction points all lie in the same tentacle of $\SatTree_\Sigma(I)$. ^a87015
+> **Lemma (Witness Decomposition)**. For a binary conjunctive query $Q = \exists \vec{x}. \bigwedge_{j \in J} Q_j(\vec{x'}_j)$, a witness $(\sigma, \SatTree_\Sigma(I))$ and a connected component $V$ of $\mathcal{H}(Q - \touchDowners(\sigma))$, $\sigma$ sends variables in $V$ to nulls whose introduction points all lie in the same tentacle of $\SatTree_\Sigma(I)$. ^a87015
 > 
 > > *Proof*.
 > > The [previous proposition][[#^809307]] implies that, if two variables $x_1$ and $x_2$ are adjacent in $\mathcal{H}(Q - \touchDowners(\sigma))$, then in particular they lie in the same tentacle.
 > > 
 > > So take any two variables $x_1, x_2$ in $V$. By connectedness of $V$ in $\mathcal{H}(Q - \touchDowners(\sigma))$, there exists a path $x_1 E_0 y_0 \ldots y_{k-1} E_K x_2$ from $x_1$ to $x_2$. By induction on $k$, all of $y_0, \ldots, y_{k-1}$ lie in the same tentacle in which $x_1$ is introduced, so $x_1$ and $x_2$ are introduced in the same tentacle.
 
+### Witness Gluing
+
+The previous section on [Witness Decomposition][[#^d79951]] described how we can decompose a witness on $\SatTree$s. Now, we shall see the "converse" of the decomposition lemma:
+
+> **Lemma (Witness Gluing)**. (TODO. write this and its proof; we can essentially "combine" partial witnesses on connected components of "$\mathcal{H}(Q - \touchDowners(\sigma))$" (in *doublequotes* as $\sigma$ is what we are trying to construct in the first place) and bind them together with an assignment on "$\touchDowners(\sigma)$" such that all atoms mentioning only "$\touchDowners(\sigma)$" are present in the root of $\SatTree_\Sigma(I)$.)
 
 [^1]: see Ch. 7, [[Books#^327283]] for details
