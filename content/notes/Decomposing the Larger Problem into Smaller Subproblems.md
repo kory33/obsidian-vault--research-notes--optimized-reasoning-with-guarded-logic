@@ -9,7 +9,8 @@ tags:
 
 We start with the following claim, which we leave a detailed proof to some other part of the notes:
 
-**Claim 1(Universality of $\SatTree$s)**. For any finite set of GTGDs $\Sigma$, a base instance $I$ and a binary conjunctive query $Q$, $$I \wedge \Sigma \models Q\Longleftrightarrow \TreeFacts(\SatTree_\Sigma(I)) \text{ witnesses } Q.$$
+> **Claim 1(Universality of $\SatTree$s)**. For any finite set of GTGDs $\Sigma$, a base instance $I$ and a binary conjunctive query $Q$, $$I \wedge \Sigma \models Q\Longleftrightarrow \TreeFacts(\SatTree_\Sigma(I)) \text{ witnesses } Q$$
+
 From now on we shall write `AnswerQuery(I, Σ, Q)` for the problem of deciding where $I \wedge \Sigma \models Q$ holds. We shall also consider the problem `WitnessedUnderSubTree(τ, σ, I, Σ, Q')`, which decides whether a binary conjunctive query `Q'` is witnessed on a subtree under the node $((\tau, \sigma))$ in $\SatTree_\Sigma(I)$.
 
 Suppose for now that $Q$ is given in a form $\exists \vec{x}. \wedge_i Q_i(\vec{x'}_i)$, where $\vec{x'}_i \subseteq \vec{x}$ for each $i$.
