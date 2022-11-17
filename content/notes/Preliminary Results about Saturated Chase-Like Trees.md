@@ -59,7 +59,7 @@ From this proposition, we can now deduce the *witness decomposition*, as describ
 > > *Proof*.
 > > The [previous proposition][[#^809307]] implies that, if two variables $x_1$ and $x_2$ are adjacent in $\mathcal{H}(Q - \touchDowners(\sigma))$, then in particular they lie in the same tentacle.
 > > 
-> > So take any two variables $x_1, x_2$ in $V \in \ConnComp(\mathcal{H}(Q - \touchDowners(\sigma)))$. By connectedness of $V$, there exists a path $x_1 E_0 y_0 \ldots y_{k-1} E_K x_2$ from $x_1$ to $x_2$. By induction on $k$, all of $y_0, \ldots, y_{k-1}$ lie in the same tentacle in which $x_1$ is introduced, so $x_1$ and $x_2$ are introduced in the same tentacle.
+> > So take any two variables $x_1, x_2$ in $V \in \ConnComp(\mathcal{H}(Q - \touchDowners(\sigma)))$. By connectedness of $V$, there exists a path $x_1 E_0 y_0 \ldots y_{k-1} E_k x_2$ from $x_1$ to $x_2$. By induction on $k$, all of $y_0, \ldots, y_{k-1}$ lie in the same tentacle in which $x_1$ is introduced, so $x_1$ and $x_2$ are introduced in the same tentacle.
 
 ### Witness Gluing
 
