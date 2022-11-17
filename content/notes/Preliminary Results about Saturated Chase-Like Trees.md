@@ -59,12 +59,32 @@ From this proposition, we can now deduce the *witness decomposition*, as describ
 > > *Proof*.
 > > The [previous proposition][[#^809307]] implies that, if two variables $x_1$ and $x_2$ are adjacent in $\mathcal{H}(Q - \touchDowners(\sigma))$, then in particular they lie in the same tentacle.
 > > 
-> > So take any two variables $x_1, x_2$ in $V$. By connectedness of $V$ in $\mathcal{H}(Q - \touchDowners(\sigma))$, there exists a path $x_1 E_0 y_0 \ldots y_{k-1} E_K x_2$ from $x_1$ to $x_2$. By induction on $k$, all of $y_0, \ldots, y_{k-1}$ lie in the same tentacle in which $x_1$ is introduced, so $x_1$ and $x_2$ are introduced in the same tentacle.
+> > So take any two variables $x_1, x_2$ in $V \in \ConnComp(\mathcal{H}(Q - \touchDowners(\sigma)))$. By connectedness of $V$, there exists a path $x_1 E_0 y_0 \ldots y_{k-1} E_K x_2$ from $x_1$ to $x_2$. By induction on $k$, all of $y_0, \ldots, y_{k-1}$ lie in the same tentacle in which $x_1$ is introduced, so $x_1$ and $x_2$ are introduced in the same tentacle.
 
 ### Witness Gluing
 
-The previous section on [Witness Decomposition][[#^d79951]] described how we can decompose a witness on $\SatTree$s. Now, we shall see the "converse" of the decomposition lemma:
+The previous section on [Witness Decomposition][[#^d79951]] described how we can decompose a witness on $\SatTree$s. In this section, we shall see the inverse operation that "glues several fragmented witnesses" into a single witness for a query.
 
-> **Lemma (Witness Gluing)**. (TODO. write this and its proof; we can essentially "combine" partial witnesses on connected components of "$\mathcal{H}(Q - \touchDowners(\sigma))$" (in *doublequotes* as $\sigma$ is what we are trying to construct in the first place) and bind them together with an assignment on "$\touchDowners(\sigma)$" such that all atoms mentioning only "$\touchDowners(\sigma)$" are present in the root of $\SatTree_\Sigma(I)$.)
+We start with some definitions.
+
+> **Definition**. We say that a factual substitution $\sigma$ is *a base-factual substitution* if $\operatorname{im} \sigma \subseteq \Consts$, and that it is a *null-factual substitution* if $\operatorname{im} \sigma \subseteq \Nulls$.
+
+> **Definition**. Given a finite set $\Sigma$ of GTGDs, a base instance $I$ and a boolean conjunctive query $Q = \exists \vec{x}. \bigwedge_{j \in J} Q_j(\vec{x'}_j)$, a *$(\Sigma, I)$-fragmented substitution for $Q$* is a pair $(\sigma_b, \set{ \sigma'_V }_{V \in \ConnComp(\mathcal{H}(Q - \domain(\sigma_b))})$ such that
+>  - $\sigma_b$ is a base-factual substitution such that $\domain(\sigma_b) \subseteq \elems(\vec{x})$
+>  - for each $V \in \ConnComp(\mathcal{H}(Q - \domain(\sigma_b)))$, $\sigma'_V$ is a null-factual substitution with $\domain(\sigma'_V) = V$.
+>
+> We will often omit the indexing set of the family $\set{\sigma'_V}$.
+
+> **Definition**. A $(\Sigma, I)$-fragmented substitution $(\sigma_b, \set{\sigma'_V}_V)$ for $Q$ is said to be a *$(\Sigma, I)$-fragmented witness for $Q$* if
+>  - TODO (require that atoms contained in $\touchDowners(\sigma)$ are witnessed in the root of $\SatTree$)
+>  - TODO (require that each $\sigma'_V$ takes $V$ to nulls whose tentacle witnesses all atoms contained in $V$)
+
+> **Remark**. By construction, $(\Sigma, I)$-fragmented substitution $(\sigma_b, \set{\sigma'_V}_V)$ for $Q$ is a *collection of compatible factual substitutions*, in a sense that $\sigma_b \not\in \set{\sigma'_V}_V$, and for each pair $\sigma_1, \sigma_2$ of factual substitutions in the set $\set{ \sigma_b } \cup \set{ \sigma'_V }_V$, $\domain(\sigma_1) \cup \domain(\sigma_2) \neq \emptyset \Longrightarrow \sigma_1 = \sigma_2$.
+
+> **Definition**. By the previous remark, for a $(\Sigma, I)$-fragmented substitution $(\sigma_b, \set{\sigma'_V}_V)$ for $Q$, the set-theoretic union $\bigcup(\set{ \sigma_b } \cup \set{ \sigma'_V }_V)$ is a well-defined factual substitution. We shall call this union the *gluing of $(\sigma_b, \set{\sigma'_V}_V)$*, and denote it by $\Glue(\sigma_b, \set{\sigma'_V}_V)$.
+
+> **Lemma (Witness Gluing)**. Suppose $(\sigma_b, \set{\sigma'_V})$ is a $(\Sigma, I)$-fragmented witness for $Q$. Then $(\Glue(\sigma_b, \set{\sigma'_V}_V), \SatTree_\Sigma(I))$ is a witness for $Q$.
+> 
+> > *Proof*. TODO; should be a routine.
 
 [^1]: see Ch. 7, [[Books#^327283]] for details

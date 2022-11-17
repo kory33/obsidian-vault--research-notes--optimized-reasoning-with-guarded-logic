@@ -15,4 +15,6 @@ A pair $(T, v_r)$ of a directed acyclic graph $T$ and a vertex $v_r \in V(T)$ is
 
 For a directed tree $T$, we say that a node $u$ is a _descendant_ of $v$, written $u < v$, when there is a (directed) path from $v$ to $u$.
 
-We write $f: A \rightharpoonup B$ to mean that $f$ is a partial function from $A$ to $B$. We denote by $\domain(f)$ to mean the domain of $f$, and write $\isDefinedAt{f}{x}$ to mean that $x \in dom(f) \subseteq A$, i.e. $f$ is defined at $x \in A$.
+For a hypergraph $\mathcal{H} = (V, \mathcal{E})$, we write $\ConnComp(\mathcal{H})$ for the set of connected components (i.e. the quotient of $V$ under the smallest equivalence relation $\sim$ containing $x_1 \sim x_2$ for each $x_1, x_2$ such that there is a hyperedge $E \in \mathcal{E}$ that spans both $x_1$ and $x_2$).
+
+We write $f: A \rightharpoonup B$ to mean that $f$ is a partial function from $A$ to $B$. We denote by $\domain(f)$ to mean the domain of $f$, and write $\isDefinedAt{f}{x}$ to mean that $x \in \domain(f) \subseteq A$, i.e. $f$ is defined at $x \in A$.
