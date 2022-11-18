@@ -4,6 +4,8 @@ tags:
   - notes
 ---
 
+## General Definitions surrounding $\SatTree$s
+
 > **Definition.** For chase-like tree $T$ and its vertex $v \in T_0$, we say that $v$ *mentions* a factual term $t$ if $\Instance_T(v)$ contains a fact $P(\vec{t'})$ such that $t \in \elems(\vec{t'})$.
 
 > **Definition.** For a chase-like tree $T$ and a factual term $t$, the _subgraph of $T$ mentioning $t$_, denoted $T \upharpoonright t$, is the subgraph of $T$ induced by the vertex set $V_t = \set{v \in T \mid v \text{ mentions } t }$ together with the instance assignment restricted to $V_t$, i.e. $\Instance_{T \upharpoonright t} = \Instance_T \upharpoonright V_t$ .
@@ -12,7 +14,7 @@ We can see that the subgraph of a $\SatTree$ mentioning $t$ really is then a sub
 
 > **Proposition**. For a finite set $\Sigma$ of GTGDs, a base instance $I$ and any factual term $t$, $\SatTree_\Sigma(I) \upharpoonright t$ is connected. In particular, if $t$ is mentioned in $\TreeFacts(\SatTree_\Sigma(I))$, then $\SatTree_\Sigma(I) \upharpoonright t$ is a rooted subtree of $\SatTree_\Sigma(I)$.
 > 
-> _Proof (sketch)_. By construction of $\SatTree_\Sigma(I)$, we have that
+> _Proof_. By construction of $\SatTree_\Sigma(I)$, we have that
 >  - a factual term not already mentioned in $I$ is never introduced by any chase-step direction from any node
 >  - a null introduced at a node $\vec{d}$ is never introduced anywhere else in the tree
 
@@ -22,11 +24,24 @@ Now, for each factual term $t$ mentioned somewhere in the $\SatTree$, we can ide
 
 Clearly, $\Intro(t)$ is the root node $()$ if and only if $t$ is a constant.
 
-> **Proposition**. For a node $n$ of $\SatTree_\Sigma(I)$, its ancestor node $a$ and a fact $P(\vec{t}) \in \Instance_{\SatTree_\Sigma(I)}(n)$, if $\Intro(t) \geq a$ for all $t \in \elems(\vec{t})$, then $P(\vec{t}) \in \Instance_{\SatTree_\Sigma(I)}(a)$.
-> 
-> _Proof (sketch)_. TODO (I think this only becomes necessary when proving that the query reduction algorithm works)
+We have the following useful lemma:
 
-### Witness Decomposition
+> **Lemma (Fact Introduction)**. For a node $n$ of $\SatTree_\Sigma(I)$, its ancestor node $a$ and a fact $P(\vec{t}) \in \Instance_{\SatTree_\Sigma(I)}(n)$, if $\Intro(t) \geq a$ for all $t \in \elems(\vec{t})$, then $P(\vec{t}) \in \Instance_{\SatTree_\Sigma(I)}(a)$.
+> 
+> _Proof_. TODO
+
+An immediate consequence of the lemma is the following:
+
+> **Proposition**. If $P(\vec{t}) \in \TreeFacts(\SatTree_\Sigma(I))$ is a base fact, then $P(\vec{t}) \in \Sat_\Sigma(I)$.
+> 
+> > *Proof*.
+> > By the assumption, $P(\vec{t}) \in \Instance_{\SatTree_\Sigma(I)}(n)$ for some node $n \in \SatTree_\Sigma(I)$.
+> > 
+> > Now for all $t \in \elems(\vec{t})$, $\Intro(t)$ is the root node $()$, which is an ancestor of $n$. Therefore by the Fact Introduction lemma $P(\vec{t}) \in \Instance_{\SatTree_\Sigma(I)}(()) = \Sat_\Sigma(I)$.
+
+^6bd969
+
+## Witness Decomposition
 
 ^d79951
 
@@ -61,40 +76,69 @@ From this proposition, we can now deduce the *witness decomposition*, as describ
 > > 
 > > So take any two variables $x_1, x_2$ in $V \in \ConnComp(\mathcal{H}(Q - \touchDowners(\sigma)))$. By connectedness of $V$, there exists a path $x_1 E_0 y_0 \ldots y_{k-1} E_k x_2$ from $x_1$ to $x_2$. By induction on $k$, all of $y_0, \ldots, y_{k-1}$ lie in the same tentacle in which $x_1$ is introduced, so $x_1$ and $x_2$ are introduced in the same tentacle.
 
-### Witness Gluing
+## Witness Gluing
 
-The previous section on [Witness Decomposition][[#^d79951]] described how we can decompose a witness on $\SatTree$s. In this section, we shall see the inverse operation that "glues several fragmented witnesses" into a single witness for a query.
+The previous section on [Witness Decomposition][[#^d79951]] described how we can decompose a witness on $\SatTree$s. In this section, we shall see the inverse operation that "glues several fragmented witnesses" into a single witness for a query. *(TODO: this section no longer applies, because fragmented witnesses per se have nothing to do with the decomposition, and it is more correct to say that "decomposition translates to the world of fragmented witnesses by glue-fragmentation isomorphism")*
 
 We start with some definitions.
 
 > **Definition**. We say that a factual substitution $\sigma$ is *a base-factual substitution* if $\operatorname{im} \sigma \subseteq \Consts$, and that it is a *null-factual substitution* if $\operatorname{im} \sigma \subseteq \Nulls$.
 
-> **Definition**. Given a finite set $\Sigma$ of GTGDs, a base instance $I$ and a boolean conjunctive query $Q = \exists \vec{x}. \bigwedge_{j \in J} Q_j(\vec{x'}_j)$, a *$(\Sigma, I)$-fragmented substitution for $Q$* is a pair $(\sigma_b, \set{ \sigma'_V }_{V \in \ConnComp(\mathcal{H}(Q - \domain(\sigma_b))})$ such that
+> **Definition**. Given a finite set $\Sigma$ of GTGDs, a base instance $I$ and a boolean conjunctive query $Q = \exists \vec{x}. \bigwedge_{j \in J} Q_j(\vec{x'}_j)$, a *Q-fragmented substitution* is a pair $(\sigma_b, \set{ \sigma'_V }_{V \in \ConnComp(\mathcal{H}(Q - \domain(\sigma_b))})$ such that
 >  - $\sigma_b$ is a base-factual substitution such that $\domain(\sigma_b) \subseteq \elems(\vec{x})$
 >  - for each $V \in \ConnComp(\mathcal{H}(Q - \domain(\sigma_b)))$, $\sigma'_V$ is a null-factual substitution with $\domain(\sigma'_V) = V$.
 >
 > > *Notational convention*. We will often omit the indexing set of the family $\set{\sigma'_V}_{V \in \ConnComp(\mathcal{H}(Q - \domain(\sigma_b))}$ and simply write it as $\set{\sigma'_V}_V$.
 
-> **Remark**. By construction, $(\Sigma, I)$-fragmented substitution $(\sigma_b, \set{\sigma'_V}_V)$ for $Q$ is a *collection of compatible factual substitutions*, in a sense that $\sigma_b \not\in \set{\sigma'_V}_V$, and for each pair $\sigma_1, \sigma_2$ of factual substitutions in the set $\set{ \sigma_b } \cup \set{ \sigma'_V }_V$, $\domain(\sigma_1) \cup \domain(\sigma_2) \neq \emptyset \Longrightarrow \sigma_1 = \sigma_2$.
+> **Remark**. By construction, a $Q$-fragmented substitution $(\sigma_b, \set{\sigma'_V}_V)$ is a *collection of compatible factual substitutions*, in a sense that $\sigma_b \not\in \set{\sigma'_V}_V$, and for each pair $\sigma_1, \sigma_2$ of factual substitutions in the set $\set{ \sigma_b } \cup \set{ \sigma'_V }_V$, $\domain(\sigma_1) \cup \domain(\sigma_2) \neq \emptyset \Longrightarrow \sigma_1 = \sigma_2$.
 
-> **Definition**. By the previous remark, for a $(\Sigma, I)$-fragmented substitution $(\sigma_b, \set{\sigma'_V}_V)$ for $Q$, the set-theoretic union $\bigcup(\set{ \sigma_b } \cup \set{ \sigma'_V }_V)$ is a well-defined factual substitution. We shall call this union the *gluing of $(\sigma_b, \set{\sigma'_V}_V)$*, and denote it by $\Glue(\sigma_b, \set{\sigma'_V}_V)$.
+> **Definition**. By the previous remark, for a $Q$-fragmented substitution $(\sigma_b, \set{\sigma'_V}_V)$, the set-theoretic union $\bigcup(\set{ \sigma_b } \cup \set{ \sigma'_V }_V)$ is a well-defined factual substitution. We shall call this union the *gluing of $(\sigma_b, \set{\sigma'_V}_V)$*, and denote it by $\Glue_Q(\sigma_b, \set{\sigma'_V}_V)$.
 
-> **Definition**. A $(\Sigma, I)$-fragmented substitution $(\sigma_b, \set{\sigma'_V}_V)$ for $Q = \exists \vec{x}. \bigwedge_{j \in J} Q_j(\vec{x'}_j)$ is said to be a *$(\Sigma, I)$-fragmented witness for $Q$* if
+> **Definition**. For a BCQ $Q = \exists \vec{x}. \bigwedge_{j \in J} Q_j(\vec{x'}_j)$, a $Q$-fragmented substitution $(\sigma_b, \set{\sigma'_V}_V)$ is said to be a *$Q$-fragmented $(\Sigma, I)$-witness for $Q$* if
 >  - for each $Q_j(\vec{x'}_j)$ in $Q$ such that $\elems(\vec{x'}_j) \subseteq \domain(\sigma_b)$, the fact $Q_j(\sigma_b(\vec{x'}_j))$ is an element of $\Sat_\Sigma(I)$, which is the instance assigned to the root of $\SatTree_\Sigma(I)$
->  - for each connected component $V \in \ConnComp(\mathcal{H}(Q - \domain(\sigma_b)))$ and each predicate $Q_j(\vec{x'}_j)$ corresponding to an edge $Q_j$ in $V$, the fact $Q_j((\sigma_V \circ \sigma_b)(\vec{x'}_j))$ is an element of $\TreeFacts(\SatTree_\Sigma(I))$.
+>  - for each connected component $V \in \ConnComp(\mathcal{H}(Q - \domain(\sigma_b)))$ and each predicate $Q_j(\vec{x'}_j)$ corresponding to an edge $Q_j$ contained in $V$, the fact $Q_j((\sigma_V \circ \sigma_b)(\vec{x'}_j))$ is an element of $\TreeFacts(\SatTree_\Sigma(I))$.
 
 Then almost by definition we obtain the following lemma:
 
-> **Lemma (Witness Gluing)**. Suppose $(\sigma_b, \set{\sigma'_V}_V)$ is a $(\Sigma, I)$-fragmented witness for $Q = \exists \vec{x}. \bigwedge_{j \in J} Q_j(\vec{x'}_j)$. Then $(\Glue(\sigma_b, \set{\sigma'_V}_V), \SatTree_\Sigma(I))$ is a witness for $Q$.
+> **Lemma (Witness Gluing)**. Suppose $(\sigma_b, \set{\sigma'_V}_V)$ is a $Q$-fragmented $(\Sigma, I)$-witness for $Q = \exists \vec{x}. \bigwedge_{j \in J} Q_j(\vec{x'}_j)$. Then $(\Glue_Q(\sigma_b, \set{\sigma'_V}_V), \SatTree_\Sigma(I))$ is a witness for $Q$.
 > 
 > > *Proof*.
-> > Write $\sigma$ for the factual substitution $\Glue(\sigma_b, \set{\sigma'_V}_V)$. Clearly $\sigma$ exactly covers $\vec{x}$.
+> > Write $\sigma$ for the factual substitution $\Glue_Q(\sigma_b, \set{\sigma'_V}_V)$. Clearly $\sigma$ exactly covers $\vec{x}$.
 > > 
 > > Now pick $j \in J$. We need to see that $Q_j(\sigma(\vec{x'}_j))$ is an element of $\TreeFacts(\SatTree_\Sigma(I))$.
 > > 
 > > If the edge $Q_j$ does not span any vertex in $\mathcal{H}(Q - \domain(\sigma_b))$, then $Q_j$ does not mention any variable *not in* $\domain(\sigma_b)$. Hence $\elems(\vec{x'}_j) \subseteq \domain(\sigma_b)$, so by the assumption on $(\sigma_b, \set{\sigma'_V}_V)$, the fact $Q_j(\sigma_b(\vec{x'}_j))$ appears in $\Sat_\Sigma(I)$, hence in $\TreeFacts(\SatTree_\Sigma(I))$.
 > > 
 > > So suppose that $Q_j$ does span a vertex $x$ in $\mathcal{H}(Q - \domain(\sigma_b))$. Then $x$ belongs to some connected component $V$ of $\mathcal{H}(Q - \domain(\sigma_b))$, and by definition of being a connected component $Q_j$ spans vertices in $V$. So by assumption on $(\sigma_b, \set{\sigma'_V}_V)$, $Q_j((\sigma_V \circ \sigma_b)(\vec{x'}_j))$ is an element of $\TreeFacts(\SatTree_\Sigma(I))$. As $\sigma \supseteq \sigma_V \circ \sigma_b$, $Q_j(\sigma(\vec{x'}_j)) = Q_j((\sigma_V \circ \sigma_b)(\vec{x'}_j)) \in \TreeFacts(\SatTree_\Sigma(I))$.
+
+## Fragmentation and Gluing
+
+In this section, we shall see that fragmented witnesses and witnesses are in a bijective relation via the gluging operation and its inverse operation, which we shall call "fragmentation".
+
+We begin with the definition of the fragmentation operator $\Frag_Q$ that fragments a witness for $Q$ into a $Q$-fragmented witness.
+
+> **Definition**. For a BCQ $Q = \exists \vec{x}. \bigwedge_{j \in J} Q_j(\vec{x'}_j)$ and a factual substitution $\sigma$ covering $\vec{x}$, define the *fragmentation $\Frag_Q(\sigma)$ of $\sigma$* as the $Q$-fragmented substitution $(\sigma_b, \set{\sigma'_V}_{V \in \ConnComp(\mathcal{H}(Q - \domain(\sigma_b)))})$, where
+>  - $\sigma_b$ is a restriction of $\sigma$ to $\touchDowners(\sigma)$
+>  - for each $V \in \ConnComp(\mathcal{H}(Q - \domain(\sigma_b)))$, $\sigma'_V: V \rightarrow \Facts$ is a restriction of $\sigma$ to $V$
+
+The following is the main result of this section:
+
+> **Theorem** (Witness Fragmentation). When $(\sigma, \SatTree_\Sigma(I))$ is a witness for a BCQ $Q = \exists \vec{x}. \bigwedge_{j \in J} Q_j(\vec{x'}_j)$, $\Frag_Q(\sigma)$ is a $Q$-fragmented $(\Sigma, I)$-witness for $Q$.
+> 
+> > *Proof*.
+> > Let $(\sigma_b, \set{\sigma'_V}_V) = \Frag_Q(\sigma)$. We check that this is in fact a $Q$-fragmented $(\Sigma, I)$-witness for $Q$ according to the definition of $Q$-fragmented witnesses.
+> > 
+> > To check the first condition, take $j \in J$ such that $\elems(\vec{x'}_j) \subseteq \domain(\sigma_b)$. Then since $Q_j(\sigma(\vec{x'}_j)) \in \TreeFacts(\SatTree_\Sigma(I))$, by [a consequence][[#^6bd969]] of Fact Introduction lemma, $Q_j(\sigma(\vec{x'}_j)) \in \Sat_\Sigma(I)$.
+> > 
+> > To check the second condition, take $V \in \ConnComp(\mathcal{H}(Q - \domain(\sigma_b)))$ and $j \in J$ such that $Q_j$ lies entirely in $V$. Now $(\sigma_V \circ \sigma_b)(x) = \sigma(x)$ for each $x \in V \cup \domain(\sigma_b)$ by construction of $\sigma_V$ and $\sigma_b$, and as $\vec{x'}_j$ only contains variables from $V \cup \domain(\sigma_b)$, $Q_j((\sigma_V \circ \sigma_b)(\vec{x'}_j)) = Q_j(\sigma(\vec{x'}_j)) \in \TreeFacts(\SatTree_\Sigma(I))$.
+
+As a corollary to this theorem, we have the following propositions (*TODO: $\SatTree_\Sigma(I)$-witnesses for $Q$ is not defined. Probably we should call witnesses of the form $(\sigma, \TreeFacts(\SatTree_\Sigma(I)))$ "SatTree-witnesses for $Q$" or something like that*):
+
+> **Corollary**. $\Frag_Q$ defines a assignment of $Q$-fragmented $(\Sigma, I)$-witnesses for $Q$ on the set of $\SatTree_\Sigma(I)$-witnesses for $Q$
+
+> **Corollary**. For a BCQ $Q$, $\Frag_Q$ and $\Glue_Q$ are mutual bijections between $\SatTree_\Sigma(I)$-witnesses for $Q$ and fragmented $(\Sigma, I)$-witnesses for $Q$.
+> 
+> > *Proof*. $\Frag_Q \circ \Glue_Q$ essentially unions fragmented substitutions and then restricts them to respective domains, while $\Glue_Q \circ \Frag_Q$ unions all restricted substitutions, recovering the original substitution.
 
 
 [^1]: see Ch. 7, [[Books#^327283]] for details
