@@ -1,49 +1,10 @@
 ---
-title: Preliminary Results about Saturated Chase-Like Trees
+title: Witness Fragmentation and Witness Gluing
 tags:
   - notes
 ---
 
-## General Definitions surrounding $\SatTree$s
-
-> **Definition.** For chase-like tree $T$ and its vertex $v \in T_0$, we say that $v$ *mentions* a factual term $t$ if $\Instance_T(v)$ contains a fact $P(\vec{t'})$ such that $t \in \elems(\vec{t'})$.
-
-> **Definition.** For a chase-like tree $T$ and a factual term $t$, the _subgraph of $T$ mentioning $t$_, denoted $T \upharpoonright t$, is the subgraph of $T$ induced by the vertex set $V_t = \set{v \in T \mid v \text{ mentions } t }$ together with the instance assignment restricted to $V_t$, i.e. $\Instance_{T \upharpoonright t} = \Instance_T \upharpoonright V_t$ .
-
-We can see that the subgraph of a $\SatTree$ mentioning $t$ really is then a subtree sitting in the $\SatTree$ as seen in the following proposition:
-
-> **Proposition**. For a finite set $\Sigma$ of GTGDs, a base instance $I$ and any factual term $t$, $\SatTree_\Sigma(I) \upharpoonright t$ is connected. In particular, if $t$ is mentioned in $\TreeFacts(\SatTree_\Sigma(I))$, then $\SatTree_\Sigma(I) \upharpoonright t$ is a rooted subtree of $\SatTree_\Sigma(I)$.
-> 
-> _Proof_. By construction of $\SatTree_\Sigma(I)$, we have that
->  - a factual term not already mentioned in $I$ is never introduced by any chase-step direction from any node
->  - a null introduced at a node $\vec{d}$ is never introduced anywhere else in the tree
-
-Now, for each factual term $t$ mentioned somewhere in the $\SatTree$, we can identify where $t$ has been "introduced" in the tree:
-
-> **Definition.** For a factual term $t$ mentioned in $\TreeFacts(\SatTree_\Sigma(I))$, the *introduction point $\Intro(t)$ of $t$* is the root node of the subtree $\SatTree_\Sigma(I) \upharpoonright t$.
-
-Clearly, $\Intro(t)$ is the root node $()$ if and only if $t$ is a constant.
-
-We have the following useful lemma:
-
-> **Lemma (Fact Introduction)**. For a node $n$ of $\SatTree_\Sigma(I)$, its ancestor node $a$ and a fact $P(\vec{t}) \in \Instance_{\SatTree_\Sigma(I)}(n)$, if $\Intro(t) \geq a$ for all $t \in \elems(\vec{t})$, then $P(\vec{t}) \in \Instance_{\SatTree_\Sigma(I)}(a)$.
-> 
-> _Proof_. TODO
-
-An immediate consequence of the lemma is the following:
-
-> **Proposition**. If $P(\vec{t}) \in \TreeFacts(\SatTree_\Sigma(I))$ is a base fact, then $P(\vec{t}) \in \Sat_\Sigma(I)$.
-> 
-> > *Proof*.
-> > By the assumption, $P(\vec{t}) \in \Instance_{\SatTree_\Sigma(I)}(n)$ for some node $n \in \SatTree_\Sigma(I)$.
-> > 
-> > Now for all $t \in \elems(\vec{t})$, $\Intro(t)$ is the root node $()$, which is an ancestor of $n$. Therefore by the Fact Introduction lemma $P(\vec{t}) \in \Instance_{\SatTree_\Sigma(I)}(()) = \Sat_\Sigma(I)$.
-
-^6bd969
-
 ## Witness Decomposition
-
-^d79951
 
 Now, we shall see how a witness on $\SatTree$ for a CQ is constrained. We begin with some preliminary definitions.
 
@@ -65,22 +26,18 @@ First we have the following proposition, which states that "vertices adjacent in
 > 
 > > *Proof*. By assumption on $\sigma$, there exists a node (i.e. a valid chase-path on $I$) $\vec{d}$ such that $Q_j(\sigma(\vec{x'}_j)) \in \Instance_{\SatTree_\Sigma(I)}(n)$. Since both $\SatTree_\Sigma(I) \upharpoonright \sigma(x_1)$ and $\SatTree_\Sigma(I) \upharpoonright \sigma(x_2)$ are rooted subtrees containing $n$, both $\Intro(\sigma(x_1))$ and $\Intro(\sigma(x_2))$ are ancestors of $n$, so all of $\set{ n, \Intro(\sigma(x_1)), \Intro(\sigma(x_2)) }$ lie on the same path in $\SatTree_\Sigma(I)$.
 
-^809307
-
 From this proposition, we can now deduce the *witness decomposition*, as described in the following lemma:
 
 > **Lemma (Witness Decomposition)**. For a binary conjunctive query $Q = \exists \vec{x}. \bigwedge_{j \in J} Q_j(\vec{x'}_j)$, a $(\Sigma, I)$-witness $\sigma$ and a connected component $V$ of $\mathcal{H}(Q - \touchDowners(\sigma))$, $\sigma$ sends variables in $V$ to nulls whose introduction points all lie in the same tentacle of $\SatTree_\Sigma(I)$. ^a87015
 > 
 > > *Proof*.
-> > The [previous proposition][[#^809307]] implies that, if two variables $x_1$ and $x_2$ are adjacent in $\mathcal{H}(Q - \touchDowners(\sigma))$, then in particular they lie in the same tentacle.
+> > The previous proposition implies that, if two variables $x_1$ and $x_2$ are adjacent in $\mathcal{H}(Q - \touchDowners(\sigma))$, then in particular they lie in the same tentacle.
 > > 
 > > So take any two variables $x_1, x_2$ in $V \in \ConnComp(\mathcal{H}(Q - \touchDowners(\sigma)))$. By connectedness of $V$, there exists a path $x_1 E_0 y_0 \ldots y_{k-1} E_k x_2$ from $x_1$ to $x_2$. By induction on $k$, all of $y_0, \ldots, y_{k-1}$ lie in the same tentacle in which $x_1$ is introduced, so $x_1$ and $x_2$ are introduced in the same tentacle.
 
 ## Witness Gluing
 
-The previous section on [Witness Decomposition][[#^d79951]] described how we can decompose a witness on $\SatTree$s. In this section, we shall see the inverse operation that "glues several fragmented witnesses" into a single witness for a query. *(TODO: this section no longer applies, because fragmented witnesses per se have nothing to do with the decomposition, and it is more correct to say that "decomposition translates to the world of fragmented witnesses by glue-fragmentation isomorphism")*
-
-We start with some definitions.
+We can "glue" small witnesses together to form a $(\Sigma, I)$-witness for a query. To make this precise, we start with some definitions.
 
 > **Definition**. We say that a factual substitution $\sigma$ is *a base-factual substitution* if $\operatorname{im} \sigma \subseteq \Consts$, and that it is a *null-factual substitution* if $\operatorname{im} \sigma \subseteq \Nulls$.
 
@@ -128,7 +85,7 @@ Then the following holds:
 > > *Proof*.
 > > Let $(\sigma_b, \set{\sigma'_V}_V) = \Frag_Q(\sigma)$. We check that this is in fact a $Q$-fragmented $(\Sigma, I)$-witness for $Q$ according to the definition of $Q$-fragmented witnesses.
 > > 
-> > To check the first condition, take $j \in J$ such that $\elems(\vec{x'}_j) \subseteq \domain(\sigma_b)$. Then since $Q_j(\sigma(\vec{x'}_j)) \in \TreeFacts(\SatTree_\Sigma(I))$, by [a consequence][[#^6bd969]] of Fact Introduction lemma, $Q_j(\sigma(\vec{x'}_j)) \in \Sat_\Sigma(I)$.
+> > To check the first condition, take $j \in J$ such that $\elems(\vec{x'}_j) \subseteq \domain(\sigma_b)$. Then since $Q_j(\sigma(\vec{x'}_j)) \in \TreeFacts(\SatTree_\Sigma(I))$, by a consequence of Fact Introduction lemma, $Q_j(\sigma(\vec{x'}_j)) \in \Sat_\Sigma(I)$.
 > > 
 > > To check the second condition, take $V \in \ConnComp(\mathcal{H}(Q - \domain(\sigma_b)))$ and $j \in J$ such that $Q_j$ lies entirely in $V$. Now $(\sigma_V \circ \sigma_b)(x) = \sigma(x)$ for each $x \in V \cup \domain(\sigma_b)$ by construction of $\sigma_V$ and $\sigma_b$, and as $\vec{x'}_j$ only contains variables from $V \cup \domain(\sigma_b)$, $Q_j((\sigma_V \circ \sigma_b)(\vec{x'}_j)) = Q_j(\sigma(\vec{x'}_j)) \in \TreeFacts(\SatTree_\Sigma(I))$.
 
