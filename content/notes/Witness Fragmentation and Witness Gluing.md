@@ -12,7 +12,7 @@ This note explores the relationship between ordinary witnesses and "fragmented w
 > 
 > **Examples**: ![[Pasted image 20221116200624.png]]![[Pasted image 20221116200657.png]] 
 
-> **Definition**. For a valid generative chase-path $((\tau, \sigma))$ on $I$, we define the *tentacle of $\SatTree_\Sigma(I)$ hanging from $(\tau, \sigma)$* to be the subtree of $\SatTree_\Sigma(I)$ induced by all descendants of the node $((\tau, \sigma))$.
+> **Definition**. For a valid generative chase-path $((\tau, \sigma))$ on $I$, we define the *tentacle of $\SatTree_\Sigma(I)$ hanging from $(\tau, \sigma)$* to be the subtree of $\SatTree_\Sigma(I)$ induced by all descendants of the node $((\tau, \sigma))$. We call $(\tau, \sigma)$ the *wrist* of the tentacle that hangs from $(\tau, \sigma)$.
 
 > **Definition**. For a binary conjunctive query $Q = \exists \vec{x}. \bigwedge_i Q_i(\vec{x'}_i)$, the *query structure hypergraph $\mathcal{H}(Q)$* of $Q$ is the labelled hypergraph defined with
 >  - the vertex set $V_Q = \elems(\vec{x})$
@@ -65,7 +65,7 @@ We begin with the definition of the fragmentation operator $\Frag_Q$.
 
 Then the following holds:
 
-> **Lemma** (Witness Fragmentation). If $\sigma$ is a $(\Sigma, I)$-witness for a BCQ $Q = \exists \vec{x}. \bigwedge_{j \in J} Q_j(\vec{x'}_j)$, then $\Frag_Q(\sigma)$ is a $Q$-fragmented $(\Sigma, I)$-witness for $Q$.
+> **Lemma (Witness Fragmentation)**. If $\sigma$ is a $(\Sigma, I)$-witness for a BCQ $Q = \exists \vec{x}. \bigwedge_{j \in J} Q_j(\vec{x'}_j)$, then $\Frag_Q(\sigma)$ is a $Q$-fragmented $(\Sigma, I)$-witness for $Q$.
 > 
 > > *Proof*.
 > > Let $(\sigma_b, \set{\sigma'_V}_V) = \Frag_Q(\sigma)$. We check that this is in fact a $Q$-fragmented $(\Sigma, I)$-witness for $Q$ according to the definition of $Q$-fragmented witnesses.

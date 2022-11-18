@@ -7,22 +7,71 @@ tags:
 
 > We shall build on definitions given in [[Chase-Like Trees and Saturated Chase-Like Trees]]. We will also rely on the results in [[Preliminary Results on Saturated Chase-Like Trees]], [[Witness Fragmentation and Witness Gluing]] and [[Witness Decomposition]].
 
-We start with the following claim, which we leave a detailed proof to some other part of the notes:
+We start with the following claim, whose proof we leave to some other part of the notes:
 
-> **Claim 1 (Universality of $\SatTree$s)**. For any finite set of GTGDs $\Sigma$, a base instance $I$ and a binary conjunctive query $Q$, $I \wedge \Sigma \models Q$ if and only if there exists a $(\Sigma, I)$-witness for $Q$.
+> **Theorem (SatTree Universality)**. For any finite set of GTGDs $\Sigma$, a base instance $I$ and a binary conjunctive query $Q$, $I \wedge \Sigma \models Q$ if and only if there exists a $(\Sigma, I)$-witness for $Q$.
+> 
+> > *Proof*. TODO
 
-From now on we shall write `AnswerQuery(I, Σ, Q)` for the problem of deciding where $I \wedge \Sigma \models Q$ holds. We shall also consider the problem `WitnessedUnderTentacle(τ, σ, I, Σ, Q')`, which decides whether a binary conjunctive query `Q'` is witnessed on a tentacle of $\SatTree_\Sigma(I)$ hanging from $(\tau, \sigma)$.
+The main problem of our concern is the following decision problem:
 
-Suppose for now that $Q$ is given in a form $\exists \vec{x}. \wedge_i Q_i(\vec{x'}_i)$, where $\vec{x'}_i \subseteq \vec{x}$ for each $i$.
+> **Definition**. `AnswerQuery(I, Σ, Q)` is the problem of deciding whether $I \wedge \Sigma \models Q$ holds.
 
-By Claim 1, we can answer $I \wedge \Sigma \models Q$ by finding a witness $(\sigma, \SatTree_\Sigma(I))$ (or proving that none exists) for $Q$. Due to constraints on $\sigma$ as described in 
-[[Preliminary Results on Saturated Chase-Like Trees#^a87015]]), we can nondeterministically guess $\consts(\sigma)$ and how $\sigma$ sends each connected component of $\mathcal{H}(Q - \consts(\sigma))$ to different tentacles, and then verify that our guess was right by using the oracle for `WitnessedUnderSubTree(-, -, -, -, -)`.
+Throughout this note, we shall assume that the input query $Q$ is given in a form $\exists \vec{x}. \bigwedge_{j \in J} Q_j(\vec{x'}_j)$, where $\vec{x'}_i \subseteq \vec{x}$ for each $i$.
 
-This yields a nondeterministic algorithm [^1], which we shall refer to as `AnswerQueryNonDet1`, that reduces `AnswerQuery(I, Σ, Q)` to instances of `WitnessedUnderSubTree(τ, σ, I, Σ, Q')`:
+By SatTree Universality, we can answer $I \wedge \Sigma \models Q$ by finding a $(\Sigma, I)$-witness $\sigma$ (or proving that none exists) for $Q$. By Fragmentation-Gluing Bijection, this amounts to finding a $Q$-fragmented $(\Sigma, I)$-witness $(\sigma_b, \set{\sigma'_V}_V)$ for $Q$.
+
+To find a fragmented witness $(\sigma_b, \set{\sigma'_V}_V)$, we can nondeterministically guess $\sigma_b$ which determines the indexing set of $\set{\sigma'_V}_V$, and then nondeterministically guess each $\sigma'_V$ that sends a connected component of $\mathcal{H}(Q - \domain(\sigma_b))$ to a single tentacle. We can verify the choice for $\sigma_b$ by simply looking at $\Sat_\Sigma(I)$, and verify the choice for $\sigma'_V$ by actually computing $\SatTree_\Sigma(I)$ up until all the introduction points of nulls in $\operatorname{im}(\sigma'_V)$.
+
+The method just described yields a nondeterministic algorithm[^1], which we shall refer to as `AnswerQueryNonDet1`, for the problem `AnswerQuery(-, -, -)`.
 
 ```
 AnswerQueryNonDet1(I, Σ, Q):
+  σ_base_domain <- nondeterministically guess a subset of vec{x}
+  σ_base <- nondeterministically guess an assignment of constants to each variable in σ_base_domain
+
+  masked_H := (σ_base_domain)-masked query structure hypergraph of Q
+  SatBase := Sat_Σ(I)
+
+  // check the condition for the base substitution
+  for each j in J:
+    if all variables in Q_j(vec{x'}_j) are in σ_base_domain:
+      if σ_base(Q_j(vec{x'}_j)) ∉ SatBase:
+        REJECT
+      fi
+    fi
+  done
+
+  // nondeterministically guess fragments
+  for each V in the connected components of masked_H:
+    (τ_t, σ_t) <- nondeterministically guess a valid generative chase-direction on (I, Σ)
+    σ_V <- nondeterministically guess an assignment of nulls in the tentacle hanging from (τ_t, σ_t) for each variable in V
+
+    Q'_V := conjunction of all atoms in Q that only mention variables from V or σ_base_domain, with all variables in σ_base_domain substituted using σ_base
+    T := compute SatTree_Σ(I) along all introduction points of nulls that are in the image of σ_V
+
+    for each Q' in Q'_V:
+      if NOT (Q' in some node of T):
+        REJECT
+      fi
+    done
+
+	// at this point, σ_V witnesses the subquery Q'_V
+  done
+
+  ACCEPT
+```
+
+This is only a semi-decision nondeterministic algorithm, since the set of choices that can be made for `σ_V` is in general infinite. It turns out that this can be fixed if we suppose an oracle for the following problem:
+
+> **Definition**. `WitnessedUnderTentacle(τ_t, σ_t, I, Σ, Q')` is the problem of deciding whether a binary conjunctive query $Q'$ is witnessed on a tentacle of $\SatTree_\Sigma(I)$ hanging from $(\tau_t, \sigma_t)$.
+
+So now, assume that an oracle for the problem `WitnessedUnderSubTree(-, -, -, -, -)` has been given. Then we have the following nondeterministic algorithm, which we call `AnswerQueryNonDet2`:
+
+```
+AnswerQueryNonDet2(I, Σ, Q):
   TODO
 ```
+
 
 [^1]: In a sense of an algorithm running on nondeterministic turing machines, so `ACCEPT`s if *any* nondeterministic branch `ACCEPT`s, and `REJECT`s if *no* nondeterministic branch `ACCEPT`s.
