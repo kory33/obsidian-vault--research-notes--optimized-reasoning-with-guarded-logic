@@ -5,7 +5,7 @@ tags:
   - idea
 ---
 
-> We shall build on definitions given in [[Chase-Like Trees and Saturated Chase-Like Trees]]. We will also rely on the results in [[Preliminary Results on Saturated Chase-Like Trees]].
+> We shall build on definitions given in [[Chase-Like Trees and Saturated Chase-Like Trees]]. We will also rely on the results in [[Preliminary Results on Saturated Chase-Like Trees]], [[Witness Fragmentation and Witness Gluing]] and [[Witness Decomposition]].
 
 We start with the following claim, which we leave a detailed proof to some other part of the notes:
 
