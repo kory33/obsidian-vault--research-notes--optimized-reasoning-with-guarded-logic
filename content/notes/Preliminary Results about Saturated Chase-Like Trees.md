@@ -24,7 +24,7 @@ Clearly, $\Intro(t)$ is the root node $()$ if and only if $t$ is a constant.
 
 > **Proposition**. For a node $n$ of $\SatTree_\Sigma(I)$, its ancestor node $a$ and a fact $P(\vec{t}) \in \Instance_{\SatTree_\Sigma(I)}(n)$, if $\Intro(t) \geq a$ for all $t \in \elems(\vec{t})$, then $P(\vec{t}) \in \Instance_{\SatTree_\Sigma(I)}(a)$.
 > 
-> _Proof (sketch)_. TODO (is this even necessary? we'll see later)
+> _Proof (sketch)_. TODO (I think this only becomes necessary when proving that the query reduction algorithm works)
 
 ### Witness Decomposition
 
@@ -42,7 +42,7 @@ Now, we shall see how a witness on $\SatTree$ for a CQ is constrained. We begin 
 >  - the vertex set $V_Q = \elems(\vec{x})$
 >  - for each $i$, a hyperedge named $Q_i$ that spans $\elems(\vec{x'}_i) \subseteq V_Q$.
 
-> **Definition**. For a BCQ $Q = \exists \vec{x}. \bigwedge_i Q_i(\vec{x'}_i)$ and a subset $X$ of $\elems(\vec{x})$, the *$X$-blind query structure hypergraph*, denoted $\mathcal{H}(Q-X)$, is the hypergraph obtained by weak-deleting [^1] all vertices in $X$.
+> **Definition**. For a BCQ $Q = \exists \vec{x}. \bigwedge_i Q_i(\vec{x'}_i)$ and a subset $X$ of $\elems(\vec{x})$, the *$X$-masked query structure hypergraph*, denoted $\mathcal{H}(Q-X)$, is the hypergraph obtained by weak-deleting [^1] all vertices in $X$.
 
 First we have the following proposition, which states that "vertices adjacent in $\mathcal{H}(Q - \touchDowners(\sigma))$ must be sent to nulls lying the same chase-path":
 
@@ -73,18 +73,28 @@ We start with some definitions.
 >  - $\sigma_b$ is a base-factual substitution such that $\domain(\sigma_b) \subseteq \elems(\vec{x})$
 >  - for each $V \in \ConnComp(\mathcal{H}(Q - \domain(\sigma_b)))$, $\sigma'_V$ is a null-factual substitution with $\domain(\sigma'_V) = V$.
 >
-> We will often omit the indexing set of the family $\set{\sigma'_V}$.
-
-> **Definition**. A $(\Sigma, I)$-fragmented substitution $(\sigma_b, \set{\sigma'_V}_V)$ for $Q$ is said to be a *$(\Sigma, I)$-fragmented witness for $Q$* if
->  - TODO (require that atoms contained in $\touchDowners(\sigma)$ are witnessed in the root of $\SatTree$)
->  - TODO (require that each $\sigma'_V$ takes $V$ to nulls whose tentacle witnesses all atoms contained in $V$)
+> > *Notational convention*. We will often omit the indexing set of the family $\set{\sigma'_V}_{V \in \ConnComp(\mathcal{H}(Q - \domain(\sigma_b))}$ and simply write it as $\set{\sigma'_V}_V$.
 
 > **Remark**. By construction, $(\Sigma, I)$-fragmented substitution $(\sigma_b, \set{\sigma'_V}_V)$ for $Q$ is a *collection of compatible factual substitutions*, in a sense that $\sigma_b \not\in \set{\sigma'_V}_V$, and for each pair $\sigma_1, \sigma_2$ of factual substitutions in the set $\set{ \sigma_b } \cup \set{ \sigma'_V }_V$, $\domain(\sigma_1) \cup \domain(\sigma_2) \neq \emptyset \Longrightarrow \sigma_1 = \sigma_2$.
 
 > **Definition**. By the previous remark, for a $(\Sigma, I)$-fragmented substitution $(\sigma_b, \set{\sigma'_V}_V)$ for $Q$, the set-theoretic union $\bigcup(\set{ \sigma_b } \cup \set{ \sigma'_V }_V)$ is a well-defined factual substitution. We shall call this union the *gluing of $(\sigma_b, \set{\sigma'_V}_V)$*, and denote it by $\Glue(\sigma_b, \set{\sigma'_V}_V)$.
 
-> **Lemma (Witness Gluing)**. Suppose $(\sigma_b, \set{\sigma'_V})$ is a $(\Sigma, I)$-fragmented witness for $Q$. Then $(\Glue(\sigma_b, \set{\sigma'_V}_V), \SatTree_\Sigma(I))$ is a witness for $Q$.
+> **Definition**. A $(\Sigma, I)$-fragmented substitution $(\sigma_b, \set{\sigma'_V}_V)$ for $Q = \exists \vec{x}. \bigwedge_{j \in J} Q_j(\vec{x'}_j)$ is said to be a *$(\Sigma, I)$-fragmented witness for $Q$* if
+>  - for each $Q_j(\vec{x'}_j)$ in $Q$ such that $\elems(\vec{x'}_j) \subseteq \domain(\sigma_b)$, the fact $Q_j(\sigma_b(\vec{x'}_j))$ is an element of $\Sat_\Sigma(I)$, which is the instance assigned to the root of $\SatTree_\Sigma(I)$
+>  - for each connected component $V \in \ConnComp(\mathcal{H}(Q - \domain(\sigma_b)))$ and each predicate $Q_j(\vec{x'}_j)$ corresponding to an edge $Q_j$ in $V$, the fact $Q_j((\sigma_V \circ \sigma_b)(\vec{x'}_j))$ is an element of $\TreeFacts(\SatTree_\Sigma(I))$.
+
+Then almost by definition we obtain the following lemma:
+
+> **Lemma (Witness Gluing)**. Suppose $(\sigma_b, \set{\sigma'_V}_V)$ is a $(\Sigma, I)$-fragmented witness for $Q = \exists \vec{x}. \bigwedge_{j \in J} Q_j(\vec{x'}_j)$. Then $(\Glue(\sigma_b, \set{\sigma'_V}_V), \SatTree_\Sigma(I))$ is a witness for $Q$.
 > 
-> > *Proof*. TODO; should be a routine.
+> > *Proof*.
+> > Write $\sigma$ for the factual substitution $\Glue(\sigma_b, \set{\sigma'_V}_V)$. Clearly $\sigma$ exactly covers $\vec{x}$.
+> > 
+> > Now pick $j \in J$. We need to see that $Q_j(\sigma(\vec{x'}_j))$ is an element of $\TreeFacts(\SatTree_\Sigma(I))$.
+> > 
+> > If the edge $Q_j$ does not span any vertex in $\mathcal{H}(Q - \domain(\sigma_b))$, then $Q_j$ does not mention any variable *not in* $\domain(\sigma_b)$. Hence $\elems(\vec{x'}_j) \subseteq \domain(\sigma_b)$, so by the assumption on $(\sigma_b, \set{\sigma'_V}_V)$, the fact $Q_j(\sigma_b(\vec{x'}_j))$ appears in $\Sat_\Sigma(I)$, hence in $\TreeFacts(\SatTree_\Sigma(I))$.
+> > 
+> > So suppose that $Q_j$ does span a vertex $x$ in $\mathcal{H}(Q - \domain(\sigma_b))$. Then $x$ belongs to some connected component $V$ of $\mathcal{H}(Q - \domain(\sigma_b))$, and by definition of being a connected component $Q_j$ spans vertices in $V$. So by assumption on $(\sigma_b, \set{\sigma'_V}_V)$, $Q_j((\sigma_V \circ \sigma_b)(\vec{x'}_j))$ is an element of $\TreeFacts(\SatTree_\Sigma(I))$. As $\sigma \supseteq \sigma_V \circ \sigma_b$, $Q_j(\sigma(\vec{x'}_j)) = Q_j((\sigma_V \circ \sigma_b)(\vec{x'}_j)) \in \TreeFacts(\SatTree_\Sigma(I))$.
+
 
 [^1]: see Ch. 7, [[Books#^327283]] for details
