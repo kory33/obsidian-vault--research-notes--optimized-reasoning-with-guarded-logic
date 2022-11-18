@@ -63,3 +63,5 @@ Now define the *$\Sigma$-saturated chase-like tree $\SatTree_\Sigma(I)$ of a bas
   &\vec{d} &\longmapsto &\operatorname{SC}_\vec{d}(I)
 \end{array}
 $$
+
+We will often deal with witnesses of the form $(\sigma, \TreeFacts(\SatTree_\Sigma(I)))$. So for a BCQ $Q$, we say that a factual substitution $\sigma$ is *a $(\Sigma, I)$-witness for $Q$* when $(\sigma, \TreeFacts(\SatTree_\Sigma(I)))$ is a witness for $Q$.

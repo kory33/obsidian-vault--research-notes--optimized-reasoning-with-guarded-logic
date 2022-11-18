@@ -61,7 +61,7 @@ Now, we shall see how a witness on $\SatTree$ for a CQ is constrained. We begin 
 
 First we have the following proposition, which states that "vertices adjacent in $\mathcal{H}(Q - \touchDowners(\sigma))$ must be sent to nulls lying the same chase-path":
 
-> **Proposition**. For a binary conjunctive query $Q = \exists \vec{x}. \bigwedge_{j \in J} Q_j(\vec{x'}_j)$ and a witness $(\sigma, \SatTree_\Sigma(I))$, if two variables $x_1$ and $x_2$ appear in a single atom $Q_j(\vec{x'}_j)$ for some $j \in J$, then $\Intro(\sigma(x_1))$ and $\Intro(\sigma(x_2))$ are $\leq$-comparable.
+> **Proposition**. For a binary conjunctive query $Q = \exists \vec{x}. \bigwedge_{j \in J} Q_j(\vec{x'}_j)$ and a $(\Sigma, I)$-witness $\sigma$, if two variables $x_1$ and $x_2$ appear in a single atom $Q_j(\vec{x'}_j)$ for some $j \in J$, then $\Intro(\sigma(x_1))$ and $\Intro(\sigma(x_2))$ are $\leq$-comparable.
 > 
 > > *Proof*. By assumption on $\sigma$, there exists a node (i.e. a valid chase-path on $I$) $\vec{d}$ such that $Q_j(\sigma(\vec{x'}_j)) \in \Instance_{\SatTree_\Sigma(I)}(n)$. Since both $\SatTree_\Sigma(I) \upharpoonright \sigma(x_1)$ and $\SatTree_\Sigma(I) \upharpoonright \sigma(x_2)$ are rooted subtrees containing $n$, both $\Intro(\sigma(x_1))$ and $\Intro(\sigma(x_2))$ are ancestors of $n$, so all of $\set{ n, \Intro(\sigma(x_1)), \Intro(\sigma(x_2)) }$ lie on the same path in $\SatTree_\Sigma(I)$.
 
@@ -69,7 +69,7 @@ First we have the following proposition, which states that "vertices adjacent in
 
 From this proposition, we can now deduce the *witness decomposition*, as described in the following lemma:
 
-> **Lemma (Witness Decomposition)**. For a binary conjunctive query $Q = \exists \vec{x}. \bigwedge_{j \in J} Q_j(\vec{x'}_j)$, a witness $(\sigma, \SatTree_\Sigma(I))$ and a connected component $V$ of $\mathcal{H}(Q - \touchDowners(\sigma))$, $\sigma$ sends variables in $V$ to nulls whose introduction points all lie in the same tentacle of $\SatTree_\Sigma(I)$. ^a87015
+> **Lemma (Witness Decomposition)**. For a binary conjunctive query $Q = \exists \vec{x}. \bigwedge_{j \in J} Q_j(\vec{x'}_j)$, a $(\Sigma, I)$-witness $\sigma$ and a connected component $V$ of $\mathcal{H}(Q - \touchDowners(\sigma))$, $\sigma$ sends variables in $V$ to nulls whose introduction points all lie in the same tentacle of $\SatTree_\Sigma(I)$. ^a87015
 > 
 > > *Proof*.
 > > The [previous proposition][[#^809307]] implies that, if two variables $x_1$ and $x_2$ are adjacent in $\mathcal{H}(Q - \touchDowners(\sigma))$, then in particular they lie in the same tentacle.
@@ -115,15 +115,15 @@ Then almost by definition we obtain the following lemma:
 
 In this section, we shall see that fragmented witnesses and witnesses are in a bijective relation via the gluging operation and its inverse operation, which we shall call "fragmentation".
 
-We begin with the definition of the fragmentation operator $\Frag_Q$ that fragments a witness for $Q$ into a $Q$-fragmented witness.
+We begin with the definition of the fragmentation operator $\Frag_Q$.
 
 > **Definition**. For a BCQ $Q = \exists \vec{x}. \bigwedge_{j \in J} Q_j(\vec{x'}_j)$ and a factual substitution $\sigma$ covering $\vec{x}$, define the *fragmentation $\Frag_Q(\sigma)$ of $\sigma$* as the $Q$-fragmented substitution $(\sigma_b, \set{\sigma'_V}_{V \in \ConnComp(\mathcal{H}(Q - \domain(\sigma_b)))})$, where
 >  - $\sigma_b$ is a restriction of $\sigma$ to $\touchDowners(\sigma)$
 >  - for each $V \in \ConnComp(\mathcal{H}(Q - \domain(\sigma_b)))$, $\sigma'_V: V \rightarrow \Facts$ is a restriction of $\sigma$ to $V$
 
-The following is the main result of this section:
+Then the following holds:
 
-> **Theorem** (Witness Fragmentation). When $(\sigma, \SatTree_\Sigma(I))$ is a witness for a BCQ $Q = \exists \vec{x}. \bigwedge_{j \in J} Q_j(\vec{x'}_j)$, $\Frag_Q(\sigma)$ is a $Q$-fragmented $(\Sigma, I)$-witness for $Q$.
+> **Lemma** (Witness Fragmentation). If $\sigma$ is a $(\Sigma, I)$-witness for a BCQ $Q = \exists \vec{x}. \bigwedge_{j \in J} Q_j(\vec{x'}_j)$, then $\Frag_Q(\sigma)$ is a $Q$-fragmented $(\Sigma, I)$-witness for $Q$.
 > 
 > > *Proof*.
 > > Let $(\sigma_b, \set{\sigma'_V}_V) = \Frag_Q(\sigma)$. We check that this is in fact a $Q$-fragmented $(\Sigma, I)$-witness for $Q$ according to the definition of $Q$-fragmented witnesses.
@@ -132,13 +132,13 @@ The following is the main result of this section:
 > > 
 > > To check the second condition, take $V \in \ConnComp(\mathcal{H}(Q - \domain(\sigma_b)))$ and $j \in J$ such that $Q_j$ lies entirely in $V$. Now $(\sigma_V \circ \sigma_b)(x) = \sigma(x)$ for each $x \in V \cup \domain(\sigma_b)$ by construction of $\sigma_V$ and $\sigma_b$, and as $\vec{x'}_j$ only contains variables from $V \cup \domain(\sigma_b)$, $Q_j((\sigma_V \circ \sigma_b)(\vec{x'}_j)) = Q_j(\sigma(\vec{x'}_j)) \in \TreeFacts(\SatTree_\Sigma(I))$.
 
-As a corollary to this theorem, we have the following propositions (*TODO: $\SatTree_\Sigma(I)$-witnesses for $Q$ is not defined. Probably we should call witnesses of the form $(\sigma, \TreeFacts(\SatTree_\Sigma(I)))$ "SatTree-witnesses for $Q$" or something like that*):
+As a corollary, we have the following propositions:
 
-> **Corollary**. $\Frag_Q$ defines a assignment of $Q$-fragmented $(\Sigma, I)$-witnesses for $Q$ on the set of $\SatTree_\Sigma(I)$-witnesses for $Q$
+> **Proposition**. $\Frag_Q$ defines a assignment of $Q$-fragmented $(\Sigma, I)$-witnesses for $Q$ on the set of $(\Sigma, I)$-witnesses for $Q$
 
-> **Corollary**. For a BCQ $Q$, $\Frag_Q$ and $\Glue_Q$ are mutual bijections between $\SatTree_\Sigma(I)$-witnesses for $Q$ and fragmented $(\Sigma, I)$-witnesses for $Q$.
+> **Theorem (Fragmentation-Gluing Bijection)**. For a BCQ $Q$, $\Frag_Q$ and $\Glue_Q$ are mutual bijections between $(\Sigma, I)$-witnesses for $Q$ and $Q$-fragmented $(\Sigma, I)$-witnesses for $Q$.
 > 
-> > *Proof*. $\Frag_Q \circ \Glue_Q$ essentially unions fragmented substitutions and then restricts them to respective domains, while $\Glue_Q \circ \Frag_Q$ unions all restricted substitutions, recovering the original substitution.
+> > *Proof*. We only need to check that the two maps are mutual inverses. But this is the case by definition: $\Frag_Q \circ \Glue_Q$ essentially unions fragmented substitutions and then restricts them to respective domains, while $\Glue_Q \circ \Frag_Q$ unions all restricted substitutions, recovering the original substitution.
 
 
 [^1]: see Ch. 7, [[Books#^327283]] for details
