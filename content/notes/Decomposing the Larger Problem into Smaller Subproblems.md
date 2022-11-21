@@ -66,7 +66,15 @@ This is only a semi-decision nondeterministic algorithm, since the set of choice
 
 > **Definition**. `WitnessedUnderTentacle(τ_t, σ_t, I, Σ, Q')` is the problem of deciding whether a binary conjunctive query $Q'$ is witnessed on a tentacle of $\SatTree_\Sigma(I)$ hanging from $(\tau_t, \sigma_t)$.
 
-So now, assume that an oracle for the problem `WitnessedUnderSubTree(-, -, -, -, -)` has been given. Then we have the following nondeterministic algorithm, which we call `AnswerQueryNonDet2`:
+So now, assume that an oracle for the problem `WitnessedUnderSubTree(-, -, -, -, -)` has been given. Then successfully guessing the factual substitution `σ_V` is equivalent to `WitnessedUnderTentacle(τ_t, σ_t, I, Σ, Q'')`, where `Q''` is the existential query  $$
+\begin{align}
+\exists \vec{x} &= V. \bigwedge_{j \in J_{\sigma_{\text{base}, V}}} Q_j(\vec{x'}_j) \\
+
+& \text{where } J_{\sigma_\text{base}, V} = \set{ j \in J \mid Q_j \text { contains only variables from V and }  \domain(\sigma_\text{base})}.
+\end{align}
+$$
+
+Hence we have the following nondeterministic decision procedure, which we call `AnswerQueryNonDet2`, `ACCEPT`ing whenever `AnswerQueryNonDet1` does and `REJECT`ing whenever `AnswerQueryNonDet1` does not `ACCEPT`:
 
 ```diff
 AnswerQueryNonDet2(I, Σ, Q):
