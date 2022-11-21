@@ -47,30 +47,71 @@ AnswerQueryNonDet1(I, Σ, Q):
     (τ_t, σ_t) <- nondeterministically guess a valid generative chase-direction on (I, Σ)
     σ_V <- nondeterministically guess an assignment of nulls in the tentacle hanging from (τ_t, σ_t) for each variable in V
 
-    Q'_V := conjunction of all atoms in Q that only mention variables from V or σ_base_domain, with all variables in σ_base_domain substituted using σ_base
+    Q'_V := conjunction of all atoms in Q that only mention variables from V or σ_base_domain
     T := compute SatTree_Σ(I) along all introduction points of nulls that are in the image of σ_V
 
-    for each Q' in Q'_V:
+    for each Q' in σ_base(σ_V(Q'_V)):
       if NOT (Q' in some node of T):
         REJECT
       fi
     done
 
-	// at this point, σ_V witnesses the subquery Q'_V
+	// at this point, σ_V witnesses the non-existential subquery Q'_V
   done
 
   ACCEPT
 ```
 
-This is only a semi-decision nondeterministic algorithm, since the set of choices that can be made for `σ_V` is in general infinite. It turns out that this can be fixed if we suppose an oracle for the following problem:
+This is only a semi-decision nondeterministic algorithm, since the set of choices that can be made for `σ_V` is in general infinite. It turns out that this can be fixed immediately if we suppose an oracle for the following problem:
 
 > **Definition**. `WitnessedUnderTentacle(τ_t, σ_t, I, Σ, Q')` is the problem of deciding whether a binary conjunctive query $Q'$ is witnessed on a tentacle of $\SatTree_\Sigma(I)$ hanging from $(\tau_t, \sigma_t)$.
 
 So now, assume that an oracle for the problem `WitnessedUnderSubTree(-, -, -, -, -)` has been given. Then we have the following nondeterministic algorithm, which we call `AnswerQueryNonDet2`:
 
-```
+```diff
 AnswerQueryNonDet2(I, Σ, Q):
-  TODO
+  σ_base_domain <- nondeterministically guess a subset of vec{x}
+  σ_base <- nondeterministically guess an assignment of constants to each variable in σ_base_domain
+
+  masked_H := (σ_base_domain)-masked query structure hypergraph of Q
+  SatBase := Sat_Σ(I)
+
+  // check the condition for the base substitution
+  for each j in J:
+    if all variables in Q_j(vec{x'}_j) are in σ_base_domain:
+      if σ_base(Q_j(vec{x'}_j)) ∉ SatBase:
+        REJECT
+      fi
+    fi
+  done
+
+  // nondeterministically guess fragments
+  for each V in the connected components of masked_H:
+    (τ_t, σ_t) <- nondeterministically guess a valid generative chase-direction on (I, Σ)
+
+-    σ_V <- nondeterministically guess an assignment of nulls in the tentacle hanging from (τ_t, σ_t) for each variable in V
+-
+-    Q'_V := conjunction of all atoms in Q that only mention variables from V or σ_base_domain
+-    T := compute SatTree_Σ(I) along all introduction points of nulls that are in the image of σ_V
+-
+-    for each Q' in σ_base(σ_V(Q'_V)):
+-      if NOT (Q' in some node of T):
+-        REJECT
+-      fi
+-    done
+-
+-	// at this point, σ_V witnesses the non-existential subquery Q'_V
++    A'_V := conjunction of all atoms in Q that only mention variables from V or σ_base_domain, with all variables in σ_base_domain substituted using σ_base
++    Q'_V = ∃{x in V}. σ_base(Q'_V)
++
++    if NOT WitnessedUnderSubTree(τ_t, σ_t, I, Σ, Q'_V):
++      REJECT
++    fi
++
++    // at this point, there exists a σ_V witnessing the existential subquery Q'_V
+  done
+
+  ACCEPT
 ```
 
 
