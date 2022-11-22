@@ -48,7 +48,7 @@ AnswerQueryNonDet1(I, Σ, Q):
     σ_V <- nondeterministically guess an assignment of nulls in the tentacle hanging from (τ_t, σ_t) for each variable in V
 
     Q'_V := conjunction of all atoms in Q that only mention variables from V or σ_base_domain
-    T := compute SatTree_Σ(I) along all introduction points of nulls that are in the image of σ_V
+    T := compute the tree of shortcut Σ-chase along all introduction points of nulls that are in the image of σ_V
 
     for each Q' in σ_base(σ_V(Q'_V)):
       if NOT (Q' in some node of T):
@@ -100,7 +100,7 @@ AnswerQueryNonDet2(I, Σ, Q):
 -    σ_V <- nondeterministically guess an assignment of nulls in the tentacle hanging from (τ_t, σ_t) for each variable in V
 -
 -    Q'_V := conjunction of all atoms in Q that only mention variables from V or σ_base_domain
--    T := compute SatTree_Σ(I) along all introduction points of nulls that are in the image of σ_V
+-    T := compute the tree of shortcut Σ-chase along all introduction points of nulls that are in the image of σ_V
 -
 -    for each Q' in σ_base(σ_V(Q'_V)):
 -      if NOT (Q' in some node of T):
@@ -121,6 +121,8 @@ AnswerQueryNonDet2(I, Σ, Q):
 
   ACCEPT
 ```
+
+TODO: invoke the [[Fresh Tentacle Theorem]] and obtain another algorithm `AnswerQueryNonDet3` in which `WitnessedUnderSubTree` no longer depends on the whole `I`, and finally obtain an algorithm that naively computes query-rule-rewriting `QueryRuleRewriting1(Σ, Q)` by generalizing and translating the acceptance condition of `AnswerQueryNonDet3`. That will be the conclusion of this note.
 
 
 [^1]: In a sense of an algorithm running on nondeterministic turing machines, so `ACCEPT`s if *any* nondeterministic branch `ACCEPT`s, and `REJECT`s if *no* nondeterministic branch `ACCEPT`s.
