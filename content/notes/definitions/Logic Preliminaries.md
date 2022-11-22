@@ -42,8 +42,23 @@ We now define subclasses of objects defined above:
   - a Conjunctive Query (CQ) is a formula of the form $\exists \vec{x}. \bigwedge_i A_i$ where each $A_i$ is an atomic formula.
 
 We say that a Datalog program $\Sigma_\rew$ is a *Datalog rewriting* of a finite collection $\Sigma$ of GTDGs when for every base instance $I$ and a base fact $F$, $$I \wedge \Sigma \models F \Longleftrightarrow I \wedge \Sigma_\rew \models F.$$
-A *factual substitution* is a partial function $\sigma: \Vars \rightharpoonup \FactualTerms$ with a finite domain. A factual substitution canonically extends to a partial function $\Atoms \rightharpoonup \Facts$ that is defined on atoms all of whose variables are in the domain of $\sigma$. We identity this extension of $\sigma$ with $\sigma$ by an abuse of notation. We write $\FactualSubstitutions = (\Vars \rightharpoonup \FactualTerms)_{< \omega}$ for the countable set of all factual substitutions.
 
-We say that a factual substitution $\sigma$ *covers* a set $\vec{y}$ of variables when $\elems(\vec{y}) \subseteq \domain(\sigma)$, and say that $\sigma$ *exactly covers $\vec{y}$* if $\elems(\vec{y}) = \domain(\sigma)$.
+## Notions of Substitutions
 
-We say that a factual substitution $\sigma$ together with a (potentially infinite) set $\mathcal{F}$ of facts *witness a boolean conjunctive query $\exists \vec{x}. \bigwedge_{1 \leq i \leq n} A_i$* if $\sigma$ exactly covers $\vec{x}$ and $$\set{\ \sigma(A_i) \mid 1 \leq i \leq n \ } \subseteq \mathcal{F}.$$
+### Factual subtitutions
+
+> **Definition**. A *factual substitution* is a partial function $\sigma: \Vars \rightharpoonup \FactualTerms$ with a finite domain.
+
+A factual substitution canonically extends to a partial function $\Atoms \rightharpoonup \Facts$ that is defined on atoms all of whose variables are in the domain of $\sigma$. We identity this extension of $\sigma$ with $\sigma$ by an abuse of notation.
+
+> **Definition**. We write $\FactualSubstitutions = (\Vars \rightharpoonup \FactualTerms)_{< \omega}$ for the countable set of all factual substitutions.
+
+> **Definition**. We say that a factual substitution $\sigma$ *covers* a set $\vec{y}$ of variables when $\elems(\vec{y}) \subseteq \domain(\sigma)$, and say that $\sigma$ *exactly covers $\vec{y}$* if $\elems(\vec{y}) = \domain(\sigma)$.
+
+> **Definition**. We say that a factual substitution $\sigma$ together with a (potentially infinite) set $\mathcal{F}$ of facts *witness a boolean conjunctive query $\exists \vec{x}. \bigwedge_{1 \leq i \leq n} A_i$* if $\sigma$ exactly covers $\vec{x}$ and $$\set{\ \sigma(A_i) \mid 1 \leq i \leq n \ } \subseteq \mathcal{F}.$$
+
+### Consts translations
+
+> **Definition**. A *consts translation* is a function $\sigma: \Consts \rightarrow \Consts$.
+
+A consts translation $\sigma$ then canonically extends to a function $\tilde{\sigma}: \Facts \rightarrow \Facts$ that applies $\sigma$ to each constant appearing in a fact (without modifying nulls). Then $\tilde{\sigma}$ further extends to a function $\tilde{\tilde{\sigma}}: \Instance \rightarrow \Instance$ that applies $\tilde{\sigma}$ to each fact in an instance. By an abuse of notation we shall identify all of $\sigma, \tilde{\sigma}$ and $\tilde{\tilde{\sigma}}$.
