@@ -7,27 +7,44 @@ tag:
 
 > This note builds on [[Rewriting, Existential Lifting and Saturation]]
 
-We shall define a tree structure that "stems from a base instance $I$ and witnesses every possible conclusion that can be $\Sigma$-deduced from $I$". To make this precise, we define a few concepts in this section. So fix a finite set $\Sigma$ of head-normal GTGDs.
+We shall define a tree structure that "stems from a base instance $I$ and witnesses every possible conclusion that can be $\Sigma$-deduced from $I$". To make this idea precise, we define a few concepts.
 
-We say that _a set $G$ of factual terms is $\Sigma$-guarded by a set of factual terms $\vec{t}$_ when $G \subseteq \consts(\Sigma) \cup \vec{t}$ .
+## Some generic definitions 
 
-Injective functions of the form $\nu: \mathbb{N} \rightarrow \Nulls$ will be referred to as *null-picking functions*. For a null-picking function $\nu$, a vector $\vec{y} = (y_1, \ldots, y_n)$ of variables and a factual substitution $\sigma$ whose domain is disjoint from $\vec{y}$, we define *the factual substitution $\sigma[\vec{y} \xrightarrow{\nu} \Nulls]$* with domain $\domain(\sigma) + \elems(\vec{y})$ that substitutes each $y_i$ to distinct nulls (chosen by $\nu$) and follows $\sigma$ elsewhere: $$
+> **Definition**. Let $\Sigma$ be a finite set of GTGDs. We say that _a set $G$ of factual terms is $\Sigma$-guarded by a set of factual terms $\vec{t}$_ when $G \subseteq \consts(\Sigma) \cup \vec{t}$ .
+
+> **Definition**. Injective functions of the form $\nu: \mathbb{N} \rightarrow \Nulls$ will be referred to as *null-picking functions*.*
+
+> **Definition**. For a null-picking function $\nu$, a vector $\vec{y} = (y_1, \ldots, y_n)$ of variables and a factual substitution $\sigma$ whose domain is disjoint from $\vec{y}$, we define *the factual substitution $\sigma[\vec{y} \xrightarrow{\nu} \Nulls]$* with domain $\domain(\sigma) + \elems(\vec{y})$ that substitutes each $y_i$ to distinct nulls (chosen by $\nu$) and follows $\sigma$ elsewhere: $$
 \sigma[\vec{y} \xrightarrow{\nu} \Nulls](x)=
 \begin{cases}
     n_{\nu(i)} & \text{if $x = y_i$} \\
     \sigma(x) & \text{if $x \in \domain(\sigma)$}
 \end{cases}$$
 
-For a TGD $D = \forall \vec{x}. (\beta \rightarrow \exists \vec{y}. \eta)$, an instance $I$ and a factual substitution $\sigma$ that covers $\vec{x}$, we say that *$I$ can be $D$-chased with $\sigma$* when $\sigma(\beta) \subseteq I$. Intuitively, this means that the premise $\beta$ is witnessed by some facts in $I$, and $\sigma$ specifies which constant or null appearing in $I$ is witnessing each variable in $\vec{x}$.
+> **Definition**. For a TGD $\tau = \forall \vec{x}. (\beta \rightarrow \exists \vec{y}. \eta)$, an instance $I$ and a factual substitution $\sigma$ that covers $\vec{x}$, we say that *$I$ can be $\tau$-chased with $\sigma$* when $\sigma(\beta) \subseteq I$.
 
-We shall describe how an instance can be "extended" by applying a GTGD. (*Question: this is not a proper extension of $I$ because we are only taking along $\Sigma$-guarded facts to the "extension". Is there any intuition why we should we do this, or is this just a technical trick that is used to bound the size of tree-like chase proofs so as to make the decision procedure decidable? Will I get an insight about the intuition behind this limitation if I read the proof of chase-proof completeness?*) Given a null-picking function $\nu$, a GTGD $D = \forall \vec{x}. (\beta \rightarrow \exists \vec{y}. \eta)$ and an instance $I$ that can be $D$-chased with a factual substitution $\sigma$, we define
- - *the chase head $\chaseHead_\nu(D, \sigma)$* to be the fact $$\sigma[\vec{y} \xrightarrow{\nu} \Nulls](\eta).$$ Intuitively, this is a new fact generated from $I$ by applying the rule $D$.
- - *the one-step chase $\chase_\nu(I; D, \sigma)$ of $I$ with $(D, \sigma)$ (through $\nu$)* to be an instance defined by  $$\set{\chaseHead_\nu(D, \sigma)} \cup \set{\ F \in I\ |\ F \text{ is } \Sigma \text{-guarded by }\chaseHead_\nu(D, \sigma) \ }.$$
+Intuitively, this means that the premise $\beta$ is witnessed by some facts in $I$, and $\sigma$ specifies which constant or null appearing in $I$ is witnessing each variable in $\vec{x}$.
 
-A *chase-like tree $T$ on an instance* is a directed rooted tree $(T_0, v_r)$ together with the *instance assignment* $\operatorname{Instance}_T: V(T_0) \rightarrow \Instances$ of instances to vertices.
+We shall describe how an instance can be "extended" by applying a GTGD.
 
-For a chase-like tree $T$ with the instance assignment $\operatorname{Instance}_T$, we define the instance $\TreeFacts(T)$ as the union $\bigcup \mathrm{im} \operatorname{Instance}_T$ of image of the instance assignment.
+> **Definition**. Given a null-picking function $\nu$, a finite set $\Sigma$ of GTGDs, an element $\tau = \forall \vec{x}. (\beta \rightarrow \exists \vec{y}. \eta) \in \Sigma$ and an instance $I$ that can be $\tau$-chased with a factual substitution $\sigma$, we define:
+>  - *the $(\tau, \sigma)$-chase head $\chaseHead_\nu(\tau, \sigma)$ (through $\nu$)* to be the fact $$\chaseHead_\nu(\tau, \sigma) := \sigma[\vec{y} \xrightarrow{\nu} \Nulls](\eta).$$ 
+>    Intuitively, this is a new fact generated from $I$ by applying the rule $\tau$ with $\sigma$.
+>  - *the $\Sigma$-exports $\exports_\Sigma(I, (\tau, \sigma))$ from $I$ along $(\tau, \sigma)$* to be the set $$\exports_\Sigma(I, (\tau, \sigma)) := \set{\ F \in I\ |\ F \text{ is } \Sigma \text{-guarded by }\chaseHead_\nu(\tau, \sigma) \ }.$$
+>  - *the one-step $\Sigma$-chase $\chase_{\Sigma, \nu}(I, (\tau, \sigma))$ of $I$ with $(\tau, \sigma)$ (through $\nu$)* to be an instance defined by  $$\chase_{\Sigma, \nu}(I, (\tau, \sigma)) := \set{\chaseHead_\nu(\tau, \sigma)} \cup \exports_\Sigma(I, (\tau, \sigma)).$$
 
+## Chase-Like Trees
+
+> **Definition**. A *chase-like tree $T$* is a directed rooted tree $(T_0, v_r)$ together with the *instance assignment* $\operatorname{Instance}_T: V(T_0) \rightarrow \Instances$ of instances to vertices.
+
+> **Definition**. For a chase-like tree $T$ with the instance assignment $\operatorname{Instance}_T$, we define the instance $\TreeFacts(T)$ as the union $\bigcup \mathrm{im} \operatorname{Instance}_T$ of image of the instance assignment.
+
+## Saturated Chase-Like Trees
+
+Throughout this section, we mean by $\Sigma$ some fixed finite set of head-normal GTGDs.
+
+TODO: make $\#$ independent from $\Sigma$ or else we'll have a trouble in Tentacle Relevant Theorem!
 
 We shall call a pair $(\tau, \sigma) \in \Sigma \times \FactualSubstitutions$ a *chase-step direction*, and write $\ChaseStepDir$ for the set $\Sigma \times \FactualSubstitutions$ of all chase-step directions. We call a finite (resp. infinite) sequence of chase-step directions a *finite (resp. infinite) chase-path*.
 
@@ -41,27 +58,29 @@ Fix a coding function (hence a computable injection into $\mathbb{N}$) $$\#: \Ch
 $$
 This family of null-picking functions will be used in the following definition to formally ensure that no null introduced in one branch is brought to its sibling branches.
 
-Given a base instance $I$, define, by induction on finite chase-paths $\vec{d} \in \ChaseStepDir^{< \omega}$, the *shortcut chase $\operatorname{SC}_\vec{d}(I)$ of $I$ along $\vec{d}$* by $$
+Given a base instance $I$, define, by induction on finite chase-paths $\vec{d} \in \ChaseStepDir^{< \omega}$, the *shortcut $\Sigma$-chase $\operatorname{SC}_{\Sigma, \vec{d}}(I)$ of $I$ along $\vec{d}$* by $$
 \begin{align}
-  \operatorname{SC}_{()}(I) &= \FullSat_\Sigma(I) \\
-  \operatorname{SC}_{\vec{d} \concat (D, \sigma)}(I) &=
+  \operatorname{SC}_{\Sigma, ()}(I) &= \FullSat_\Sigma(I) \\
+  \operatorname{SC}_{\Sigma, \vec{d} \concat (\tau, \sigma)}(I) &=
     \begin{cases}
-      \FullSat_\Sigma(\chase_{\widehat{\#_{\vec{d}}}}(\operatorname{SC}_\vec{d}(I); D, \sigma)) & \text{if $\operatorname{SC}_\vec{d}(I)$ can be $D$-chased with $\sigma$} \\
+      \FullSat_\Sigma(\chase_{\widehat{\#_{\vec{d}}}}(\operatorname{SC}_{\Sigma, \vec{d}}(I), (\tau, \sigma))) & \text{if $\operatorname{SC}_{\Sigma, \vec{d}}(I)$ can be $\tau$-chased with $\sigma$} \\
       \emptyset & \text{otherwise}
     \end{cases}
 \end{align}
 $$
-For a base instance $I$ and a finite chase-path $\vec{d}$, we say that $\vec{d}$ is *a valid chase-path on $I$* if either $\operatorname{SC}_\vec{d}(I) \neq \emptyset$ or both $I$ and $\vec{d}$ are empty.
+For a base instance $I$ and a finite chase-path $\vec{d}$, we say that $\vec{d}$ is *a valid $\Sigma$-chase-path on $I$* if either $\operatorname{SC}_{\Sigma, \vec{d}}(I) \neq \emptyset$ or both $I$ and $\vec{d}$ are empty.
 
 Now define the *$\Sigma$-saturated chase-like tree $\SatTree_\Sigma(I)$ of a base instance $I$* with:
- - the set $(\ChaseStepDir^{< \omega})_{\mathrm{valid, gen}}$ of *all* valid generative chase-paths on $I$ as the vertex set
- - (labelled) edges of the form $\vec{p} \xrightarrow{d} \vec{p} \concat (d)$ for each pair of vertices (hence valid , generative chase-paths) $\vec{p}$ and $\vec{p} \concat (d)$
+ - the set $(\ChaseStepDir^{< \omega})_{\Sigma\mathrm{, valid, gen}}$ of *all* valid generative $\Sigma$-chase-paths on $I$ as the vertex set
+ - (labelled) edges of the form $\vec{p} \xrightarrow{d} \vec{p} \concat (d)$ for each pair of vertices (hence valid , generative $\Sigma$-chase-paths) $\vec{p}$ and $\vec{p} \concat (d)$
  - the instance assignment function defined by $$
 \begin{array}{c c}
 \operatorname{Instance}_{\SatTree_\Sigma(I)}:
-  &(\ChaseStepDir^{< \omega})_{\mathrm{valid, gen}} & \longrightarrow &\Instances \\
-  &\vec{d} &\longmapsto &\operatorname{SC}_\vec{d}(I)
+  &(\ChaseStepDir^{< \omega})_{\Sigma\mathrm{, valid, gen}} & \longrightarrow &\Instances \\
+  &\vec{d} &\longmapsto &\operatorname{SC}_{\Sigma, \vec{d}}(I)
 \end{array}
 $$
 
-We will often deal with witnesses of the form $(\sigma, \TreeFacts(\SatTree_\Sigma(I)))$. So for a BCQ $Q$, we say that a factual substitution $\sigma$ is *a $(\Sigma, I)$-witness for $Q$* when $(\sigma, \TreeFacts(\SatTree_\Sigma(I)))$ is a witness for $Q$.
+We will often deal with witnesses of the form $(\sigma, \TreeFacts(\SatTree_\Sigma(I)))$. This motivates a different name for such witnesses:
+
+> **Definition**. For a BCQ $Q$, we say that a factual substitution $\sigma$ is *a $(\Sigma, I)$-witness for $Q$* when $(\sigma, \TreeFacts(\SatTree_\Sigma(I)))$ is a witness for $Q$.
