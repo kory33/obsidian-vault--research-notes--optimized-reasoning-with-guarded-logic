@@ -18,9 +18,14 @@ First, we define what it means to apply a consts translation (see [[Logic Prelim
 > 
 > > *Remark*. $\sigma(\SatTree_\Sigma(I))$ in general does not equal $\SatTree_\Sigma(\sigma(I))$, since the former tree structure has $\Sigma$-valid generative chase-paths *for $I$* as nodes, while the latter tree has chase-paths for $\sigma(I)$. The goal of this subsection, however, is to show that these trees are "isomorphic via $\sigma$".
 
-> **Definition**. Let $\vec{d} \in \ChaseStepDir^{< \omega}$ be a finite chase-path. The *$\sigma$-substituted chase-path* $\sigma(\vec{d})$ is defined by induction on $\vec{d}$: (TODO: come back to this definition when $\ChaseStepDir^{< \omega}$ is no longer dependent on $\Sigma$)
+> **Definition**. Let $\vec{d} \in \ChaseStepDir^{< \omega}$ be a finite generic chase-path and $\sigma: \Consts \rightarrow \Consts$ a consts translation. The *$\sigma$-translation $\sigma(\vec{d})$ of a generic chase-path $\vec{d}$* is defined by induction on $\vec{d}$: $$
+\begin{align}
+  \sigma(()) &= () \\
+  \sigma(\vec{d} \concat (\tau_p, \sigma_p)) &= \sigma(\vec{d}) \concat (\tau_p, \sigma_p \circ \sigma)
+\end{align}
+$$
 
-To package preconditions of the transition lemma, we define following notions:
+To package preconditions of the transition lemma, we define the following notions:
 
 > **Definition**. A consts translation $\sigma: \Consts \rightarrow \Consts$ is *$\Sigma$-invariant* if for each $t \in \FactualTerms$, if $t \in \consts(\Sigma)$ then $\sigma(t) = t$.
 
@@ -29,8 +34,18 @@ To package preconditions of the transition lemma, we define following notions:
 Now we have the following lemma.
 
 > **Lemma (SatTree Translation)**. Let $\Sigma$ be a finite set of GTGDs and $I$ a base instance. If $\sigma: \Consts \rightarrow \Consts$ is a $\Sigma$-invariant $(I \setminus \Sigma)$-exotic consts translation, then
+>   i. for each valid generative $\Sigma$-chase-path $\vec{d}$ on $I$, $\sigma(\vec{d})$ is a valid generative $\Sigma$-chase-path on $\sigma(I)$, and
+>   ii. conversely, every valid generative $\Sigma$-chase-path $\vec{d'}$ on $\sigma(I)$, there exists a valid generative $\Sigma$-chase-path $\vec{d}$ on $I$ such that $\vec{d'} = \sigma(\vec{d})$. Moreover,
+>   iii. $\sigma(\Instance_{\SatTree_\Sigma(I)}(\vec{d})) = \Instance_{\SatTree_\Sigma(\sigma(I))}(\sigma(\vec{d}))$.
 > 
-> TODO (we need to write down the explicit isomorphism from $\sigma(\SatTree_\Sigma(I))$ to $\SatTree_\Sigma(\sigma(I))$ (they are not even equal!!), because it is not even obvious whether a valid $\Sigma$-chase-path on $I$ corresponds to a valid $\Sigma$-chase-path on $\sigma(I)$. To make the correspondence surjective, we need to require that $\sigma$ only assigns $\Sigma$-fresh factual terms. After all that's done, we can run the induction proof.)
+> > *Proof*.
+> > 
+> > (i): TODO
+> > 
+> > (ii): TODO
+> > 
+> > (iii): TODO
+> > 
 
 ## Tentacle Relevance Theorem
 
