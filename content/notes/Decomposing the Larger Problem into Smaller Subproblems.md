@@ -122,7 +122,7 @@ AnswerQueryNonDet2(I, Σ, Q):
   ACCEPT
 ```
 
-TODO: invoke the [[Fresh Tentacle Theorem]] and obtain another algorithm `AnswerQueryNonDet3` in which `WitnessedUnderSubTree` no longer depends on the whole `I`, and finally obtain an algorithm that naively computes query-rule-rewriting `QueryRuleRewriting1(Σ, Q)` by generalizing and translating the acceptance condition of `AnswerQueryNonDet3`. That will be the conclusion of this note.
+TODO: invoke the [[Tentacle Relevance Theorem]] and obtain another algorithm `AnswerQueryNonDet3` in which `WitnessedUnderSubTree` no longer depends on the whole `I`, and finally obtain an algorithm that naively computes query-rule-rewriting `QueryRuleRewriting1(Σ, Q)` by generalizing and translating the acceptance condition of `AnswerQueryNonDet3`. That will be the conclusion of this note.
 
 
 [^1]: In a sense of an algorithm running on nondeterministic turing machines, so `ACCEPT`s if *any* nondeterministic branch `ACCEPT`s, and `REJECT`s if *no* nondeterministic branch `ACCEPT`s.
