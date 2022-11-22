@@ -34,31 +34,40 @@ We shall describe how an instance can be "extended" by applying a GTGD.
 >  - *the $\Sigma$-exports $\exports_\Sigma(I, (\tau, \sigma))$ from $I$ along $(\tau, \sigma)$* to be the set $$\exports_\Sigma(I, (\tau, \sigma)) := \set{\ F \in I\ |\ F \text{ is } \Sigma \text{-guarded by }\chaseHead_\nu(\tau, \sigma) \ }.$$
 >  - *the one-step $\Sigma$-chase $\chase_{\Sigma, \nu}(I, (\tau, \sigma))$ of $I$ with $(\tau, \sigma)$ (through $\nu$)* to be an instance defined by  $$\chase_{\Sigma, \nu}(I, (\tau, \sigma)) := \set{\chaseHead_\nu(\tau, \sigma)} \cup \exports_\Sigma(I, (\tau, \sigma)).$$
 
-## Chase-Like Trees
+### Chase-Like Trees
 
 > **Definition**. A *chase-like tree $T$* is a directed rooted tree $(T_0, v_r)$ together with the *instance assignment* $\operatorname{Instance}_T: V(T_0) \rightarrow \Instances$ of instances to vertices.
 
-> **Definition**. For a chase-like tree $T$ with the instance assignment $\operatorname{Instance}_T$, we define the instance $\TreeFacts(T)$ as the union $\bigcup \mathrm{im} \operatorname{Instance}_T$ of image of the instance assignment.
+> **Definition**. For a chase-like tree $T$ with the instance assignment $\operatorname{Instance}_T$, we define the instance $\TreeFacts(T)$ as the union $\bigcup \mathrm{im} \operatorname{Instance}_T$ of images of the instance assignment.
 
-## Saturated Chase-Like Trees
+### The Canonical Global Null-Picking Function
 
-Throughout this section, we mean by $\Sigma$ some fixed finite set of head-normal GTGDs.
+> **Definition**. We write $\ChaseStepDir$ for the set $\GTGDFormulae \times \FactualSubstitutions$, and call a pair $(\tau, \sigma) \in \ChaseStepDir$ a *generic chase-step direction*. We call a finite (resp. infinite) sequence of generic chase-step directions a *finite (resp. infinite) generic chase-path*.
 
-TODO: make $\#$ independent from $\Sigma$ or else we'll have a trouble in Tentacle Relevant Theorem!
+>**Definition**. We fix a coding function (hence a computable injection into $\mathbb{N}$) $$\#: \ChaseStepDir^{< \omega} \times \mathbb{N} \rightarrow \mathbb{N}$$ on pairs of a finite generic chase-path and a natural.
 
-We shall call a pair $(\tau, \sigma) \in \Sigma \times \FactualSubstitutions$ a *chase-step direction*, and write $\ChaseStepDir$ for the set $\Sigma \times \FactualSubstitutions$ of all chase-step directions. We call a finite (resp. infinite) sequence of chase-step directions a *finite (resp. infinite) chase-path*.
+By precomposing $\#$ to the canonical null-picking function $\nu_{\mathrm{id}}(i \in \mathbb{N}) = n_i$ and currying, we obtain a $\ChaseStepDir^{< \omega}$-indexed family $\set{ \widehat{\#_\vec{d}}}_{\vec{d} \in \ChaseStepDir^{< \omega}}$ of null-picking functions. More explicitly, we have the following:
 
-We say that a chase-step direction $(\tau, \sigma)$ is *generative* if $\tau$ is a non-full rule, and that a chase-path $\vec{d}$ is *generative* if each $(\tau, \sigma) \in \elems(\vec{d})$ is generative.
-
-Fix a coding function (hence a computable injection into $\mathbb{N}$) $$\#: \ChaseStepDir^{< \omega} \times \mathbb{N} \rightarrow \mathbb{N}$$ on pairs of a finite chase-path and a natural. Precompose $\#$ to the canonical null-picking function $\nu_{\mathrm{id}}(i \in \mathbb{N}) = n_i$ and curry to obtain a $\ChaseStepDir^{< \omega}$-indexed family $\set{ \widehat{\#_\vec{d}}}_{\vec{d} \in \ChaseStepDir^{< \omega}}$ of null-picking functions: More explicitly, for each $\vec{d} \in \ChaseStepDir^{< \omega}$, we have $$
+>**Definition**. For each $\vec{d} \in \ChaseStepDir^{< \omega}$, we define *the canonical null-picking function $\widehat{\#_{\vec{d}}}$ at $\vec{d}$* to be the function $$
 \begin{align}
 \widehat{\#_{\vec{d}}} : \mathbb{N} & \rightarrow \Nulls\\
                                    i & \mapsto n_{\#(\vec{d}, i)}
 \end{align}
 $$
+
 This family of null-picking functions will be used in the following definition to formally ensure that no null introduced in one branch is brought to its sibling branches.
 
-Given a base instance $I$, define, by induction on finite chase-paths $\vec{d} \in \ChaseStepDir^{< \omega}$, the *shortcut $\Sigma$-chase $\operatorname{SC}_{\Sigma, \vec{d}}(I)$ of $I$ along $\vec{d}$* by $$
+## Saturated Chase-Like Trees
+
+Throughout this section, we shall fix some finite set $\Sigma$ of head-normal GTGDs.
+
+From now on, we would like to work with specialized chase-step directions:
+
+> **Definition**. We write $\ChaseStepDir_\Sigma$ for the set $\Sigma \times \FactualSubstitutions$, and call a pair $(\tau, \sigma) \in \Sigma \times \FactualSubstitutions$ a *$\Sigma$-chase-step direction*. We call a finite (resp. infinite) sequence of $\Sigma$-chase-step directions a *finite (resp. infinite) $\Sigma$-chase-path*.
+
+> **Definition**. We say that a $\Sigma$-chase-step direction $(\tau, \sigma)$ is *generative* if $\tau$ is a non-full rule, and that a $\Sigma$-chase-path $\vec{d}$ is *generative* if each $(\tau, \sigma) \in \elems(\vec{d})$ is generative.
+
+> **Definition**. Given a base instance $I$, define, by induction on finite chase-paths $\vec{d} \in \ChaseStepDir^{< \omega}$, the *shortcut $\Sigma$-chase $\operatorname{SC}_{\Sigma, \vec{d}}(I)$ of $I$ along $\vec{d}$* by $$
 \begin{align}
   \operatorname{SC}_{\Sigma, ()}(I) &= \FullSat_\Sigma(I) \\
   \operatorname{SC}_{\Sigma, \vec{d} \concat (\tau, \sigma)}(I) &=
@@ -68,12 +77,13 @@ Given a base instance $I$, define, by induction on finite chase-paths $\vec{d} \
     \end{cases}
 \end{align}
 $$
-For a base instance $I$ and a finite chase-path $\vec{d}$, we say that $\vec{d}$ is *a valid $\Sigma$-chase-path on $I$* if either $\operatorname{SC}_{\Sigma, \vec{d}}(I) \neq \emptyset$ or both $I$ and $\vec{d}$ are empty.
 
-Now define the *$\Sigma$-saturated chase-like tree $\SatTree_\Sigma(I)$ of a base instance $I$* with:
- - the set $(\ChaseStepDir^{< \omega})_{\Sigma\mathrm{, valid, gen}}$ of *all* valid generative $\Sigma$-chase-paths on $I$ as the vertex set
- - (labelled) edges of the form $\vec{p} \xrightarrow{d} \vec{p} \concat (d)$ for each pair of vertices (hence valid , generative $\Sigma$-chase-paths) $\vec{p}$ and $\vec{p} \concat (d)$
- - the instance assignment function defined by $$
+> **Definition**. For a base instance $I$ and a finite chase-path $\vec{d}$, we say that $\vec{d}$ is *a valid $\Sigma$-chase-path on $I$* if either $\operatorname{SC}_{\Sigma, \vec{d}}(I) \neq \emptyset$ or both $I$ and $\vec{d}$ are empty.
+
+> **Definition**. The *$\Sigma$-saturated chase-like tree $\SatTree_\Sigma(I)$ of a base instance $I$* is a chase-like tree with:
+>  - the set $(\ChaseStepDir^{< \omega})_{\Sigma\mathrm{, valid, gen}}$ of *all* valid generative $\Sigma$-chase-paths on $I$ as the vertex set
+>  - (labelled) edges of the form $\vec{p} \xrightarrow{d} \vec{p} \concat (d)$ for each pair of vertices (hence valid , generative $\Sigma$-chase-paths) $\vec{p}$ and $\vec{p} \concat (d)$
+>  - the instance assignment function defined by $$
 \begin{array}{c c}
 \operatorname{Instance}_{\SatTree_\Sigma(I)}:
   &(\ChaseStepDir^{< \omega})_{\Sigma\mathrm{, valid, gen}} & \longrightarrow &\Instances \\
@@ -81,6 +91,7 @@ Now define the *$\Sigma$-saturated chase-like tree $\SatTree_\Sigma(I)$ of a bas
 \end{array}
 $$
 
-We will often deal with witnesses of the form $(\sigma, \TreeFacts(\SatTree_\Sigma(I)))$. This motivates a different name for such witnesses:
+We will often deal with witnesses of the form $(\sigma, \TreeFacts(\SatTree_\Sigma(I)))$. This motivates a distinguished name for such witnesses:
 
 > **Definition**. For a BCQ $Q$, we say that a factual substitution $\sigma$ is *a $(\Sigma, I)$-witness for $Q$* when $(\sigma, \TreeFacts(\SatTree_\Sigma(I)))$ is a witness for $Q$.
+
