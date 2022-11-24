@@ -29,10 +29,10 @@ Intuitively, this means that the premise $\beta$ is witnessed by some facts in $
 We shall describe how an instance can be "extended" by applying a GTGD.
 
 > **Definition**. Given a null-picking function $\nu$, a finite set $\Sigma$ of GTGDs, an element $\tau = \forall \vec{x}. (\beta \rightarrow \exists \vec{y}. \eta) \in \Sigma$ and an instance $I$ that can be $\tau$-chased with a factual substitution $\sigma$, we define:
->  - *the $(\tau, \sigma)$-chase head $\chaseHead_\nu(\tau, \sigma)$ (through $\nu$)* to be the fact $$\chaseHead_\nu(\tau, \sigma) := \sigma[\vec{y} \xrightarrow{\nu} \Nulls](\eta).$$ 
->    Intuitively, this is a new fact generated from $I$ by applying the rule $\tau$ with $\sigma$.
+>  - *the $(\tau, \sigma)$-chase head $\chaseHead_\nu(\tau, \sigma)$ (through $\nu$)* to be the set $$\chaseHead_\nu(\tau, \sigma) := \sigma[\vec{y} \xrightarrow{\nu} \Nulls](\eta).$$ of facts. 
+>    Intuitively, this is a set of new facts generated from $I$ by applying the rule $\tau$ with $\sigma$.
 >  - *the $\Sigma$-exports $\exports_\Sigma(I, (\tau, \sigma))$ from $I$ along $(\tau, \sigma)$* to be the set $$\exports_\Sigma(I, (\tau, \sigma)) := \set{\ F \in I\ |\ F \text{ is } \Sigma \text{-guarded by }\chaseHead_\nu(\tau, \sigma) \ }.$$
->  - *the one-step $\Sigma$-chase $\chase_{\Sigma, \nu}(I, (\tau, \sigma))$ of $I$ with $(\tau, \sigma)$ (through $\nu$)* to be an instance defined by  $$\chase_{\Sigma, \nu}(I, (\tau, \sigma)) := \set{\chaseHead_\nu(\tau, \sigma)} \cup \exports_\Sigma(I, (\tau, \sigma)).$$
+>  - *the one-step $\Sigma$-chase $\chase_{\Sigma, \nu}(I, (\tau, \sigma))$ of $I$ with $(\tau, \sigma)$ (through $\nu$)* to be an instance defined by  $$\chase_{\Sigma, \nu}(I, (\tau, \sigma)) := \chaseHead_\nu(\tau, \sigma) \cup \exports_\Sigma(I, (\tau, \sigma)).$$
 
 ### Chase-Like Trees
 
