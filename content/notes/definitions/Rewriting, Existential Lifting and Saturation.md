@@ -11,12 +11,18 @@ tag:
 
 > **Definition**. Given a set $\Sigma$ of TGDs and a conjunctive query $Q$, we say that a Datalog program $\Sigma^Q_\rew$ together with a fresh *0-ary goal predicate* $\mathrm{Goal^Q}()$ is a *query-rule-rewriting of $(\Sigma, Q)$* if for every base instance $I$, $$I \wedge \Sigma \models Q \Longleftrightarrow I \wedge \Sigma^Q_\rew \models \mathrm{Goal^Q}(). $$
 
+---
+
+(TODO: remove the definition of existential lifting because we aren't going to need it)
+
 > **Definition**. Given a fact $R(\vec{f})$, the *existential lifting $\exlift(R(\vec{f}))$ of $R(\vec{f})$* is defined as the formula $$\exlift(R(\vec{f})) := \exists \vec{\nu}. R(\vec{f}[\ \vec{n} \leftarrow \vec{\nu}\ ])$$
 > where
 >  - $\vec{\nu}$ are variables corresponding to nulls in $\vec{f}$,
 >  - $\vec{f}[\ \vec{n} \leftarrow \vec{\nu}\ ]$ is $\vec{f}$ with nulls replaced by their corresponding variables in $\vec{\nu}$. 
 
 > **Definition**. The *existential lifting $\exlift(I)$ of an instance $I$* is a set $\set{\ \exlift(F) \mid F \in I\ }$ of formulae.
+
+---
 
 > **Definition**. Given a Datalog program $\Sigma$ and an instance $I$, we define the *$k$-th partial Datalog-saturation $\Sat^k_\Sigma(I)$ of $I$ by $\Sigma$* by induction on $k \in \mathbb{N}$, by $$\begin{align}
   \Sat^0_\Sigma(I) &= I \\
@@ -33,8 +39,9 @@ tag:
 
 > **Definition**. The *Datalog saturation $\Sat_\Sigma(I)$ of $I$ by a Datalog program $\Sigma$* is defined as the instance $$\Sat_\Sigma(I) = \bigcup_{k \in \mathbb{N}} \Sat^k_\Sigma(I).$$
 
-> **Lemma (Base-fact completeness of Datalog saturations)**.
+> **Theorem (Base-fact completeness of Datalog saturations)**.
 > Let $I$ be a base instance, $F$ a base fact and $\Sigma$ be a Datalog program. Then $$F \in \Sat_\Sigma(I) \Longleftrightarrow I \wedge \Sigma \models F.$$
+> ^b7f0b5
 > > *Proof*.
 > > ($\Longrightarrow$): By [[#^7faefd]] and soundness of the proof system of predicate logic, $$
 \begin{align}
@@ -54,7 +61,19 @@ F \in \Sat_\Sigma(I)
 > > Therefore $\mathcal{M} \models I \wedge \Sigma$ and by assumption $\mathcal{M} \models F$. But then by construction of $\mathcal{M}$, $F \in \Sat_\Sigma(I)$.
 > > 
 
-> **Definition**. Let $\Sigma$ be a finite collection of GTDGs and $I$ an instance.
+> **Definition**. Let $\Sigma$ be a finite collection of TGDs and $I$ an instance.
 > 
 > If $\Sigma$ has some rule-rewriting $\Sigma_\mathrm{rew}$, then we define *the full saturation $\FullSat_\Sigma(I)$ of $I$ by $\Sigma$* as $$\FullSat_\Sigma(I) = \Sat_{\Sigma_\rew}(I).$$ 
 > > *Remark*. This definition is well-defined, i.e. does not depende on the choice of $\Sigma_\mathrm{rew}$, since any two Datalog rewritings produce the same Datalog saturation by definition. 
+
+As a corollary to [[#^b7f0b5]], we have the following.
+
+> **Corollary**. Suppose that $\Sigma$ is a set of TGDs that admit a rule-rewriting. Then for a base instance $I$ and a base fact $F$, $$F \in \FullSat_\Sigma(I) \Longleftrightarrow I \wedge \Sigma \models F.$$
+> > *Proof*. $$
+\begin{align}
+  F \in \FullSat_\Sigma(I)
+    &\Longleftrightarrow F \in \Sat_{\Sigma_\mathrm{rew}}(I) \\
+    &\Longleftrightarrow I \wedge \Sigma_\mathrm{rew} \models F \\
+    &\Longleftrightarrow I \wedge \Sigma \models F.
+\end{align}
+$$
