@@ -11,19 +11,6 @@ tag:
 
 > **Definition**. Given a set $\Sigma$ of TGDs and a conjunctive query $Q$, we say that a Datalog program $\Sigma^Q_\rew$ together with a fresh *0-ary goal predicate* $\mathrm{Goal^Q}()$ is a *query-rule-rewriting of $(\Sigma, Q)$* if for every base instance $I$, $$I \wedge \Sigma \models Q \Longleftrightarrow I \wedge \Sigma^Q_\rew \models \mathrm{Goal^Q}(). $$
 
----
-
-(TODO: remove the definition of existential lifting because we aren't going to need it)
-
-> **Definition**. Given a fact $R(\vec{f})$, the *existential lifting $\exlift(R(\vec{f}))$ of $R(\vec{f})$* is defined as the formula $$\exlift(R(\vec{f})) := \exists \vec{\nu}. R(\vec{f}[\ \vec{n} \leftarrow \vec{\nu}\ ])$$
-> where
->  - $\vec{\nu}$ are variables corresponding to nulls in $\vec{f}$,
->  - $\vec{f}[\ \vec{n} \leftarrow \vec{\nu}\ ]$ is $\vec{f}$ with nulls replaced by their corresponding variables in $\vec{\nu}$. 
-
-> **Definition**. The *existential lifting $\exlift(I)$ of an instance $I$* is a set $\set{\ \exlift(F) \mid F \in I\ }$ of formulae.
-
----
-
 > **Definition**. Given a Datalog program $\Sigma$ and an instance $I$, we define the *$k$-th partial Datalog-saturation $\Sat^k_\Sigma(I)$ of $I$ by $\Sigma$* by induction on $k \in \mathbb{N}$, by $$\begin{align}
   \Sat^0_\Sigma(I) &= I \\
   \Sat^{k + 1}_\Sigma(I) &= \Sat^k_\Sigma(I) \cup \set{\ \sigma(\eta) \mid (\forall \vec{x}. \beta \rightarrow \eta) \in \Sigma, \sigma \text{ covers } \vec{x}, \sigma(\beta) \subseteq \Sat^k_\Sigma(I)\ }
