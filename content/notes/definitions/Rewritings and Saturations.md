@@ -16,6 +16,10 @@ tag:
   \Sat^{k + 1}_\Sigma(I) &= \Sat^k_\Sigma(I) \cup \set{\ \sigma(\eta) \mid (\forall \vec{x}. \beta \rightarrow \eta) \in \Sigma, \sigma \text{ covers } \vec{x}, \sigma(\beta) \subseteq \Sat^k_\Sigma(I)\ }
 \end{align}$$
 
+> **Proposition**. If $I \subseteq I'$ are instances and $\Sigma$ is a finite set of GTGDs, then for each $k \in \mathbb{N}$, $\Sat^k_\Sigma(I) \subseteq \Sat^k_\Sigma(I')$.
+> 
+> > *Proof*. By a simple induction on $k$.
+
 > **Proposition**. Let $\Sigma$ be a Datalog program and $I$ an instance. Then for each $k \in \mathbb{N}$ and for all base fact $F$, if $F \in \Sat_\Sigma^k(I)$ then $I \wedge \Sigma \vdash F$  (by $\vdash$ we simply mean "provable in natural deduction"). ^7faefd
 > 
 > > *Proof*. By induction on $k$.
@@ -25,6 +29,10 @@ tag:
 > > For the inductive part, suppose $F \in \Sat^{k+1}_\Sigma(I)$. If $F \in \Sat^k_\Sigma(I)$ then we are done by the inductive hypothesis. Otherwise, there must be some $(\forall \vec{x}. \beta \rightarrow \eta) \in \Sigma$ and a factual substitution $\sigma$ covering $\vec{x}$ such that $\sigma(\beta) \subseteq \Sat^k_\Sigma(I)$, and $F = \sigma(\eta)$. By inductive hypothesis, each atom $F \in \sigma(\beta) \subseteq \Sat^k_\Sigma(I)$ can be derived from $I \wedge \Sigma$, hence $I \wedge \Sigma \vdash \sigma(\beta)$. Since $\sigma(\beta) \rightarrow \sigma(\eta)$ can be deduced from $\Sigma$ in one step, by modus ponens $I \wedge \Sigma \vdash \sigma(\eta)$.
 
 > **Definition**. The *Datalog saturation $\Sat_\Sigma(I)$ of $I$ by a Datalog program $\Sigma$* is defined as the instance $$\Sat_\Sigma(I) = \bigcup_{k \in \mathbb{N}} \Sat^k_\Sigma(I).$$
+
+> **Proposition**. If $I \subseteq I'$ are instances and $\Sigma$ is a finite set of GTGDs, then $\Sat_\Sigma(I) \subseteq \Sat_\Sigma(I')$.
+> 
+> > *Proof*. By monotonicity of $\Sat^k_\Sigma(-)$ for each $k \in \mathbb{N}$.
 
 > **Theorem (Base-fact completeness of Datalog saturations)**.
 > Let $I$ be a base instance, $F$ a base fact and $\Sigma$ be a Datalog program. Then $$F \in \Sat_\Sigma(I) \Longleftrightarrow I \wedge \Sigma \models F.$$
