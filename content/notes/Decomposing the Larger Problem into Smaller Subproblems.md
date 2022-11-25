@@ -164,6 +164,8 @@ AnswerQueryNonDet4(I, Σ, Q):
   ACCEPT
 ```
 
+## Towards a query-rule rewriting
+
 (TODO: There is a HUGE gap here; we need to fill in some definitions and prove stuff in order to argue that the following algorithm works.)
 
 Therefore, we obtain the following rewriting algorithm:
