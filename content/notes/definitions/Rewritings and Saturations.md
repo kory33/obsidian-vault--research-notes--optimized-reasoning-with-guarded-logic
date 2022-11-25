@@ -30,7 +30,7 @@ tag:
 
 > **Definition**. The *Datalog saturation $\Sat_\Sigma(I)$ of $I$ by a Datalog program $\Sigma$* is defined as the instance $$\Sat_\Sigma(I) = \bigcup_{k \in \mathbb{N}} \Sat^k_\Sigma(I).$$
 
-> **Proposition**. If $I \subseteq I'$ are instances and $\Sigma$ is a finite set of GTGDs, then $\Sat_\Sigma(I) \subseteq \Sat_\Sigma(I')$.
+> **Proposition (Saturation monotonicity)**. If $I \subseteq I'$ are instances and $\Sigma$ is a finite set of GTGDs, then $\Sat_\Sigma(I) \subseteq \Sat_\Sigma(I')$.
 > 
 > > *Proof*. By monotonicity of $\Sat^k_\Sigma(-)$ for each $k \in \mathbb{N}$.
 
