@@ -13,7 +13,7 @@ We shall define a tree structure that "stems from a base instance $I$ and witnes
 
 > **Definition**. Let $\Sigma$ be a finite set of GTGDs. We say that _a set $G$ of factual terms is $\Sigma$-guarded by a set of factual terms $\vec{t}$_ when $G \subseteq \consts(\Sigma) \cup \vec{t}$ .
 
-> **Definition**. Injective functions of the form $\nu: \mathbb{N} \rightarrow \Nulls$ will be referred to as *null-picking functions*.*
+> **Definition**. Injective functions of the form $\nu: \mathbb{N} \rightarrow \Nulls$ will be referred to as *null-picking functions*.
 
 > **Definition**. For a null-picking function $\nu$, a vector $\vec{y} = (y_1, \ldots, y_n)$ of variables and a factual substitution $\sigma$ whose domain is disjoint from $\vec{y}$, we define *the factual substitution $\sigma[\vec{y} \xrightarrow{\nu} \Nulls]$* with domain $\domain(\sigma) + \elems(\vec{y})$ that substitutes each $y_i$ to distinct nulls (chosen by $\nu$) and follows $\sigma$ elsewhere: $$
 \sigma[\vec{y} \xrightarrow{\nu} \Nulls](x)=
@@ -89,6 +89,27 @@ $$
   &(\ChaseStepDir^{< \omega})_{\Sigma\mathrm{, valid, gen}} & \longrightarrow &\Instances \\
   &\vec{d} &\longmapsto &\operatorname{SC}_{\Sigma, \vec{d}}(I)
 \end{array}
+$$
+
+> **Proposition (SatTree monotonicity)**. If $\Sigma$ is a finite set of GTGDs and $I \subseteq I'$ are base instances, then for each node $\vec{d}$ in $\SatTree_\Sigma(I)$,
+>   1. $\vec{d}$ is also a node in $\SatTree_\Sigma(I')$, and moreover,
+>   2. $\Instance_{\SatTree_\Sigma(I)}(\vec{d}) \subseteq \Instance_{\SatTree_\Sigma(I')}(\vec{d})$.
+>
+> > *Proof*. We show both of (1) and (2) simultaneously by induction on $\vec{d}$.
+> > 
+> > (Base case):
+> >   1. Obvious.
+> >   2. By saturation monotonicity.
+> > (Inductive part):
+> >  Let $\vec{d} \concat (\tau, \sigma)$ be a node in $\SatTree_\Sigma(I)$, hence a valid generative $\Sigma$-chase-path on $I$. Then $\vec{d}$ is a node in $\SatTree_\Sigma(I)$, so by inductive hypothesis, $\vec{d}$ is a valid generative $\Sigma$-chase-path on $I'$, and $\Instance_{\SatTree_\Sigma(I)}(\vec{d}) \subseteq \Instance_{\SatTree_\Sigma(I')}(\vec{d}))$. Then we have:
+> >    1. Since $\vec{d} \concat (\tau, \sigma)$ is a valid $\Sigma$-chase-path on $I$, by definition of $\Instance_{\SatTree_\Sigma(I)}$, $\Instance_{\SatTree_\Sigma(I)}(\vec{d})$ can be $\tau$-chased with $\sigma$. So $\Instance_{\SatTree_\Sigma(I')}(\vec{d}) \supseteq \Instance_{\SatTree_\Sigma(I)}(\vec{d})$ can also be $\tau$-chased with $\sigma$, and $\vec{d} \concat (\tau, \sigma)$ is a valid $\Sigma$-chase-path on $I'$ as well. Moreover,
+> >    2. as $\chase$ is clearly monotonic in its first argument, we have $$
+\begin{align}
+\Instance_{\SatTree_\Sigma(I)}(\vec{d} \concat (\tau, \sigma))
+ &= \FullSat_\Sigma(\chase_{\widehat{\#_{\vec{d}}}}(\Instance_{\SatTree_\Sigma(I)}(\vec{d}), (\tau, \sigma))) \\
+ &\subseteq \FullSat_\Sigma(\chase_{\widehat{\#_{\vec{d}}}}(\Instance_{\SatTree_\Sigma(I')}(\vec{d}), (\tau, \sigma))) \\
+ &= \Instance_{\SatTree_\Sigma(I')}(\vec{d} \concat (\tau, \sigma)).
+\end{align}
 $$
 
 We will often deal with witnesses of the form $(\sigma, \TreeFacts(\SatTree_\Sigma(I)))$. This motivates a distinguished name for such witnesses:
