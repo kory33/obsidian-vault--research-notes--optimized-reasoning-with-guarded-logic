@@ -171,14 +171,16 @@ AnswerQueryNonDet4(I, Σ, Q):
 Therefore, we obtain the following rewriting algorithm:
 
  1. Let $\Sigma_\mathrm{rew}$ be a Datalog rewriting of $\Sigma$.
- 2. Let $\Sigma' \leftarrow \emptyset$ be a variable keeping track of added full TGD rules
+ 2. Let $\Sigma' \leftarrow \emptyset$ be a mutable variable of new full TGD rules
  3. Let $\mathcal{H}(Q) = (\mathcal{V}, \mathcal{E})$ be the query structure hypergraph of $Q$
  4. For each connected sub-hypergraph $V$ of vertices in $\mathcal{H}(Q)$, do the following:
 	 1. Let $\partial V$ be the boundary of $V$, and let $\mathrm{Subgoal_V}$ be a new $|\partial V|$-ary predicate symbol associated with $V$.
 	 2. Let $\exists \vec{V}. Q_V$ be the subquery of $Q$ induced by $V$.
-	 3. If a $\Sigma$-tentacle ejection template $T = (\tau, \sim_\tau, F_\tau)$ generically proves $\exists \vec{V}. Q_V$ then
-		 1. Add a full TGD rule $F_\tau \rightarrow \mathrm{Subgoal}_V(\partial V)$ to $\Sigma'$.
- 5. Let $\mathrm{Goal}$ be the 0-ary goal predicate.
+	 3. For each $\Sigma$-tentacle ejection template $T = (\tau = \forall \vec{x}. (\beta \rightarrow \exists \vec{y}. \eta) \in \Sigma, \sim_\tau, F_\tau)$, do:
+		 1. For every possible $T$-generic constant mapping $\sigma: \partial V \rightarrow {\sim}_\tau$, do:
+			 1. If $(T, \sigma)$ generically $\Sigma$-proves $\exists \vec{V}. Q_V$, then
+				 1. Add a full TGD rule $F_\tau \rightarrow \mathrm{Subgoal}_V(\partial V)$ to $\Sigma'$.
+ 5. Let $\mathrm{Goal}$ be the 0-ary goal predicate. 
  6. For each subset $V \subseteq \mathcal{V}$, do the following:
 	 1. Let $\set{C_i}_{i \in I_V}$ be the set of connected components of $\mathcal{H}(Q-V)$.
 	 2. Let $\mathrm{Goal}_V$ be a new $|V|$-ary predicate symbol associated with $V$.
