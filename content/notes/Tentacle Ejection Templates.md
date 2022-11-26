@@ -40,7 +40,7 @@ $$ conforms to $\sim_\vec{x}$.
 >   1. is the root node, or
 >   2. corresponds to a valid generative $\Sigma$-chase-path on $\sigma(F_\tau)$ and starts with $(\tau, \sigma)$.
 
-> **Definition**. Let $\Sigma$ be a finite set of GTGDs, $I$ a base instance, $T = (\tau, \sim_\tau, F_\tau)$ a $\Sigma$-tentacle ejection template and $\sigma$ a factual substitution conforming to $\sim_\tau$. We say that *$T$ can be instantiated on $I$ using $\sigma$* if $\sigma(F_\tau) \subseteq I$. If $T$ can be instantiated on $I$ using *some* factual substitution $\sigma$, we say that $T$ is applicable to $I$.
+> **Definition**. Let $\Sigma$ be a finite set of GTGDs, $I$ a base instance, $T = (\tau, \sim_\tau, F_\tau)$ a $\Sigma$-tentacle ejection template and $\sigma$ a factual substitution conforming to $\sim_\tau$. We say that *$T$ can be $\Sigma$-instantiated on $I$ using $\sigma$* if $\sigma(F_\tau) \subseteq \FullSat\_Sigma(I)$. If $T$ can be instantiated on $I$ using *some* factual substitution $\sigma$, we say that $T$ is applicable to $I$.
 
 Not surprisingly, an instantiation of a $\Sigma$-tentacle ejection template embeds into the original SatTree, in the following sense:
 
@@ -82,3 +82,9 @@ Throughout this section, whenever we take a generic $\Sigma$-tentacle ejection t
 > **Definition**. Let $T = (\tau, \sim_\tau, F_\tau)$ be a $\Sigma$-tentacle ejection template, $Q = \exists \vec{z}. \bigwedge_{i \in I} A_i(\vec{w_i})$ a conjunctive query and $\sigma: \mathrm{FV}(Q) \rightarrow {\sim_\tau}$ a $T$-???. The *$\sigma$-??? (TODO: what kind of name should I put here???)* is a boolean conjunctive query $\sigma(Q)$ (TODO: to me this notation is very confusing) given by $$\sigma(Q) = \exists \vec{z}. \bigwedge_{i \in I} A_i((\GenConst \circ \sigma)(\vec{w_i}))$$
 
 > **Definition**. Let $T$ be a $\Sigma$-tentacle ejection template, $Q$ a conjunctive query and $\sigma_Q: \mathrm{FV}(Q) \rightarrow {\sim_\tau}$ a $T$-??? on $Q$. We say that $(T, \sigma_Q)$ *generically proves* $Q$ when $\GenInst(T) \wedge \Sigma \models \sigma(Q)$.
+
+### Witness Fragments and Generic Proofs
+
+It turns out that the generic proofs are universal abstraction of situations where a fragmented witness occurs within a tentacle. We formalize this idea as follows:
+
+> **Proposition**. Let $I$ be a base instance, $T$ a $\Sigma$-tentacle ejection template that can be $\sigma$-instantiated on $T$, and $Q$ a conjunctive query. (TODO: formlize the idea that in this situation $Q$ is "witnessed" under a tentacle hanging from $(\tau_T, \sigma)$)
