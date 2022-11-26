@@ -18,7 +18,9 @@ We shall first define what it means to identify (in-place) variables in a GTGD r
 
 We first describe an object that abstractly describe a situation where a tentacle hangs from some saturation of some base instance:
 
-> **Definition**. Let $\Sigma$ be a finite set of GTGDs and $\tau = (\forall \vec{x}. \beta \rightarrow \exists \vec{y}. \eta) \in \Sigma$. A *$(\tau, \Sigma)$-export template* is a set $F$ of atomic formulae such that each $A \in F$ only mentions variables from $\elems(\vec{x})$ and constants from $\Sigma$.
+> **Definition**. Let $\Sigma$ be a finite set of GTGDs and $\tau = (\forall \vec{x}. \beta \rightarrow \exists \vec{y}. \eta) \in \Sigma$. A *$(\tau, \Sigma)$-export template* is a set $F$ of atomic formulae such that each $A \in F$
+>   1. only mentions variables from $\elems(\vec{x})$ and constants from $\Sigma$, and
+>   2. is guarded by some atom in $\eta$.
 
 > **Definition**. Let $\Sigma$ be a finite set of GTGDs. A *$\Sigma$-tentacle ejection template* is a triple $(\tau, \sim_\tau, F_\tau)$ where $\tau = (\forall \vec{x}. \beta \rightarrow \exists \vec{y}. \eta) \in \Sigma$, $\sim_\tau$ is an in-place unification on $\vec{x}$ and $F_\tau$ is a $(\tau, \Sigma)$-export template.
 
@@ -36,11 +38,11 @@ Next, we define what is means to "instantiate" $\Sigma$-tentacle ejection templa
 \end{array}
 $$ conforms to $\sim_\vec{x}$.
 
-> **Definition** Let $\Sigma$ be a finite set of GTGDs, and $T = (\tau, \sim_\tau, F_\tau)$ be a $\Sigma$-tentacle ejection template. Given a factual substitution $\sigma$ that conforms to $\sim_\tau$, the *$\Sigma$-instantiation $\Tentacle_\Sigma(T, \sigma)$ of $T$ with $\sigma$* is defined as the subtree of $\SatTree_\Sigma(\sigma(F_\tau))$ induced by the set of nodes in $\SatTree_\Sigma(\sigma(F_\tau))$ that either
+> **Definition** Let $\Sigma$ be a finite set of GTGDs, and $T = (\tau, \sim_\tau, F_\tau)$ be a $\Sigma$-tentacle ejection template. Given a factual substitution $\sigma$ (TODO: we can assume that the image of $\sigma$ lies in $\Consts$) that conforms to $\sim_\tau$, the *$\Sigma$-instantiation $\Tentacle_\Sigma(T, \sigma)$ of $T$ with $\sigma$* is defined as the subtree of $\SatTree_\Sigma(\sigma(F_\tau))$ induced by the set of nodes in $\SatTree_\Sigma(\sigma(F_\tau))$ that either
 >   1. is the root node, or
 >   2. corresponds to a valid generative $\Sigma$-chase-path on $\sigma(F_\tau)$ and starts with $(\tau, \sigma)$.
 
-> **Definition**. Let $\Sigma$ be a finite set of GTGDs, $I$ a base instance, $T = (\tau, \sim_\tau, F_\tau)$ a $\Sigma$-tentacle ejection template and $\sigma$ a factual substitution conforming to $\sim_\tau$. We say that *$T$ can be $\Sigma$-instantiated on $I$ using $\sigma$* if $\sigma(F_\tau) \subseteq \FullSat\_Sigma(I)$. If $T$ can be instantiated on $I$ using *some* factual substitution $\sigma$, we say that $T$ is applicable to $I$.
+> **Definition**. Let $\Sigma$ be a finite set of GTGDs, $I$ a base instance, $T = (\tau, \sim_\tau, F_\tau)$ a $\Sigma$-tentacle ejection template and $\sigma$ a factual substitution conforming to $\sim_\tau$. We say that *$T$ can be $\Sigma$-instantiated on $I$ using $\sigma$* if $\sigma(F_\tau) \subseteq \FullSat_\Sigma(I)$. If $T$ can be instantiated on $I$ using *some* factual substitution $\sigma$, we say that $T$ is applicable to $I$.
 
 Not surprisingly, an instantiation of a $\Sigma$-tentacle ejection template embeds into the original SatTree, in the following sense:
 
@@ -75,13 +77,15 @@ Throughout this section, whenever we take a generic $\Sigma$-tentacle ejection t
 
 > **Remark**. From now on, we shall assume that, for each $\Sigma$, we have decided a choice on a $\Sigma$-generic constant assignment $\GenConst_\Sigma$. We shall refer to this particular function as *the* $\Sigma$-generic constant assignment.
 
-> **Definition**. Let $T = (\tau = \forall \vec{x}. (\beta \rightarrow \exists \vec{y}. \eta) \in \Sigma, \sim_\tau, F_\tau)$ be a $\Sigma$-tentacle ejection template. The *generic instance $\GenInst(T)$ associated with $T$* is the instance $$\GenInst(T) = \set{ \GenConst(F) \mid F \in F_\tau }.$$
+> **Definition**. Let $T = (\tau = \forall \vec{x}. (\beta \rightarrow \exists \vec{y}. \eta) \in \Sigma, \sim_\tau, F_\tau)$ be a $\Sigma$-tentacle ejection template. The *generic instance $\GenInst_\Sigma(T)$ associated with $T$* is the instance $$\GenInst_\Sigma(T) := \set{ \GenConst_\Sigma(F) \mid F \in F_\tau }.$$
 
-> **Definition**. Let $T = (\tau = \forall \vec{x}. (\beta \rightarrow \exists \vec{y}. \eta) \in \Sigma, \sim_\tau, F_\tau)$ be a $\Sigma$-tentacle ejection template, and let $Q$ be a (*not necessarily boolean*) conjunctive query.  A *$T$-??? on $Q$ (TODO: what kind of name should I put here???)* is a map $\sigma: \operatorname{FV}(Q) \rightarrow {\sim}_\tau$.
+> **Definition**. Let $T = (\tau = \forall \vec{x}. (\beta \rightarrow \exists \vec{y}. \eta) \in \Sigma, \sim_\tau, F_\tau)$ be a $\Sigma$-tentacle ejection template, and let $Q$ be a (*not necessarily boolean*) conjunctive query.  A *$T$-expectation on $Q$* is a map $\sigma: \operatorname{FV}(Q) \rightarrow {\sim}_\tau$.
+> 
+> > *Remark*. The reason we call such $\sigma$ an *expectation* is because we will later expect that the closure of $Q$ by $\sigma$ will be witnessed in a tentacle hanging from the generic instance associated with $T$.
 
-> **Definition**. Let $T = (\tau, \sim_\tau, F_\tau)$ be a $\Sigma$-tentacle ejection template, $Q = \exists \vec{z}. \bigwedge_{i \in I} A_i(\vec{w_i})$ a conjunctive query and $\sigma: \mathrm{FV}(Q) \rightarrow {\sim_\tau}$ a $T$-???. The *$\sigma$-??? (TODO: what kind of name should I put here???)* is a boolean conjunctive query $\sigma(Q)$ (TODO: to me this notation is very confusing) given by $$\sigma(Q) = \exists \vec{z}. \bigwedge_{i \in I} A_i((\GenConst \circ \sigma)(\vec{w_i}))$$
+> **Definition**. Let $T = (\tau, \sim_\tau, F_\tau)$ be a $\Sigma$-tentacle ejection template, $Q = \exists \vec{z}. \bigwedge_{i \in I} A_i(\vec{w_i})$ a conjunctive query and $\sigma: \mathrm{FV}(Q) \rightarrow {\sim_\tau}$ a $T$-expectation on $Q$. The *$\sigma$-closure of $Q$* is a boolean conjunctive query $\mathrm{cl}_\sigma(Q)$ given by $$\mathrm{cl}_\sigma(Q) = \exists \vec{z}. \bigwedge_{i \in I} A_i((\GenConst_\Sigma \circ \sigma)(\vec{w_i}))$$
 
-> **Definition**. Let $T$ be a $\Sigma$-tentacle ejection template, $Q$ a conjunctive query and $\sigma_Q: \mathrm{FV}(Q) \rightarrow {\sim_\tau}$ a $T$-??? on $Q$. We say that $(T, \sigma_Q)$ *generically proves* $Q$ when $\GenInst(T) \wedge \Sigma \models \sigma(Q)$.
+> **Definition**. Let $T$ be a $\Sigma$-tentacle ejection template, $Q$ a conjunctive query and $\sigma_Q: \mathrm{FV}(Q) \rightarrow {\sim_\tau}$ a $T$-expectation on $Q$. We say that $(T, \sigma_Q)$ *generically proves* $Q$ when $\GenInst_\Sigma(T) \wedge \Sigma \models \mathrm{cl}_\sigma(Q)$.
 
 ### Witness Fragments and Generic Proofs
 
