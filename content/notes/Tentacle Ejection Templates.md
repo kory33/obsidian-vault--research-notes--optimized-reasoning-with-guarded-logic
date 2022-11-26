@@ -81,14 +81,10 @@ Throughout this section, whenever we take a generic $\Sigma$-tentacle ejection t
 
 > **Definition**. Let $T = (\tau = \forall \vec{x}. (\beta \rightarrow \exists \vec{y}. \eta) \in \Sigma, \sim_\tau, F_\tau)$ be a $\Sigma$-tentacle ejection template, and let $Q$ be a (*not necessarily boolean*) conjunctive query.  A *$T$-expectation on $Q$* is a map $\sigma: \operatorname{FV}(Q) \rightarrow {\sim}_\tau$.
 > 
-> > *Remark*. The reason we call such $\sigma$ an *expectation* is because we will later expect that the closure of $Q$ by $\sigma$ will be witnessed in a tentacle hanging from the generic instance associated with $T$.
+> > *Remark*. The reason we call such $\sigma$ an *expectation* is because we will later expect that the closure of $Q$ by $\sigma$ will be witnessed in a tentacle hanging from the generic instance associated with $T$. (TODO: I think this is a very bad way of naming a cocnept)
 
-> **Definition**. Let $T = (\tau, \sim_\tau, F_\tau)$ be a $\Sigma$-tentacle ejection template, $Q = \exists \vec{z}. \bigwedge_{i \in I} A_i(\vec{w_i})$ a conjunctive query and $\sigma: \mathrm{FV}(Q) \rightarrow {\sim_\tau}$ a $T$-expectation on $Q$. The *$\sigma$-closure of $Q$* is a boolean conjunctive query $\mathrm{cl}_\sigma(Q)$ given by $$\mathrm{cl}_\sigma(Q) = \exists \vec{z}. \bigwedge_{i \in I} A_i((\GenConst_\Sigma \circ \sigma)(\vec{w_i}))$$
+> **Definition**. Let $T = (\tau, \sim_\tau, F_\tau)$ be a $\Sigma$-tentacle ejection template, $Q = \exists \vec{z}. \bigwedge_{i \in I} A_i(\vec{w_i})$ a conjunctive query and $\sigma: \mathrm{FV}(Q) \rightarrow {\sim_\tau}$ a $T$-expectation on $Q$. The *$T$-generic closure of $Q$ by $\sigma$* is a boolean conjunctive query $\mathrm{cl}_\sigma(Q)$ given by $$\mathrm{cl}_\sigma(Q) = \exists \vec{z}. \bigwedge_{i \in I} A_i((\GenConst_\Sigma \circ \sigma)(\vec{w_i}))$$
 
 > **Definition**. Let $T$ be a $\Sigma$-tentacle ejection template, $Q$ a conjunctive query and $\sigma_Q: \mathrm{FV}(Q) \rightarrow {\sim_\tau}$ a $T$-expectation on $Q$. We say that $(T, \sigma_Q)$ *generically proves* $Q$ when $\GenInst_\Sigma(T) \wedge \Sigma \models \mathrm{cl}_\sigma(Q)$.
 
-### Witness Fragments and Generic Proofs
-
-It turns out that the generic proofs are universal abstraction of situations where a fragmented witness occurs within a tentacle. We formalize this idea as follows:
-
-> **Proposition**. Let $I$ be a base instance, $T$ a $\Sigma$-tentacle ejection template that can be $\sigma$-instantiated on $T$, and $Q$ a conjunctive query. (TODO: formlize the idea that in this situation $Q$ is "witnessed" under a tentacle hanging from $(\tau_T, \sigma)$)
+(TODO: from here, within this note, prove that the query-rule rewriting that we described in [[Decomposing the Larger Problem into Smaller Subproblems]] is actually a query-rule rewriting)
