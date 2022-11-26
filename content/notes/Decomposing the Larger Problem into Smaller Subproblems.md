@@ -5,7 +5,7 @@ tags:
   - idea
 ---
 
-> We shall build on definitions given in [[Chase-Like Trees and Saturated Chase-Like Trees]]. We will also rely on the results in [[Preliminary Results on Saturated Chase-Like Trees]], [[Witness Fragmentation and Witness Gluing]] and [[Witness Decomposition]].
+> We shall build on definitions given in [[Chase-Like Trees and Saturated Chase-Like Trees]]. We will also rely on the results in [[Preliminary Results on Saturated Chase-Like Trees]], and [[Witness Fragmentation and Witness Gluing]].
 
 We start with the following claim, whose proof we leave to some other part of the notes:
 
@@ -166,7 +166,7 @@ AnswerQueryNonDet4(I, Σ, Q):
 
 ## Towards a query-rule rewriting
 
-(TODO: There is a HUGE gap here; we need to fill in some definitions and prove stuff in order to argue that the following algorithm works.)
+(TODO: do all the theory work in [[Tentacle Ejection Templates]], and leave in this note just the following algorithm.)
 
 Therefore, we obtain the following rewriting algorithm:
 
