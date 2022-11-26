@@ -16,7 +16,7 @@ We say that a tuple $\mathcal{L} = (\Vars_\mathcal{L}, \Nulls_\mathcal{L}, \Cons
  - *the set $\NullableTerms_\mathcal{L}$ of nullable terms* as $\Vars_\mathcal{L} \cup \Consts_\mathcal{L} \cup \Nulls_\mathcal{L}$
  - _the set $\FactualTerms_\mathcal{L}$ of factual terms_ as $\Nulls_\mathcal{L} \cup \Consts_\mathcal{L}$
  - _the set $\Atoms_\mathcal{L}$ of atomic formulae (resp. the set $\Facts_\mathcal{L}$ of facts)_ to be a set of formal expression $P(t_1, t_2, \ldots, t_{\Arity(P)})$ with $P \in \Predicates_\mathcal{L}$, $t_i \in \Terms_\mathcal{L}$ (resp. $\FactualTerms_\mathcal{L}$) for each $1 \leq i \leq \Arity(P)$
- - *the set $\Formulae_\mathcal{L}$ of (first-order) formulas under the sigunature $(\Predicates_\mathcal{L}, \Consts_\mathcal{L})$* to be a set of formal expressions inductively built up from $\Atoms_\mathcal{L}$ using unary connective $\neg$, binary connectives $\wedge, \vee, \rightarrow$ and quantifiers $\exists x.$ and $\forall x.$ (where $x \in \Vars_\mathcal{L}$)
+ - *the set $\Formulae_\mathcal{L}$ of (first-order) formulas under the signature $(\Predicates_\mathcal{L}, \Consts_\mathcal{L})$* to be a set of formal expressions inductively built up from $\Atoms_\mathcal{L}$ using unary connective $\neg$, binary connectives $\wedge, \vee, \rightarrow$ and quantifiers $\exists x.$ and $\forall x.$ (where $x \in \Vars_\mathcal{L}$)
 
 For most of the following definitions, we will assume some fixed first-order language $\mathcal{L}$ and omit the subscript $_\mathcal{L}$ unless it becomes necessary to specify the language. 
 
