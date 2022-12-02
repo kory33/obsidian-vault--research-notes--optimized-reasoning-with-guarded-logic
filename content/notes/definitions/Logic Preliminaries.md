@@ -55,9 +55,19 @@ A factual substitution canonically extends to a partial function $\Atoms \righth
 
 > **Definition**. We write $\FactualSubstitutions = (\Vars \rightharpoonup \FactualTerms)_{< \omega}$ for the countable set of all factual substitutions.
 
+> **Definition**. A *ground substitution* is a factual substitution whose range is contained in $\Consts$.
+
 > **Definition**. We say that a factual substitution $\sigma$ *covers* a set $\vec{y}$ of variables when $\elems(\vec{y}) \subseteq \domain(\sigma)$, and say that $\sigma$ *exactly covers $\vec{y}$* if $\elems(\vec{y}) = \domain(\sigma)$.
 
+#### BCQ Witnesses
+
 > **Definition**. We say that a factual substitution $\sigma$ together with a (potentially infinite) set $\mathcal{F}$ of facts *witness a boolean conjunctive query $\exists \vec{x}. \bigwedge_{1 \leq i \leq n} A_i$* if $\sigma$ exactly covers $\vec{x}$ and $$\set{\ \sigma(A_i) \mid 1 \leq i \leq n \ } \subseteq \mathcal{F}.$$
+
+#### Conjunctive Query Answering
+
+Through the language of substitutions, we define what it means to *answer* a conjunctive query.
+
+> **Definition**. Given a set $\Sigma$ of TGDs, a base instance $I$ and a rectified conjunctive query $Q = \exists \vec{x}. \bigwedge_{j \in J} A_j(\vec{y'}_j)$, an *answer to $Q$ on $I$ under $\Sigma$* is a ground substitution $\sigma$ covering exactly $\mathrm{FV}(Q)$ such that $I \wedge \Sigma \models \sigma(Q)$. The set of all ansers to $Q$ on $I$ under $\Sigma$ is denoted by $\QueryAnswers(Q, I; \Sigma)$.
 
 ### Consts translations
 
