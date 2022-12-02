@@ -57,7 +57,7 @@ Now consider the following algorithm. Note that we make use of an oracle for BCQ
 > 	 1. Let $\set{C_i}_{i \in I_V}$ be the set of connected components of $\mathcal{H}(\overline{Q}-V)$
 > 	 2. Let $J_V = \set{ j \in J \mid \vec{y'}_j \text{ only contains variables from } V}$
 > 	 3. Add a full TGD rule $$\left(\bigwedge_{j \in J_V} A_j(\vec{y'}_j)\right) \wedge \left(\bigwedge_{C \in \set{C_i}_{i \in I_V}} \mathrm{Subgoal}_C(\partial C)\right) \rightarrow \mathrm{Goal}(\vec{z})$$ to $\Sigma'$
->  10. Return $(\Sigma_\mathrm{rew} \cup \Sigma', \mathrm{Goal})$
+>  9. Return $(\Sigma_\mathrm{rew} \cup \Sigma', \mathrm{Goal})$
 
 > **Theorem**. $\mathrm{QueryRuleRewrite1}(\Sigma, Q)$ is a query-rule-rewriting of $(\Sigma, Q)$.
 > 
