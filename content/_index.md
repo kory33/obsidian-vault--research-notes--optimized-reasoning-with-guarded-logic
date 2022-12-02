@@ -32,7 +32,7 @@ A collection of more structured notes.
 
  - Definitions:
 	 - Every other notes (should) depend on definitions given in this folder. The definition are organized into a DAG that starts from [[General Notations]].
- - [[Decomposing the Larger Problem into Smaller Subproblems]]
+ - [[Reducing Query-Rule-Rewriting Problem to BCQ Answerings]]
 
 ## External Links
 
