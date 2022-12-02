@@ -7,6 +7,28 @@ tags:
 
 > We shall build on definitions given in [[Chase-Like Trees and Saturated Chase-Like Trees]]. We will also rely on the results in [[Preliminary Results on Saturated Chase-Like Trees]], and [[Witness Fragmentation and Witness Gluing]].
 
+## Preliminaries
+
+We first make precise the terms that will be useful in describing the algorithm.
+
+> **Definition**. Given a boolean conjunctive query $\overline{Q} = \exists \vec{x}. \bigwedge_{j \in J} A_j(\vec{y'}_j)$ and a subset $V$,
+>  - the *closure $\overline{V}$ of $V$ in $\overline{Q}$* is the set of variables given by $$
+\overline{V} = \Set{ x \in \elems(\vec{x})\ \biggm\vert
+\begin{array}{l}
+  \text{ there are } j \in J \text{ and } x' \in \elems(\vec{x}) \\
+  \text{ such that } \vec{y'_j} \text{ contains both $x$ and $x'$}
+\end{array}
+}
+$$
+>  - the *boundary $\partial V$ of $V$ in $\overline{Q}$* is the set of variables given by $$\partial V = \overline{V} \setminus V$$
+>  - the *subquery $\exists \vec{V}. \overline{Q}_\overline{V}$ of $\overline{Q}$ induced by $V$* is the conjunctive query $$\exists \vec{V}. \bigwedge_{j \in J_V} A_j(\vec{y'}_j)$$ where
+> 	 - $\vec{V}$ is $V$ ordered into a sequence by the order of appearance in $\vec{x}$
+> 	 - $J_V = \set{ j \in J \mid \vec{y'}_j \text{ only mentions variables from } \overline{V}}$
+> 
+> > *Remark*. The subquery $\exists \vec{V}. \overline{Q}_\overline{V}$ of $\overline{Q}$ induced by $V$ is typically not boolean anymore, since $\mathrm{FV}(\exists \vec{V}. \overline{Q}_\overline{V}) = \partial V$.
+
+## The Basic Rewriting Algorithm
+
 > **Definition** Define the procedure $\mathrm{QueryRuleRewrite1}(\Sigma, Q)$ as follows:
 > 
 > *Input*:
