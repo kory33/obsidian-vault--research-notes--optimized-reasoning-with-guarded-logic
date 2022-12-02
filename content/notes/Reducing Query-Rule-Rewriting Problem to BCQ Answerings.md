@@ -44,6 +44,7 @@ Now consider the following algorithm. Note that we make use of an oracle for BCQ
 >  4. Let $\overline{Q} = \exists \vec{z}. Q$
 >  5. Let $\mathcal{H}(\overline{Q}) = (\mathcal{V}, \mathcal{E})$ be the query structure hypergraph of $\overline{Q}$
 >  6. For each connected sub-hypergraph $C$ of vertices in $\mathcal{H}(\overline{Q})$, do:
+>
 > 	 1. Let $\partial C$ be the boundary of $C$ in $\overline{Q}$, and let $\mathrm{Subgoal_C}$ be a fresh $|\partial C|$-ary predicate symbol associated with $C$
 > 	 2. Let $\exists \vec{C}. \overline{Q}_\overline{C}$ be the subquery of $\overline{Q}$ induced by $C$
 > 	 3. For each $\Sigma$-tentacle ejection template $T = (\tau \in \Sigma, \sim_\tau, F_\tau)$, do:
@@ -54,10 +55,11 @@ Now consider the following algorithm. Note that we make use of an oracle for BCQ
 > 				 3. Add a full TGD rule $$(\mathrm{remap} \circ \mathrm{quotient})(F_\tau) \rightarrow (\mathrm{remap} \circ \sigma)(\mathrm{Subgoal}_V(\vec{\partial C}))$$ to $\Sigma'$
 >  7. Let $\mathrm{Goal}$ be a fresh $|\vec{z}|$-ary goal predicate
 >  8. For each subset $V \supseteq \elems(\vec{z})$ of $\mathcal{V}$, do the following:
+>
 > 	 1. Let $\set{C_i}_{i \in I_V}$ be the set of connected components of $\mathcal{H}(\overline{Q}-V)$
 > 	 2. Let $J_V = \set{ j \in J \mid \vec{y'}_j \text{ only contains variables from } V}$
-> 	 3. Add a full TGD rule $$(\bigwedge_{j \in J_V} A_j(\vec{y'}_j)) \wedge (\bigwedge_{C \in \set{C_i}_{i \in I_V}} \mathrm{Subgoal}_C(\partial C)) \rightarrow \mathrm{Goal}(\vec{z})$$ to $\Sigma'$
->  9. Return $(\Sigma_\mathrm{rew} \cup \Sigma', \mathrm{Goal})$
+> 	 3. Add a full TGD rule $$\left(\bigwedge_{j \in J_V} A_j(\vec{y'}_j)\right) \wedge \left(\bigwedge_{C \in \set{C_i}_{i \in I_V}} \mathrm{Subgoal}_C(\partial C)\right) \rightarrow \mathrm{Goal}(\vec{z})$$ to $\Sigma'$
+>  10. Return $(\Sigma_\mathrm{rew} \cup \Sigma', \mathrm{Goal})$
 
 > **Theorem**. $\mathrm{QueryRuleRewrite1}(\Sigma, Q)$ is a query-rule-rewriting of $(\Sigma, Q)$.
 > 
