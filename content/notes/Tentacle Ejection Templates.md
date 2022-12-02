@@ -87,4 +87,7 @@ Throughout this section, whenever we take a generic $\Sigma$-tentacle ejection t
 
 > **Definition**. Let $T$ be a $\Sigma$-tentacle ejection template, $Q$ a conjunctive query and $\sigma_Q: \mathrm{FV}(Q) \rightarrow {\sim_\tau}$ a $T$-expectation on $Q$. We say that $(T, \sigma_Q)$ *generically proves* $Q$ when $\GenInst_\Sigma(T) \wedge \Sigma \models \mathrm{cl}_\sigma(Q)$.
 
-(TODO: from here, within this note, prove that the query-rule rewriting that we described in [[Decomposing the Larger Problem into Smaller Subproblems]] is actually a query-rule rewriting)
+(TODO: We probably need the following two results in order to prove the correctness of the rewrite algorithm:
+ 1. If there is a generic proof of a subquery, then the instantiation of the template induces an actual witness on $\SatTree$ of the subquery
+ 2. If there is a witness of the subquery in a tentacle, then the abstraction of the tentacle, together with the induced $T$-expectation (we should make this precise), generically proves the subquery.
+)
