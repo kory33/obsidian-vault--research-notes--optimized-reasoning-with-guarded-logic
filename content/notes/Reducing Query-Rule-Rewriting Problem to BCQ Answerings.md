@@ -20,11 +20,11 @@ tags:
 >  4. Let $\overline{Q} = \exists \vec{z}. Q$
 >  5. Let $\mathcal{H}(\overline{Q}) = (\mathcal{V}, \mathcal{E})$ be the query structure hypergraph of $\overline{Q}$
 >  6. For each connected sub-hypergraph $V$ of vertices in $\mathcal{H}(\overline{Q})$, do:
-> 	 1. Let $\partial V$ be the boundary of $V$, and let $\mathrm{Subgoal_V}$ be a fresh $|\partial V|$-ary predicate symbol associated with $V$
-> 	 2. Let $\exists \vec{V}. \overline{Q}_V$ be the subquery of $Q$ induced by $V$
+> 	 1. Let $\partial V$ be the boundary of $V$ in $\overline{Q}$, and let $\mathrm{Subgoal_V}$ be a fresh $|\partial V|$-ary predicate symbol associated with $V$
+> 	 2. Let $\exists \vec{V}. \overline{Q}_\overline{V}$ be the subquery of $\overline{Q}$ induced by $V$
 > 	 3. For each $\Sigma$-tentacle ejection template $T = (\tau \in \Sigma, \sim_\tau, F_\tau)$, do:
 > 		 1. For every possible $T$-generic constant mapping $\sigma: \partial V \rightarrow {\sim}_\tau$, do:
-> 			 1. If $(T, \sigma)$ generically $\Sigma$-proves $\exists \vec{V}. Q_V$, then
+> 			 1. If $(T, \sigma)$ generically $\Sigma$-proves $\exists \vec{V}. \overline{Q}_\overline{V}$, then
 > 				 1. Add a full TGD rule $$F_\tau \rightarrow \mathrm{Subgoal}_V(\partial V)$$ to $\Sigma'$
 > 				    (TODO: We should have $F_\tau$ substituted with something else here!)
 >  7. Let $\mathrm{Goal}$ be a fresh $|\vec{z}|$-ary goal predicate
