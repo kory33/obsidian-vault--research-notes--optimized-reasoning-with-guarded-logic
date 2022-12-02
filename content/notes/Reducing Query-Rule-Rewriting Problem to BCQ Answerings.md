@@ -46,12 +46,12 @@ Now consider the following algorithm. Note that we make use of an oracle for BCQ
 >  6. For each connected sub-hypergraph $C$ of vertices in $\mathcal{H}(\overline{Q})$, do:
 > 	 1. Let $\partial C$ be the boundary of $C$ in $\overline{Q}$, and let $\mathrm{Subgoal_C}$ be a fresh $|\partial C|$-ary predicate symbol associated with $C$
 > 	 2. Let $\exists \vec{C}. \overline{Q}_\overline{C}$ be the subquery of $\overline{Q}$ induced by $C$
-> 	 3. For each $\Sigma$-tentacle ejection template $T = (\tau \in \Sigma, \sim_\tau, F_\tau)$, do:
+> 	 3. For each $\Sigma$-tentacle ejection template $T = (\tau = \forall \vec{x}. (\beta \rightarrow \exists \vec{y}. \eta) \in \Sigma, \sim_\tau, F_\tau)$, do:
 > 		 1. For every possible $T$-generic constant mapping $\sigma: \partial C \rightarrow {\sim}_\tau$, do:
 > 			 1. If $(T, \sigma)$ generically $\Sigma$-proves $\exists \vec{C}. \overline{Q}_\overline{C}$, then
 > 				 1. Let $\operatorname{remap}: {\sim_\tau} \rightarrow \Vars$ be any injection from $\sim_\tau$ to the set of variables (for instance, a choice function on $\sim_\tau$)
 > 				 2. Let $\mathrm{quotient}: (\bigcup {\sim_\tau}) \rightarrow {\sim_\tau}$ be the quotient map sending an element in $\bigcup {\sim_\tau}$ to its equivalence class under $\sim_\tau$
-> 				 3. Add a full TGD rule $$(\mathrm{remap} \circ \mathrm{quotient})(F_\tau) \rightarrow (\mathrm{remap} \circ \sigma)(\mathrm{Subgoal}_V(\vec{\partial C}))$$ to $\Sigma'$
+> 				 3. Add a full TGD rule $$(\mathrm{remap} \circ \mathrm{quotient})(\beta \wedge F_\tau) \rightarrow (\mathrm{remap} \circ \sigma)(\mathrm{Subgoal}_V(\vec{\partial C}))$$ to $\Sigma'$
 >  7. Let $\mathrm{Goal}$ be a fresh $|\vec{z}|$-ary goal predicate
 >  8. For each subset $V \supseteq \elems(\vec{z})$ of $\mathcal{V}$, do the following:
 > 	 1. Let $\set{C_i}_{i \in I_V}$ be the set of connected components of $\mathcal{H}(\overline{Q}-V)$
