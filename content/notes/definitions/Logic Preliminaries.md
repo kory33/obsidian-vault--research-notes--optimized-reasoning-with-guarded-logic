@@ -24,6 +24,8 @@ For most of the following definitions, we will assume some fixed first-order lan
 
 Semantics (interpretation, logical-consequence relation and truth) of formulae is defined using the standard terminology. We also follow standard conventions concerning variables being *bound* and *free*.
 
+> *Remark*. We are allowing $0$-ary predicate symbols. Therefore, *an interpretation* must assign a truth value from the set $\set{\perp, \top}$ to each of the given $0$-ary predicates.
+
 For brevity, we adopt the following notational conventions:
   - for a an atomic formula $P(t_1, \ldots, t_{\Arity(P)})$, we simply write it as $P(\vec{t})$ with an intention that $\vec{t} = (t_1, \ldots, t_{\Arity(P)})$.
   - for a formula of a form $\exists x_1. \exists x_2. \ldots \exists x_n. \phi$, we simply write it as $\exists \vec{x}. \phi$ with an intention that $\vec{x} = (x_1, \ldots, x_n)$.
