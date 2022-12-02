@@ -25,8 +25,9 @@ tags:
 > 	 3. For each $\Sigma$-tentacle ejection template $T = (\tau \in \Sigma, \sim_\tau, F_\tau)$, do:
 > 		 1. For every possible $T$-generic constant mapping $\sigma: \partial V \rightarrow {\sim}_\tau$, do:
 > 			 1. If $(T, \sigma)$ generically $\Sigma$-proves $\exists \vec{V}. \overline{Q}_\overline{V}$, then
-> 				 1. Add a full TGD rule $$F_\tau \rightarrow \mathrm{Subgoal}_V(\partial V)$$ to $\Sigma'$
-> 				    (TODO: We should have $F_\tau$ substituted with something else here!)
+> 				 1. Let $\operatorname{remap}: {\sim_\tau} \rightarrow \Vars$ be any injection from $\sim_\tau$ to the set of variables (for instance, a choice function on $\sim_\tau$)
+> 				 2. Let $\mathrm{quotient}: (\bigcup {\sim_\tau}) \rightarrow {\sim_\tau}$ be the quotient map sending an element in $\bigcup {\sim_\tau}$ to its equivalence class under $\sim_\tau$
+> 				 3. Add a full TGD rule $$(\mathrm{remap} \circ \mathrm{quotient})(F_\tau) \rightarrow (\mathrm{remap} \circ \sigma)(\mathrm{Subgoal}_V(\partial V))$$ to $\Sigma'$
 >  7. Let $\mathrm{Goal}$ be a fresh $|\vec{z}|$-ary goal predicate
 >  8. For each subset $V \supseteq \elems(\vec{z})$ of $\mathcal{V}$, do the following:
 > 	 1. Let $\set{C_i}_{i \in I_V}$ be the set of connected components of $\mathcal{H}(\overline{Q}-V)$
