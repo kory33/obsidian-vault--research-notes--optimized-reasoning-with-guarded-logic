@@ -5,7 +5,7 @@ tag:
   - definitions
 ---
 
-> This note builds on [[Rewritings and Saturations]]
+> This note builds on [[Saturations]]
 
 We shall define a tree structure that "stems from a base instance $I$ and witnesses every possible conclusion that can be $\Sigma$-deduced from $I$". To make this idea precise, we define a few concepts.
 

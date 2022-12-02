@@ -1,23 +1,15 @@
 ---
-title: Rewriting, Existential Lifting and Saturation
+title: Saturations
 tag:
   - notes
   - definitions
 ---
 
-> This note builds on [[Logic Preliminaries]]
-
-## Rewritings
-
-> **Definition**. Given a set $\Sigma$ of TGDs, a Datalog program $\Sigma_{\text{rew}}$ is *a rule-rewriting of $\Sigma$* if, for every base instance $I$, $\Sigma$ and $\Sigma_{\text{rew}}$ generate the same set of **base facts**, i.e. for every base fact $F$, $$I \wedge \Sigma \models F \Longleftrightarrow I \wedge \Sigma_{\text{rew}} \models F.$$
-
-> **Definition**. Given a set $\Sigma$ of TGDs and a conjunctive query $Q$, we say that a Datalog program $\Sigma^Q_\rew$ together with a fresh *0-ary goal predicate* $\mathrm{Goal^Q}()$ is a *query-rule-rewriting of $(\Sigma, Q)$* if for every base instance $I$, $$I \wedge \Sigma \models Q \Longleftrightarrow I \wedge \Sigma^Q_\rew \models \mathrm{Goal^Q}(). $$
-
-## Saturations
+> This note builds on [[Rewritings]]
 
 Given an instance $I$ and a finite set $\Sigma$ of Datalog rules, we can form *the smallest superinstance of $I$ satisfying $\Sigma$*, which we shall call $\Sat_\Sigma(I)$. To make this precise, we begin with the following definition.
 
-### Datalog Saturations
+## Datalog Saturations
 
 > **Definition**. Given a Datalog program $\Sigma$ and an instance $I$, we define the *$k$-th partial Datalog-saturation $\Sat^k_\Sigma(I)$ of $I$ by $\Sigma$* by induction on $k \in \mathbb{N}$, by $$\begin{align}
   \Sat^0_\Sigma(I) &= I \\
@@ -69,7 +61,7 @@ F \in \Sat_\Sigma(I)
 > >
 > > Therefore $\mathcal{M} \models I \wedge \Sigma$ and by assumption $\mathcal{M} \models F$. But then by construction of $\mathcal{M}$, $F \in \Sat_\Sigma(I)$.
 
-### Full Saturations
+## Full Saturations
 
 The previous section talked about saturating an instance using a finite set of *Datalog* rules.
 
