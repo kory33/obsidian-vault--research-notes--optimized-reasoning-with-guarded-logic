@@ -29,6 +29,8 @@ $$
 
 ## The Basic Rewriting Algorithm
 
+Now consider the following algorithm. Note that we make use of an oracle for BCQ answering over GTGD rules in Step `6-3-1-1`.
+
 > **Definition** Define the procedure $\mathrm{QueryRuleRewrite1}(\Sigma, Q)$ as follows:
 > 
 > *Input*:
