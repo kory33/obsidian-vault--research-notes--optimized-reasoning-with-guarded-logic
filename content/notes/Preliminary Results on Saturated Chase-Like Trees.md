@@ -14,9 +14,9 @@ We can see that the subgraph of a $\SatTree$ mentioning $t$ really is then a sub
 
 > **Proposition**. For a finite set $\Sigma$ of GTGDs, a base instance $I$ and any factual term $t$, $\SatTree_\Sigma(I) \upharpoonright t$ is connected. In particular, if $t$ is mentioned in $\TreeFacts(\SatTree_\Sigma(I))$, then $\SatTree_\Sigma(I) \upharpoonright t$ is a rooted subtree of $\SatTree_\Sigma(I)$.
 > 
-> _Proof_. By construction of $\SatTree_\Sigma(I)$, we have that
->  - a factual term not already mentioned in $I$ is never introduced by any chase-step direction from any node
->  - a null introduced at a node $\vec{d}$ is never introduced anywhere else in the tree
+> > _Proof_. By construction of $\SatTree_\Sigma(I)$, we have that
+> > - a factual term not already mentioned in $I$ is never introduced by any chase-step direction from any node
+> > - a null introduced at a node $\vec{d}$ is never introduced anywhere else in the tree
 
 Now, for each factual term $t$ mentioned somewhere in the $\SatTree$, we can identify where $t$ has been "introduced" in the tree:
 
@@ -30,7 +30,7 @@ We have the following useful lemma:
 
 > **Lemma (Fact Introduction)**. For a node $n$ of $\SatTree_\Sigma(I)$, its ancestor node $a$ and a fact $P(\vec{t}) \in \Instance_{\SatTree_\Sigma(I)}(n)$, if $\Intro(t) \geq a$ for all $t \in \elems(\vec{t})$, then $P(\vec{t}) \in \Instance_{\SatTree_\Sigma(I)}(a)$.
 > 
-> _Proof_. TODO (we would probably make a heavy use of this lemma when arguing validity of query reductions)
+> > _Proof_. TODO (we would probably make a heavy use of this lemma when arguing validity of query reductions)
 
 An immediate consequence of the lemma is the following:
 
