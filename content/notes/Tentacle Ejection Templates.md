@@ -43,11 +43,11 @@ Next, we define what is means to "instantiate" $\Sigma$-tentacle ejection templa
 \end{array}
 $$ conforms to $\sim_\vec{x}$.
 
-> **Definition** Let $\Sigma$ be a finite set of GTGDs, and $T = (\tau, \sim_\tau, F_\tau)$ be a $\Sigma$-tentacle ejection template. Given a ground substitution $\sigma$ that conforms to $\sim_\tau$, the *$\Sigma$-instantiation $\Tentacle_\Sigma(T, \sigma)$ of $T$ fired with $\sigma$* is defined as the subtree of $\SatTree_\Sigma(\sigma(F_\tau))$ induced by the set of nodes in $\SatTree_\Sigma(\sigma(F_\tau))$ that either
+> **Definition** Let $\Sigma$ be a finite set of GTGDs, and $T = (\tau = \forall \vec{x}. \beta \rightarrow \exists \vec{y}. \eta, \sim_\tau, F_\tau)$ be a $\Sigma$-tentacle ejection template. Given a ground substitution $\sigma_{F_\tau}$ that conforms to $\sim_\tau$, the *$\Sigma$-instantiation $\Tentacle_\Sigma(T, \sigma)$ of $T$ fired with $\sigma$* is defined as the subtree of $\SatTree_\Sigma(\sigma(F_\tau \cup \beta))$ induced by the set of nodes in $\SatTree_\Sigma(\sigma(F_\tau \cup \beta))$ that either
 >   1. is the root node, or
 >   2. corresponds to a valid generative $\Sigma$-chase-path on $\sigma(F_\tau)$ and starts with $(\tau, \sigma)$.
 
-> **Definition**. Let $\Sigma$ be a finite set of GTGDs, $I$ a base instance, $T = (\tau, \sim_\tau, F_\tau)$ a $\Sigma$-tentacle ejection template and $\sigma$ a factual substitution conforming to $\sim_\tau$. We say that *$T$ can be $\Sigma$-instantiated on $I$ using $\sigma$* if $\sigma(F_\tau) \subseteq \FullSat_\Sigma(I)$. If $T$ can be instantiated on $I$ using *some* factual substitution $\sigma$, we say that $T$ is applicable to $I$.
+> **Definition**. Let $\Sigma$ be a finite set of GTGDs, $I$ a base instance, $T = (\tau = \forall \vec{x}. \beta \rightarrow \exists \vec{y}. \eta, \sim_\tau, F_\tau)$ a $\Sigma$-tentacle ejection template and $\sigma$ a factual substitution conforming to $\sim_\tau$. We say that *$T$ can be $\Sigma$-instantiated on $I$ using $\sigma$* if $\sigma(F_\tau \cup \beta) \subseteq \FullSat_\Sigma(I)$.
 
 An instantiation of a $\Sigma$-tentacle ejection template on an instance embeds into the $\SatTree$ of the instance, in the following sense:
 
@@ -56,7 +56,7 @@ An instantiation of a $\Sigma$-tentacle ejection template on an instance embeds 
 >  1. $\vec{d}$ is a valid generative $\Sigma$-chase-path on $I$, i.e. is a node in $\SatTree_\Sigma(I)$, and moreover,
 >  2. $\Instance_{\Tentacle_\Sigma(T, \sigma)}(\vec{d}) \subseteq \Instance_{\SatTree_\Sigma(I)}(\vec{d})$
 > 
-> > *Proof*. Since $\Tentacle_\Sigma(T, \sigma)$ is a subtree of $\SatTree_\Sigma(\sigma(F_\tau))$, the proposition is obvious from the SatTree monotonicity.
+> > *Proof*. Since $\Tentacle_\Sigma(T, \sigma)$ is a subtree of $\SatTree_\Sigma(\sigma(F_\tau \cup \beta))$, the proposition is obvious from the SatTree monotonicity.
 
 ### Tentacle Abstraction
 
@@ -115,11 +115,36 @@ $$
 
 As expected, instantiation of an abstraction of chase-step direction $(\tau, \sigma)$ equals the tentacle hanging from $(\tau, \sigma)$, as formulated in the following lemma.
 
-> **Lemma (abstraction-instantiation)**. Let $(\tau, \sigma)$ be a valid generative $\Sigma$-chase-path on $I$, and $T$ be an abstraction of $(\tau, \sigma)$ over $I$.
+> **Lemma (abstraction-instantiation)**. Let $(\tau, \sigma)$ be a valid generative $\Sigma$-chase-path on $I$, and $T = (\tau, \sim, F)$ be an abstraction of $(\tau, \sigma)$ over $I$.
 > 
-> Then for all nonempty valid generative $\Sigma$-chase-path $\vec{d}$ on $I$, $\Instance_{\Tentacle_\Sigma(T, \sigma)}(\vec{d}) = \Instance_{\SatTree_\Sigma(I)}(\vec{d})$.
+> Then for all nonempty valid generative $\Sigma$-chase-path $\vec{d}$ on $I$, if $\vec{d}$ starts with $(\tau, \sigma)$, then $\Instance_{\Tentacle_\Sigma(T, \sigma)}(\vec{d}) = \Instance_{\SatTree_\Sigma(I)}(\vec{d})$.
 > 
-> > *Proof*. (TODO)
+> > *Proof*. Let $\tau = \forall \vec{x}. \beta \rightarrow \exists \vec{y}. \eta$. We proceed by induction on $\vec{d}$. 
+> > 
+> > (base case $\vec{d} = ((\tau, \sigma))$): We first make the following claim: 
+> > 
+> > > **Claim**. $$\exports_\Sigma(I, (\tau, \sigma)) = \exports_\Sigma(\exports_\Sigma(I, (\tau, \sigma)) \cup \sigma(\beta), (\tau, \sigma))$$
+> > > *Proof*.
+> > > ($\subseteq$): Take any $F \in \exports_\Sigma(I, (\tau, \sigma))$. Then $F$ is guarded by $\chaseHead_\nu(\tau, \sigma)$, and $F \in \exports_\Sigma(I, (\tau, \sigma)) \cup \sigma(\beta)$ so $F \in \exports_\Sigma(\exports_\Sigma(I, (\tau, \sigma)) \cup \sigma(\beta), (\tau, \sigma))$.
+> > > 
+> > > ($\supseteq$): Follows from the fact that $I \supseteq \exports_\Sigma(I, (\tau, \sigma)) \cup \sigma(\beta)$.
+> >
+> > Now $$
+\begin{align}
+\Instance_{\SatTree_{\Sigma(I)}}(\vec{d})
+  &= \FullSat_\Sigma(\chase_{\widehat{\#_{\vec{d}}}}(\operatorname{SC}_{\Sigma, ()}(I), (\tau, \sigma))) \\
+  &= \FullSat_\Sigma(\chase_{\widehat{\#_{\vec{d}}}}(I, (\tau, \sigma))) \\
+  &= \FullSat_\Sigma(\chaseHead_{\widehat{\#_{\vec{d}}}}(\tau, \sigma) \cup \exports_\Sigma(I, (\tau, \sigma))) \\
+  &= \FullSat_\Sigma(\chaseHead_{\widehat{\#_{\vec{d}}}}(\tau, \sigma) \cup \exports_\Sigma(\exports_\Sigma(I, (\tau, \sigma)) \cup \sigma(\beta), (\tau, \sigma)) \\
+  &= \FullSat_\Sigma(\chase_{\widehat{\#_{\vec{d}}}}(\exports_\Sigma(I, (\tau, \sigma)) \cup \sigma(\beta), (\tau, \sigma))) \\
+  &= \FullSat_\Sigma(\chase_{\widehat{\#_{\vec{d}}}}(\sigma(F \cup \beta), (\tau, \sigma))) \\
+  &= \Instance_{\SatTree_\Sigma(\sigma(F \cup \beta))}(\vec{d}) \\
+  &= \Instance_{\Tentacle_\Sigma(T, \sigma)}(\vec{d})
+\end{align}
+$$so we are done.
+> >
+> > (inductive part): Obvious.
+
 
 ## Generic Proofs and Ejection Templates
 
