@@ -11,16 +11,21 @@ tag:
 We shall first define what it means to identify (in-place) variables in a GTGD rule.
 
 > **Definition**. Let $\vec{x}$ be a set of variables. An *in-place unification on $\vec{x}$* is a partition $\sim_\vec{x}$ of $\elems(\vec{x})$.
-
-> **Example**. If $\vec{x} = (x_0, x_1, x_2, x_3)$, then an equivalence relation given by a partition $\set{\set{x_0}, \set{x_1, x_3}, \set{x_2}}$ is an in-place unification on $\vec{x}$.
+> 
+> > **Example**. If $\vec{x} = (x_0, x_1, x_2, x_3)$, then an equivalence relation given by a partition $\set{\set{x_0}, \set{x_1, x_3}, \set{x_2}}$ is an in-place unification on $\vec{x}$.
 
 ## Tentacle Ejection Templates
 
 We first describe an object that abstractly describe a situation where a tentacle hangs from some saturation of some base instance:
 
 > **Definition**. Let $\Sigma$ be a finite set of GTGDs and $\tau = (\forall \vec{x}. \beta \rightarrow \exists \vec{y}. \eta) \in \Sigma$. A *$(\tau, \Sigma)$-export template* is a set $F$ of atomic formulae such that each $A \in F$
->   1. only mentions variables from $\elems(\vec{x})$ and constants from $\Sigma$, and
->   2. is guarded by some atom in $\eta$.
+>   1. only mentions constants from $\Sigma$, and
+>   2. only mentions variables in $\elems(\vec{x})$ that appear in some atom in $\eta$.
+>
+> > *Example*. Let $\tau = \forall x_1, x_2. R_1(x_1, x_2) \wedge U(x_1) \wedge P(c_0) \rightarrow \exists y. H(x_2, y, c_1)$ and $\Sigma = \set{\tau}$. Then the following are all $(\tau, \Sigma)$-export templates:
+> >   - $\set{R_1(x_2, c_1), R_1(x_2, x_2)}$
+> >   - $\set{R_1(c_0, c_1), U(x_2)}$
+> >   - $\set{H(x_2, x_2, x_2), P(x_2)}$
 
 > **Definition**. Let $\Sigma$ be a finite set of GTGDs. A *$\Sigma$-tentacle ejection template* is a triple $(\tau, \sim_\tau, F_\tau)$ where $\tau = (\forall \vec{x}. \beta \rightarrow \exists \vec{y}. \eta) \in \Sigma$, $\sim_\tau$ is an in-place unification on $\vec{x}$ and $F_\tau$ is a $(\tau, \Sigma)$-export template.
 
@@ -38,13 +43,13 @@ Next, we define what is means to "instantiate" $\Sigma$-tentacle ejection templa
 \end{array}
 $$ conforms to $\sim_\vec{x}$.
 
-> **Definition** Let $\Sigma$ be a finite set of GTGDs, and $T = (\tau, \sim_\tau, F_\tau)$ be a $\Sigma$-tentacle ejection template. Given a factual substitution $\sigma$ (TODO: we can assume that the image of $\sigma$ lies in $\Consts$) that conforms to $\sim_\tau$, the *$\Sigma$-instantiation $\Tentacle_\Sigma(T, \sigma)$ of $T$ with $\sigma$* is defined as the subtree of $\SatTree_\Sigma(\sigma(F_\tau))$ induced by the set of nodes in $\SatTree_\Sigma(\sigma(F_\tau))$ that either
+> **Definition** Let $\Sigma$ be a finite set of GTGDs, and $T = (\tau, \sim_\tau, F_\tau)$ be a $\Sigma$-tentacle ejection template. Given a ground substitution $\sigma$ that conforms to $\sim_\tau$, the *$\Sigma$-instantiation $\Tentacle_\Sigma(T, \sigma)$ of $T$ fired with $\sigma$* is defined as the subtree of $\SatTree_\Sigma(\sigma(F_\tau))$ induced by the set of nodes in $\SatTree_\Sigma(\sigma(F_\tau))$ that either
 >   1. is the root node, or
 >   2. corresponds to a valid generative $\Sigma$-chase-path on $\sigma(F_\tau)$ and starts with $(\tau, \sigma)$.
 
 > **Definition**. Let $\Sigma$ be a finite set of GTGDs, $I$ a base instance, $T = (\tau, \sim_\tau, F_\tau)$ a $\Sigma$-tentacle ejection template and $\sigma$ a factual substitution conforming to $\sim_\tau$. We say that *$T$ can be $\Sigma$-instantiated on $I$ using $\sigma$* if $\sigma(F_\tau) \subseteq \FullSat_\Sigma(I)$. If $T$ can be instantiated on $I$ using *some* factual substitution $\sigma$, we say that $T$ is applicable to $I$.
 
-Not surprisingly, an instantiation of a $\Sigma$-tentacle ejection template embeds into the original SatTree, in the following sense:
+An instantiation of a $\Sigma$-tentacle ejection template on an instance embeds into the $\SatTree$ of the instance, in the following sense:
 
 > **Proposition (Ejection Embedding)**.
 > Let $\Sigma$ be a finite set of GTGDs, $I$ a base instance and $T = (\tau, \sim_\tau, F_\tau)$ a $\Sigma$-tentacle ejection template that can be instantiated on $I$ using $\sigma$. Then for each node $\vec{d}$ in $\Tentacle_\Sigma(T, \sigma)$,
@@ -57,15 +62,62 @@ Not surprisingly, an instantiation of a $\Sigma$-tentacle ejection template embe
 
 We have just seen that the instantiation of a tentacle $(\tau, \sim_\tau, F_\tau)$ with a substitution $\sigma$ is a way of turning a tentacle ejection template into a chase-like tree that can be actually embeded to a tentacle hanging from $(\tau, \sigma)$.
 
-We now describe a way to "abstract" an actual tentacle to a tentacle ejection template that can be instantiated back to the original tentacle.
+We now describe a way to "abstract" an actual tentacle to a tentacle ejection template that can be instantiated back exactly to the original tentacle.
 
-> **Definition**. Let $(\tau, \sigma)$ be a valid generative $\Sigma$-chase-path on $I$. We define the *abstraction $\Abst_\Sigma(\tau, \sigma; I)$ of $(\tau, \sigma)$* to be the $\Sigma$-tentacle ejection template $(\tau, \sim_\sigma, F_{\Sigma, \tau, \sigma})$ where
->   - $\sim_\sigma$ is the relation given by $x_1 \sim_\sigma x_2 \Longleftrightarrow \sigma(x_1) = \sigma(x_2)$
->   - $F_{\Sigma, \tau, \sigma} =$ (TODO; this should be all the exports carried outside from $\FullSat(I)$, but we need constants "abstracted" to variables)
+> **Definition**. Let $(\tau, \sigma)$ be a valid generative $\Sigma$-chase-path on $I$. We say that a $\Sigma$-tentacle ejection template $T = (\tau_T, \sim_T, F_T)$ is an *abstraction of $(\tau, \sigma)$ over $I$* if
+>   - $\tau_T = \tau$
+>   - $\sigma$ conforms to $\sim_T$
+>   - $\sigma(F_T) = \exports_\Sigma(I, (\tau, \sigma))$
 
-As promised, $\Abst_\Sigma(-, -; I)$ is a right inverse to $\Tentacle_\Sigma$:
+The next proposition shows that we can always abstract a valid generative $\Sigma$-chase-path on a base instance.
 
-> **Lemma (abstraction-instantiation)**. Let $T$ be the subtree of $\Tentacle_\Sigma(\Abst_\Sigma(\tau, \sigma; I), \sigma)$ induced by all non-root nodes. Then $T$ equals the tentacle of $\SatTree_\Sigma(I)$ hanging from $(\tau, \sigma)$.
+> **Proposition (existence of abstraction)**. Let $(\tau = (\forall \vec{x}. \beta \rightarrow \exists \vec{y}. \eta), \sigma)$ be a valid generative $\Sigma$-chase-path on a base instance $I$. Then there exists an abstraction of $(\tau, \sigma)$ over $I$.
+> 
+> > *Proof*.
+> > Let $E = \exports_\Sigma(I, (\tau, \sigma))$, $D = (\operatorname{im} \sigma \cap \consts(E)) \setminus \consts(\Sigma)$ and $V \subseteq \elems(\vec{x})$ be variables in $\vec{x}$ that appear in some atom in $\eta$ (these are the *exported variables of $\tau$*).
+> > 
+> > We first claim the following:
+> > 
+> > > **Claim 1**. $\sigma \upharpoonright V: V \rightarrow D$ is a surjection onto $D$. In particular, there exists a right-inverse $\sigma^{-1}: D \rightarrow V$ of $\sigma \upharpoonright V$, so that $\sigma \circ \sigma^{-1} = \mathrm{id}_D$.
+> > > 
+> > > *Proof*. Take any constant $c \in D$. Then $c$ occurs in $E$, so $c$ is $\Sigma$-guarded by some fact $\sigma[\vec{y} \xrightarrow{\nu} \Nulls](G(\vec{t}))$ in $\sigma[\vec{y} \xrightarrow{\nu} \Nulls](\eta)$ (where $\nu$ is some null-picking function). As $c \in D$, $c$ does not occur in $\Sigma$, hence the fact $\sigma[\vec{y} \xrightarrow{\nu} \Nulls](G(\vec{t}))$ must contain $c$. Moreover, as $c$ does not occur in $\Sigma$, $G(\vec{t})$ does not contain $c$, so $\sigma$ must introduce $c$ to the fact $\sigma[\vec{y} \xrightarrow{\nu} \Nulls](G(\vec{t}))$. Hence there is variable $x$ occuring in $G(\vec{t})$ such that $\sigma(x) = c$, and we are done since $x \in V$.
+> > 
+> > Let $\sigma^{-1}: D \rightarrow V$ be the right-inverse of $\sigma \upharpoonright V$ constructed in Claim 1, and now let $F = \sigma^{-1}(E)$ (assume that every constant not in $D$ is sent as-is by $\sigma^{-1}$). Then by construction $\sigma(F) = E$.
+> > 
+> > Next, we make the following useful claim:
+> > 
+> > > **Claim 2**. For each atomic formula $A \in F$, $(\sigma^{-1} \circ \sigma)(A) = A$.
+> > > 
+> > > *Proof*. By construction of $F$, $A = \sigma^{-1}(B)$ for some fact $B \in E$. But since $\sigma^{-1}$ is a right-inverse of $\sigma \upharpoonright V$, $$
+\begin{align}
+(\sigma^{-1} \circ \sigma)(A)
+  &= (\sigma^{-1} \circ \sigma \circ \sigma^{-1})(B) \\
+  &= (\sigma^{-1} \circ (\sigma \upharpoonright V) \circ \sigma^{-1})(B) \\
+  &= \sigma^{-1}(B) \\
+  &= A
+\end{align}
+$$
+> > 
+> > We now claim that $F$ is a $(\tau, \Sigma)$-export template. Since every atom $A$ in $F$ can be written as $A = \sigma^{-1}(R(\vec{c}))$ for some fact $R(\vec{c}) \in E$, we need to check that for each $R(\vec{c}) \in E$, the atom $\sigma^{-1}(R(\vec{c})) \in F$
+> >   - *(only mentions constants from $\Sigma$)*: Take a constant $a$ in $\sigma^{-1}(R(\vec{c}))$. Assume for contradiction that $a$ does not appear in $\Sigma$.
+> >     
+> >     We must have $a \not \in D$; if $a \in D$, then by Claim 2 the atom $\sigma^{-1}(R(\vec{c})) = (\sigma^{-1} \circ \sigma \circ \sigma^{-1})(R(\vec{c}))$ would not contain $a$, since the outer $\sigma^{-1}$ would send $\sigma(a) = a \in D$ to a variable, contradicting the choice of $a$.
+> >     
+> >     Since $a \not \in D = (\operatorname{im} \sigma \cap \consts(E)) \setminus \consts(\Sigma)$ while $a \not \in \consts(\Sigma)$, we must have either $a \not \in \operatorname{im} \sigma$ or $a \not \in \consts(E)$. It is impossible that $a \not \in \consts(E)$, since $F$ is obtained by replacing a constants in $E$ by variables. Hence $a \not \in \operatorname{im} \sigma$.
+> >     
+> >     As $R(\vec{c}) \in E$, $R(\vec{c}) = \sigma(\sigma^{-1}(R(\vec{c})))$ is $\Sigma$-guarded by some fact in $\chaseHead_\nu(\tau, \sigma) = \sigma[\vec{y} \xrightarrow{\nu} \Nulls](\eta)$. In particular, $a = \sigma(a)$ appears either in $\Sigma$ or in some atom of $\sigma[\vec{y} \xrightarrow{\nu} \Nulls](\eta)$.
+> >     
+> >     If $a$ appears in some atom of $\sigma[\vec{y} \xrightarrow{\nu} \Nulls](\eta)$, then $a$ must appear in $\eta$, since $a \not \in \operatorname{im} \sigma$. In any case $a$ appears in $\Sigma$, hence a contradiction.
+> >
+> >   - *(only mentions variables from $\elems(\vec{x})$ that appear in some atom in $\eta$)*: This is obvious from the construction of $F$, since $\sigma^{-1}: D \rightarrow V$.
+> > 
+> > We now have that $(\tau, \operatorname{ker} \sigma, F)$ is an abstraction of $(\tau, \sigma)$.
+
+As expected, instantiation of an abstraction of chase-step direction $(\tau, \sigma)$ equals the tentacle hanging from $(\tau, \sigma)$, as formulated in the following lemma.
+
+> **Lemma (abstraction-instantiation)**. Let $(\tau, \sigma)$ be a valid generative $\Sigma$-chase-path on $I$, and $T$ be an abstraction of $(\tau, \sigma)$ over $I$.
+> 
+> Then for all nonempty valid generative $\Sigma$-chase-path $\vec{d}$ on $I$, $\Instance_{\Tentacle_\Sigma(T, \sigma)}(\vec{d}) = \Instance_{\SatTree_\Sigma(I)}(\vec{d})$.
 > 
 > > *Proof*. (TODO)
 
