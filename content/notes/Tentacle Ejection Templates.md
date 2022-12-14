@@ -146,26 +146,24 @@ $$so we are done.
 > > (inductive part): Obvious.
 
 
-## Generic Proofs and Ejection Templates
+## Generic Proofs
 
 Throughout this section, whenever we take a generic $\Sigma$-tentacle ejection template $T = (\tau = \forall \vec{x}. (\beta \rightarrow \exists \vec{y}. \eta) \in \Sigma, \sim_\tau, F_\tau)$ and a (not necessarily boolean) conjunctive query $Q = \exists \vec{z}. \bigwedge_{i \in I} A_i(\vec{w_i})$, by renaming bound variables we shall assume that $\vec{x}, \vec{y}$, $\vec{z}$ and $\operatorname{FV}(Q)$ are all disjoint to each other.
 
 > **Definition**. For a set $\Sigma$ of finite GTGDs, a *$\Sigma$-generic constant assignment* is a computable function $\GenConst_\Sigma: \mathcal{P}_\mathrm{fin}(\Vars) \rightarrow \Consts$ such that $\mathrm{im}(\GenConst) \cap \consts(\Sigma) = \emptyset$.
 
-> **Remark**. From now on, we shall assume that, for each $\Sigma$, we have decided a choice on a $\Sigma$-generic constant assignment $\GenConst_\Sigma$. We shall refer to this particular function as *the* $\Sigma$-generic constant assignment.
+From now on, we shall assume that, for each $\Sigma$, we have decided a choice on a $\Sigma$-generic constant assignment $\GenConst_\Sigma$. We shall refer to this particular function as *the* $\Sigma$-generic constant assignment.
 
 > **Definition**. Let $T = (\tau = \forall \vec{x}. (\beta \rightarrow \exists \vec{y}. \eta) \in \Sigma, \sim_\tau, F_\tau)$ be a $\Sigma$-tentacle ejection template. The *generic instance $\GenInst_\Sigma(T)$ associated with $T$* is the instance $$
 \GenInst_\Sigma(T) :=
   (\GenConst_\Sigma \circ \mathrm{quotient})(F_\tau \cup \beta)
-$$ where $\mathrm{quotient}: \elems(\vec{x}) \rightarrow {\sim_\tau}$ is the quotient map.
+$$ where $\mathrm{quotient}: \elems(\vec{x}) \rightarrow {\sim_\tau}$ is the quotient map $x \mapsto [x]_{\sim_\tau}$.
 
-> **Definition**. Let $T = (\tau = \forall \vec{x}. (\beta \rightarrow \exists \vec{y}. \eta) \in \Sigma, \sim_\tau, F_\tau)$ be a $\Sigma$-tentacle ejection template, and let $Q$ be a (*not necessarily boolean*) conjunctive query.  A *$T$-expectation on $Q$* is a map $\sigma: \operatorname{FV}(Q) \rightarrow {\sim}_\tau$.
-> 
-> > *Remark*. The reason we call such $\sigma$ an *expectation* is because we will later expect that the closure of $Q$ by $\sigma$ will be witnessed in a tentacle hanging from the generic instance associated with $T$. (TODO: I think this is a very bad way of naming a concept)
+> **Definition**. Let $T = (\tau = \forall \vec{x}. (\beta \rightarrow \exists \vec{y}. \eta) \in \Sigma, \sim_\tau, F_\tau)$ be a $\Sigma$-tentacle ejection template, and let $Q$ be a (*not necessarily boolean*) conjunctive query.  A *$T$-closing map on $Q$* is a map $\sigma: \operatorname{FV}(Q) \rightarrow {\sim}_\tau$.
 
-> **Definition**. Let $T = (\tau, \sim_\tau, F_\tau)$ be a $\Sigma$-tentacle ejection template, $Q = \exists \vec{z}. \bigwedge_{i \in I} A_i(\vec{w_i})$ a conjunctive query and $\sigma: \mathrm{FV}(Q) \rightarrow {\sim_\tau}$ a $T$-expectation on $Q$. The *$T$-generic closure of $Q$ by $\sigma$* is a boolean conjunctive query $\mathrm{cl}_\sigma(Q)$ given by $$\mathrm{cl}_\sigma(Q) = \exists \vec{z}. \bigwedge_{i \in I} A_i((\GenConst_\Sigma \circ \sigma)(\vec{w_i}))$$
+> **Definition**. Let $T = (\tau, \sim_\tau, F_\tau)$ be a $\Sigma$-tentacle ejection template, $Q = \exists \vec{z}. \bigwedge_{i \in I} A_i(\vec{w_i})$ a conjunctive query and $\sigma: \mathrm{FV}(Q) \rightarrow {\sim_\tau}$ a $T$-closing map on $Q$. The *$T$-generic closure of $Q$ by $\sigma$* is a boolean conjunctive query $\mathrm{cl}_\sigma(Q)$ given by $$\mathrm{cl}_\sigma(Q) = \exists \vec{z}. \bigwedge_{i \in I} A_i((\GenConst_\Sigma \circ \sigma)(\vec{w_i}))$$
 
-> **Definition**. Let $T$ be a $\Sigma$-tentacle ejection template, $Q$ a conjunctive query and $\sigma_Q: \mathrm{FV}(Q) \rightarrow {\sim_\tau}$ a $T$-expectation on $Q$. We say that $(T, \sigma_Q)$ *generically proves* $Q$ when $\GenInst_\Sigma(T) \wedge \Sigma \models \mathrm{cl}_\sigma(Q)$.
+> **Definition**. Let $T$ be a $\Sigma$-tentacle ejection template, $Q$ a conjunctive query and $\sigma_Q: \mathrm{FV}(Q) \rightarrow {\sim_\tau}$ a $T$-closing map on $Q$. We say that $(T, \sigma_Q)$ *generically proves* $Q$ when $\GenInst_\Sigma(T) \wedge \Sigma \models \mathrm{cl}_\sigma(Q)$.
 
 (TODO: We probably need the following two results in order to prove the correctness of the rewrite algorithm:
  1. If there is a generic proof of a subquery, then the instantiation of the template induces an actual witness on $\SatTree$ of the subquery
