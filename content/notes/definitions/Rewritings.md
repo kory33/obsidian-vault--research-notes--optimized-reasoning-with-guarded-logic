@@ -7,6 +7,12 @@ tag:
 
 > This note builds on [[Logic Preliminaries]].
 
+## Conjunctive Query Answering
+
+Through the language of substitutions, we define what it means to *answer* a conjunctive query.
+
+> **Definition**. Given a set $\Sigma$ of TGDs, a base instance $I$ and a rectified conjunctive query $Q = \exists \vec{x}. \bigwedge_{j \in J} A_j(\vec{y'}_j)$, an *answer to $Q$ on $I$ under $\Sigma$* is a ground substitution $\sigma$ covering exactly $\mathrm{FV}(Q)$ such that $I \wedge \Sigma \models \sigma(Q)$. The set of all ansers to $Q$ on $I$ under $\Sigma$ is denoted by $\QueryAnswers(Q, I; \Sigma)$.
+
 ## Rule-Rewritings
 
 > **Definition**. Given a set $\Sigma$ of TGDs, a Datalog program $\Sigma_{\text{rew}}$ is *a rule-rewriting of $\Sigma$* if, for every base instance $I$, $\Sigma$ and $\Sigma_{\text{rew}}$ generate the same set of **base facts**, i.e. for every base fact $F$, $$I \wedge \Sigma \models F \Longleftrightarrow I \wedge \Sigma_{\text{rew}} \models F.$$
