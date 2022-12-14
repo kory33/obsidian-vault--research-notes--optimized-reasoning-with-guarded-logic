@@ -40,3 +40,7 @@ An immediate consequence of the lemma is the following:
 > > By the assumption, $P(\vec{t}) \in \Instance_{\SatTree_\Sigma(I)}(n)$ for some node $n \in \SatTree_\Sigma(I)$.
 > > 
 > > Now for all $t \in \elems(\vec{t})$, $\Intro(t)$ is the root node $()$, which is an ancestor of $n$. Therefore by the Fact Introduction lemma $P(\vec{t}) \in \Instance_{\SatTree_\Sigma(I)}(()) = \Sat_\Sigma(I)$.
+
+## Universality of $\SatTree$s
+
+> **Fact**. Let $\Sigma$ be a finite set of GTGDs, $I$ a base instance and $Q = \exists \vec{z}. \bigwedge_{j \in J} A_j(\vec{u}_j)$ a conjunctive query. Then $$I \wedge \Sigma \models Q \Longleftrightarrow \TreeFacts(\SatTree_\Sigma(I)) \text{ witnesses } Q$$
