@@ -21,11 +21,11 @@ We first make precise the terms that will be useful in describing the algorithm.
 }
 $$
 >  - the *boundary $\partial V$ of $V$ in $\overline{Q}$* is the set of variables given by $$\partial V = \overline{V} \setminus V$$
->  - the *subquery $\exists \vec{V}. \overline{Q}_\overline{V}$ of $\overline{Q}$ induced by $V$* is the conjunctive query $$\exists \vec{V}. \bigwedge_{j \in J_V} A_j(\vec{y'}_j)$$ where
+>  - the *subquery $\overline{Q}_V$ of $\overline{Q}$ induced by $V$* is the conjunctive query $$\exists \vec{V}. \bigwedge_{j \in J_V} A_j(\vec{y'}_j)$$ where
 > 	 - $\vec{V}$ is $V$ ordered into a sequence by the order of appearance in $\vec{x}$
 > 	 - $J_V = \set{ j \in J \mid \vec{y'}_j \text{ only mentions variables from } \overline{V}}$
 > 
-> > *Remark*. The subquery $\exists \vec{V}. \overline{Q}_\overline{V}$ of $\overline{Q}$ induced by $V$ is typically not boolean anymore, since $\mathrm{FV}(\exists \vec{V}. \overline{Q}_\overline{V}) = \partial V$.
+> > *Remark*. The subquery $\overline{Q}_V$ of $\overline{Q}$ induced by $V$ is typically not boolean anymore, since $\mathrm{FV}(\overline{Q}_V) = \partial V$.
 
 ## The Basic Rewriting Algorithm
 
@@ -45,10 +45,10 @@ Now consider the following algorithm. Note that we make use of an oracle for BCQ
 >  5. Let $\mathcal{H}(\overline{Q}) = (\mathcal{V}, \mathcal{E})$ be the query structure hypergraph of $\overline{Q}$
 >  6. For each connected sub-hypergraph $C$ of vertices in $\mathcal{H}(\overline{Q})$, do:
 > 	 1. Let $\partial C$ be the boundary of $C$ in $\overline{Q}$, and let $\mathrm{Subgoal_C}$ be a fresh $|\partial C|$-ary predicate symbol associated with $C$
-> 	 2. Let $\exists \vec{C}. \overline{Q}_\overline{C}$ be the subquery of $\overline{Q}$ induced by $C$
+> 	 2. Let $\overline{Q}_C$ be the subquery of $\overline{Q}$ induced by $C$
 > 	 3. For each $\Sigma$-tentacle ejection template $T = (\tau = \forall \vec{x}. (\beta \rightarrow \exists \vec{y}. \eta) \in \Sigma, \sim_\tau, F_\tau)$, do:
-> 		 1. For every possible $T$-generic constant mapping $\sigma: \partial C \rightarrow {\sim}_\tau$, do:
-> 			 1. If $(T, \sigma)$ generically $\Sigma$-proves $\exists \vec{C}. \overline{Q}_\overline{C}$, then
+> 		 1. For every possible $T$-closing map $\sigma: \partial C \rightarrow {\sim}_\tau$ on $\overline{Q}_C$ do:
+> 			 1. If $(T, \sigma)$ generically $\Sigma$-proves $\overline{Q}_C$, then
 > 				 1. Let $\operatorname{remap}: {\sim_\tau} \rightarrow \Vars$ be any injection from $\sim_\tau$ to the set of variables (for instance, a choice function on $\sim_\tau$)
 > 				 2. Let $\mathrm{quotient}: (\bigcup {\sim_\tau}) \rightarrow {\sim_\tau}$ be the quotient map sending an element in $\bigcup {\sim_\tau}$ to its equivalence class under $\sim_\tau$
 > 				 3. Add a full TGD rule $$(\mathrm{remap} \circ \mathrm{quotient})(\beta \wedge F_\tau) \rightarrow (\mathrm{remap} \circ \sigma)(\mathrm{Subgoal}_V(\vec{\partial C}))$$ to $\Sigma'$
