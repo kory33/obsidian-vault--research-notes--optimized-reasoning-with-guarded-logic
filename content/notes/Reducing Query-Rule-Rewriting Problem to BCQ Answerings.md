@@ -60,7 +60,7 @@ Now consider the following algorithm. Note that we make use of an oracle for BCQ
 >      3. Add a full TGD rule $$\forall \vec{V}. \left(\bigwedge_{j \in J_V} A_j(\vec{u}_j)\right) \wedge \left(\bigwedge_{i \in I_V} \mathrm{Subgoal}_{C_i}(\partial C_i)\right) \rightarrow \mathrm{Goal}(\vec{z})$$ to $\Sigma'$
 >  9. Return $(\Sigma_\mathrm{rew} \cup \Sigma', \mathrm{Goal})$
 
-Towards the correctness proof of this algorithm, we prepare the following lemma.
+Towards the correctness proof of this algorithm, we prepare the following lemma, which clarifies the semantics of $\mathrm{Subgoal}$ predicates.
 
 > **Lemma (Subquery-Subgoal Correspondence)**. Let $\Sigma$ be a finite set of GTDGs, $Q = \exists \vec{q}. \bigwedge_{j \in J} A_j(\vec{u}_j)$ a conjunctive query and $I$ a ground instance. 
 > 
@@ -78,6 +78,15 @@ I \wedge \Sigma \models \sigma_{\partial C}(\overline{Q}_C)
 $$
 > > *Proof*. (TODO).
 
+We will also use the following proposition:
+
+> **Proposition (Boolean Subquery Entailment)**. Let $\overline{Q} = \exists \vec{x}. \bigwedge_{j \in J} A_j(\vec{u}_j)$ be a boolean conjunctive query, and $C$ a connected component of the query structure hypergraph $\mathcal{H}(\overline{Q})$. If $\sigma$ covers exactly $\elems(\vec{x})$, then $$
+\sigma \left(
+  \bigwedge_{j \in J} A_j(\vec{u}_j)
+\right) \models (\sigma \upharpoonright \partial C)(\overline{Q}_C)
+$$
+> > *Proof*. (TODO).
+
 > **Theorem**. $\mathrm{QueryRuleRewrite1}(\Sigma, Q)$ is a query-rule-rewriting of $(\Sigma, Q)$.
 > 
 > > *Proof*. Fix $\Sigma$ and $Q = \exists \vec{q}. \bigwedge_{j \in J} A_j(\vec{u}_j)$ and let
@@ -90,11 +99,19 @@ $$
 > > ($\Longrightarrow$, the "completeness" of the rewrite):
 > > Suppose that $I \wedge \Sigma \models \sigma_\mathrm{sol}(Q)$. Then by the universality of $\SatTree_\Sigma$, the ground substitution $\sigma_\mathrm{sol}$ extends to the factual substitution $\sigma$ exactly covering $\vec{z} \concat \vec{q}$ such that $\set{\sigma(A_j(\vec{u}_j)) \mid j \in J} \subseteq \TreeFacts(\SatTree_\Sigma(I))$.
 > > 
-> > Let $V = \touchDowners(\sigma)$ be the touchdowners of $\sigma$. Since $\sigma \supseteq \sigma_\mathrm{sol}$, $V \supseteq \elems(\vec{z})$. Now let $\set{C_i}_{i \in I_V}$ be the set of connected components of $\mathcal{H}(\overline{Q}-V)$, and let $J_V = \set{ j \in J \mid \vec{u}_j \text{ only contains variables from } V}$. By the base-fact completeness of Datalog saturations, it suffices see that the rule $$\forall \vec{V}. \left(\bigwedge_{j \in J_V} A_j(\vec{u}_j)\right) \wedge \left(\bigwedge_{i \in I_V} \mathrm{Subgoal}_{C_i}(\partial C_i)\right) \rightarrow \mathrm{Goal}^Q(\vec{z})$$is applicable to $\FullSat_{\Sigma_\mathrm{qrr}}(I)$ with the ground substitution $\sigma \upharpoonright V$.
+> > Let $V = \touchDowners(\sigma)$ be the touchdowners of $\sigma$. Since $\sigma \supseteq \sigma_\mathrm{sol}$, and $\touchDowners(\sigma_\mathrm{sol}) = \elems(z)$, $V \supseteq \elems(\vec{z})$. Now let $\set{C_i}_{i \in I_V}$ be the set of connected components of $\mathcal{H}(\overline{Q}-V)$, and let $J_V = \set{ j \in J \mid \vec{u}_j \text{ only contains variables from } V}$. By the base-fact completeness of Datalog saturations, it suffices see that the rule $$\forall \vec{V}. \left(\bigwedge_{j \in J_V} A_j(\vec{u}_j)\right) \wedge \left(\bigwedge_{i \in I_V} \mathrm{Subgoal}_{C_i}(\partial C_i)\right) \rightarrow \mathrm{Goal}^Q(\vec{z})$$is applicable to $\FullSat_{\Sigma_\mathrm{qrr}}(I)$ with the ground substitution $\sigma \upharpoonright V$.
 > > 
-> > For each $j \in J_V$, $\vec{u}_j$ only contains variables from $V$, so $\sigma(A_j(\vec{u}_j)))$ is a ground fact. Since $\sigma(A_j(\vec{u}_j))) \in \TreeFacts(\SatTree_\Sigma(I))$, we have $\sigma(A_j(\vec{u}_j))) \in \FullSat_{\Sigma_\mathrm{qrr}}(I)$.
+> > For each $j \in J_V$, $\vec{u}_j$ only contains variables from $V$, so $\sigma(A_j(\vec{u}_j)))$ is a ground fact. Since $\sigma(A_j(\vec{u}_j))) \in \TreeFacts(\SatTree_\Sigma(I))$ and $\Sigma_\mathrm{qrr}$ contains a Datalog rewriting of $\Sigma$, we have $\sigma(A_j(\vec{u}_j))) \in \TreeFacts(\SatTree_{\Sigma_\mathrm{qrr}}(I))$. As $\sigma(A_j(\vec{u}_j)))$ is a ground fact, $\sigma(A_j(\vec{u}_j))) \in \FullSat_{\Sigma_\mathrm{qrr}}(I)$.
 > > 
-> > Take $i \in I_V$. It remains to see that $\sigma(\mathrm{Subgoal}_{C_i}(\partial C_i)) \in \FullSat_{\Sigma_\mathrm{qrr}}(I)$. (TODO: prove that a fragmentation of a witness induces the subgoal fact)
+> > Take $i \in I_V$. It remains to see that $\sigma(\mathrm{Subgoal}_{C_i}(\partial C_i)) \in \FullSat_{\Sigma_\mathrm{qrr}}(I)$. Since $$
+I \wedge \Sigma
+  \models
+    \sigma \left(
+      \bigwedge_{j \in J} A_j(\vec{u}_j)
+    \right),
+$$by the Boolean Subquery Entailment, $I \wedge \Sigma \models (\sigma \upharpoonright \partial C)(\overline{Q}_C)$. Now by the Subquery-Subgoal Correspondence Lemma, $$
+I \wedge \Sigma_\mathrm{qrr} \models (\sigma \upharpoonright \partial C)(\mathrm{Subgoal}_C(\vec{\partial C})).
+$$Since $\sigma(\mathrm{Subgoal}_{C_i}(\partial C_i)) = (\sigma \upharpoonright \partial C)(\mathrm{Subgoal}_{C_i}(\partial C_i))$ is a ground fact, we conclude that $\sigma(\mathrm{Subgoal}_{C_i}(\partial C_i)) \in \FullSat_{\Sigma_\mathrm{qrr}}(I)$.
 > > 
 > > ($\Longleftarrow$, the "soundness" of the rewrite):
 > > Suppose $I \wedge \Sigma_\mathrm{qrr} \models \sigma_\mathrm{sol}(\mathrm{Goal^Q}(\vec{z}))$. By construction of $\Sigma_\mathrm{qrr}$, there must be some subset $V \supseteq \elems(\vec{z})$ of $\mathcal{V}$ such that if we write
