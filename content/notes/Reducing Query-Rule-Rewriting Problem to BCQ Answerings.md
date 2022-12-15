@@ -21,9 +21,9 @@ We first make precise the terms that will be useful in describing the algorithm.
 }
 $$
 >  - the *boundary $\partial V$ of $V$ in $\overline{Q}$* is the set of variables given by $$\partial V = \overline{V} \setminus V$$
->  - the *subquery $\overline{Q}_V$ of $\overline{Q}$ induced by $V$* is the conjunctive query $$\exists \vec{V}. \bigwedge_{j \in J_V} A_j(\vec{u}_j)$$ where
+>  - the *subquery $\overline{Q}_V$ of $\overline{Q}$ induced by $V$* is the conjunctive query $$\exists \vec{V}. \bigwedge_{j \in J_\overline{V}} A_j(\vec{u}_j)$$ where
 > 	 - $\vec{V}$ is $V$ ordered into a sequence by the order of appearance in $\vec{x}$
-> 	 - $J_V = \set{ j \in J \mid \vec{u}_j \text{ only mentions variables from } \overline{V}}$
+> 	 - $J_\overline{V} = \set{ j \in J \mid \vec{u}_j \text{ only mentions variables from } \overline{V}}$
 > 
 > > *Remark*. The subquery $\overline{Q}_V$ of $\overline{Q}$ induced by $V$ is typically not boolean anymore, since $\mathrm{FV}(\overline{Q}_V) = \partial V$.
 
@@ -139,7 +139,7 @@ $$Now $$
         \bigwedge_{j \in J_V} A_j(\vec{u}_j)
       \right) \wedge \left(
         \bigwedge_{i \in I_V}
-          \exists \vec{C_i}. \bigwedge_{j \in J'_{C_i}} A_j(\vec{u}_j)
+          \exists \vec{C_i}. \bigwedge_{j \in J_\overline{C_i}} A_j(\vec{u}_j)
       \right)
     \right) \\
     &\equiv \sigma_V \left(
@@ -148,7 +148,7 @@ $$Now $$
       \right) \wedge \left(
         \exists \vec{C_{i_1}}, \ldots ,\vec{C_{i_{|I_V|}}}.
         \bigwedge_{i \in I_V}
-          \bigwedge_{j \in J'_{C_i}} A_j(\vec{u}_j)
+          \bigwedge_{j \in J_\overline{C_i}} A_j(\vec{u}_j)
       \right)
     \right) \\
     &\equiv \sigma_V \left(
@@ -157,7 +157,7 @@ $$Now $$
         \bigwedge_{j \in J_V} A_j(\vec{u}_j)
       \right) \wedge \left(
         \bigwedge_{i \in I_V}
-          \bigwedge_{j \in J'_{C_i}} A_j(\vec{u}_j)
+          \bigwedge_{j \in J_\overline{C_i}} A_j(\vec{u}_j)
       \right)
     \right) \\
     &\equiv \sigma_V \left(
@@ -165,7 +165,7 @@ $$Now $$
       \bigwedge_{j \in J} A_j(\vec{u}_j)
     \right)
 \end{align}
-$$where $J'_{C_i} = \set{ j \in J \mid \vec{u}_j \text{ only mentions variables from } \overline{C_i}}$, and the last equivalence is justified by the fact that $J_V \cup \bigcup \set{J'_{C_i} \mid i \in I_V} = J$ (which is straightforward to check) and by the $\wedge$-commutativity. Therefore $$I \wedge \Sigma
+$$where $J_\overline{C_i} = \set{ j \in J \mid \vec{u}_j \text{ only mentions variables from } \overline{C_i}}$, and the last equivalence is justified by the fact that $J_V \cup \bigcup \set{J_\overline{C_i} \mid i \in I_V} = J$ (which is straightforward to check) and by the $\wedge$-commutativity. Therefore $$I \wedge \Sigma
   \models \sigma_V \left(
       \exists \vec{C_{i_1}}, \ldots ,\vec{C_{i_{|I_V|}}}.
       \bigwedge_{j \in J} A_j(\vec{u}_j)
