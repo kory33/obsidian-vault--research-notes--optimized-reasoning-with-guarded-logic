@@ -11,19 +11,19 @@ tags:
 
 We first make precise the terms that will be useful in describing the algorithm.
 
-> **Definition**. Given a boolean conjunctive query $\overline{Q} = \exists \vec{x}. \bigwedge_{j \in J} A_j(\vec{y'}_j)$ and a subset $V$,
+> **Definition**. Given a boolean conjunctive query $\overline{Q} = \exists \vec{x}. \bigwedge_{j \in J} A_j(\vec{u}_j)$ and a subset $V$,
 >  - the *closure $\overline{V}$ of $V$ in $\overline{Q}$* is the set of variables given by $$
 \overline{V} = \Set{ x \in \elems(\vec{x})\ \biggm\vert
 \begin{array}{l}
   \text{ there are } j \in J \text{ and } x' \in \elems(\vec{x}) \\
-  \text{ such that } \vec{y'_j} \text{ contains both $x$ and $x'$}
+  \text{ such that } \vec{u_j} \text{ contains both $x$ and $x'$}
 \end{array}
 }
 $$
 >  - the *boundary $\partial V$ of $V$ in $\overline{Q}$* is the set of variables given by $$\partial V = \overline{V} \setminus V$$
->  - the *subquery $\overline{Q}_V$ of $\overline{Q}$ induced by $V$* is the conjunctive query $$\exists \vec{V}. \bigwedge_{j \in J_V} A_j(\vec{y'}_j)$$ where
+>  - the *subquery $\overline{Q}_V$ of $\overline{Q}$ induced by $V$* is the conjunctive query $$\exists \vec{V}. \bigwedge_{j \in J_V} A_j(\vec{u}_j)$$ where
 > 	 - $\vec{V}$ is $V$ ordered into a sequence by the order of appearance in $\vec{x}$
-> 	 - $J_V = \set{ j \in J \mid \vec{y'}_j \text{ only mentions variables from } \overline{V}}$
+> 	 - $J_V = \set{ j \in J \mid \vec{u}_j \text{ only mentions variables from } \overline{V}}$
 > 
 > > *Remark*. The subquery $\overline{Q}_V$ of $\overline{Q}$ induced by $V$ is typically not boolean anymore, since $\mathrm{FV}(\overline{Q}_V) = \partial V$.
 
@@ -52,13 +52,31 @@ Now consider the following algorithm. Note that we make use of an oracle for BCQ
 >                  1. Let $\operatorname{remap}: {\sim_\tau} \rightarrow \Vars$ be any injection from $\sim_\tau$ to the set of variables (for instance, a choice function on $\sim_\tau$)
 >                  2. Let $\mathrm{quotient}: (\bigcup {\sim_\tau}) \rightarrow {\sim_\tau}$ be the quotient map sending an element in $\bigcup {\sim_\tau}$ to its equivalence class under $\sim_\tau$
 >                  3. Let $\vec{v}$ be the sequence of variables in $\operatorname{im} (\mathrm{remap} \circ \mathrm{quotient})$ (in some order)
->                  4. Add a full TGD rule $$\forall \vec{v}. (\mathrm{remap} \circ \mathrm{quotient})(\beta \wedge F_\tau) \rightarrow (\mathrm{remap} \circ \sigma)(\mathrm{Subgoal}_V(\vec{\partial C}))$$ to $\Sigma'$
+>                  4. Add a full TGD rule $$\forall \vec{v}. (\mathrm{remap} \circ \mathrm{quotient})(\beta \wedge F_\tau) \rightarrow (\mathrm{remap} \circ \sigma)(\mathrm{Subgoal}_C(\vec{\partial C}))$$ to $\Sigma'$
 >  7. Let $\mathrm{Goal}$ be a fresh $|\vec{z}|$-ary goal predicate
 >  8. For each subset $V \supseteq \elems(\vec{z})$ of $\mathcal{V}$, do the following:
 >      1. Let $\set{C_i}_{i \in I_V}$ be the set of connected components of $\mathcal{H}(\overline{Q}-V)$
 >      2. Let $J_V = \set{ j \in J \mid \vec{u}_j \text{ only contains variables from } V}$
 >      3. Add a full TGD rule $$\forall \vec{V}. \left(\bigwedge_{j \in J_V} A_j(\vec{u}_j)\right) \wedge \left(\bigwedge_{i \in I_V} \mathrm{Subgoal}_{C_i}(\partial C_i)\right) \rightarrow \mathrm{Goal}(\vec{z})$$ to $\Sigma'$
 >  9. Return $(\Sigma_\mathrm{rew} \cup \Sigma', \mathrm{Goal})$
+
+Towards the correctness proof of this algorithm, we prepare the following lemma.
+
+> **Lemma (Subquery-Subgoal Correspondence)**. Let $\Sigma$ be a finite set of GTDGs, $Q = \exists \vec{q}. \bigwedge_{j \in J} A_j(\vec{u}_j)$ a conjunctive query and $I$ a ground instance. 
+> 
+> Write
+>  - $(\Sigma_\mathrm{qrr}, \mathrm{Goal}^Q) = \mathrm{QueryRuleRewrite1}(\Sigma, Q)$,
+>  - $\vec{z} = \mathrm{FV}(Q)$ and $\overline{Q} = \exists \vec{z}. Q$, and
+>  - $\mathcal{H}(\overline{Q}) = (\mathcal{V}, \mathcal{E})$ for the query hypergraph of $\overline{Q}$.
+>
+> Take any connected sub-hypergraph $C$ of $\mathcal{H}(\overline{Q})$.
+> 
+> Let $\overline{Q}_C$ be the subquery of $\overline{Q}$ induced by $C$, and $\sigma_{\partial C}$ be the ground substitution exactly covering $\partial C$. Then $$
+I \wedge \Sigma \models \sigma_{\partial C}(\overline{Q}_C)
+  \Longleftrightarrow
+    I \wedge \Sigma_\mathrm{qrr} \models \sigma_{\partial C}(\mathrm{Subgoal}_C(\vec{\partial C})).
+$$
+> > *Proof*. (TODO).
 
 > **Theorem**. $\mathrm{QueryRuleRewrite1}(\Sigma, Q)$ is a query-rule-rewriting of $(\Sigma, Q)$.
 > 
@@ -79,14 +97,79 @@ Now consider the following algorithm. Note that we make use of an oracle for BCQ
 > > Take $i \in I_V$. It remains to see that $\sigma(\mathrm{Subgoal}_{C_i}(\partial C_i)) \in \FullSat_{\Sigma_\mathrm{qrr}}(I)$. (TODO: prove that a fragmentation of a witness induces the subgoal fact)
 > > 
 > > ($\Longleftarrow$, the "soundness" of the rewrite):
-> > Suppose $I \wedge \Sigma_\mathrm{qrr} \models \sigma(\mathrm{Goal^Q}(\vec{z}))$. By construction of $\Sigma_\mathrm{qrr}$, there must be some subset $V \supseteq \elems(\vec{z})$ of $\mathcal{V}$ such that if we write
+> > Suppose $I \wedge \Sigma_\mathrm{qrr} \models \sigma_\mathrm{sol}(\mathrm{Goal^Q}(\vec{z}))$. By construction of $\Sigma_\mathrm{qrr}$, there must be some subset $V \supseteq \elems(\vec{z})$ of $\mathcal{V}$ such that if we write
 > >  - $\set{C_i}_{i \in I_V}$ for the set of connected components of $\mathcal{H}(\overline{Q}-V)$, and
-> >  - $J_V$ for the set $\set{ j \in J \mid \vec{y'}_j \text{ only contains variables from } V}$,
+> >  - $J_V$ for the set $\set{ j \in J \mid \vec{u}_j \text{ only contains variables from } V}$,
 > > 
-> > then the substitution $\sigma_\mathrm{sol}$ can be extended to a ground substitution $\sigma_V$ that exactly covers $\vec{V}$ such that $$
+> > then the ground substitution $\sigma_\mathrm{sol}$ can be extended to a ground substitution $\sigma_V$ that exactly covers $\vec{V}$ such that $$
 \sigma_V \left(
-  \set{A_j(\vec{y'}_j) \mid j \in J_V} \cup \set{\mathrm{Subgoal}_{C_i}(\partial C_i) \mid i \in I_V}
+  \set{A_j(\vec{u}_j) \mid j \in J_V} \cup \set{\mathrm{Subgoal}_{C_i}(\partial C_i) \mid i \in I_V}
 \right) \subseteq \FullSat_{\Sigma_\mathrm{qrr}}(I)
-$$
-> > holds, so that the base fact $\sigma(\mathrm{Goal^Q}(\vec{z}))$ is derived through the rule $$\forall \vec{V}. \left(\bigwedge_{j \in J_V} A_j(\vec{y'}_j)\right) \wedge \left(\bigwedge_{i \in I_V} \mathrm{Subgoal}_{C_i}(\partial C_i)\right) \rightarrow \mathrm{Goal}(\vec{z}).$$
-> > Now for each $i \in I_V$, (TODO: show that the subquery induced by $C_i$ is witnessed, so that the whole witness can be reconstructed).
+$$holds, so that the base fact $\sigma_\mathrm{sol}(\mathrm{Goal^Q}(\vec{z}))$ is $\Sigma_\mathrm{qrr}$-derived through the rule $$\forall \vec{V}. \left(\bigwedge_{j \in J_V} A_j(\vec{u}_j)\right) \wedge \left(\bigwedge_{i \in I_V} \mathrm{Subgoal}_{C_i}(\partial C_i)\right) \rightarrow \mathrm{Goal}^Q(\vec{z}).$$together with $\sigma_V$.
+> > 
+> > Now for each $i \in I_V$, $\sigma_V \upharpoonright (\partial C_i)$ is a ground substitution exactly covering $\partial C_i$, so by the Subquery-Subgoal Correspondence Lemma, $I \wedge \Sigma \models (\sigma_V \upharpoonright (\partial C_i))(\overline{Q}_{C_i}) = \sigma_V(\overline{Q}_{C_i})$.
+> > 
+> > Also for each $j \in J_V$, $I \wedge \Sigma_\mathrm{qrr} \models \sigma_V(A_j(\vec{u}_j))$, but since $\Sigma_\mathrm{qrr}$ proves no new instance of existing predicates (i.e. predicates that are not $\mathrm{Subgoal}$s and $\mathrm{Goal}^Q$), $I \wedge \Sigma \models \sigma_V(A_j(\vec{u}_j))$.
+> > 
+> > Therefore, we have $$
+\begin{align}
+I \wedge \Sigma
+  &\models \left(
+    \bigwedge_{j \in J_V} \sigma_V(A_j(\vec{u}_j))
+  \right) \wedge \left(
+    \bigwedge_{i \in I_V}\sigma_V(\overline{Q}_{C_i})
+  \right).
+\end{align}
+$$Now $$
+\begin{align}
+  \left(
+    \bigwedge_{j \in J_V} \sigma_V(A_j(\vec{u}_j))
+  \right) &\wedge \left(
+    \bigwedge_{i \in I_V}\sigma_V(\overline{Q}_{C_i})
+  \right) \\
+    &= \sigma_V \left(
+      \left(
+        \bigwedge_{j \in J_V} A_j(\vec{u}_j)
+      \right) \wedge \left(
+        \bigwedge_{i \in I_V} \overline{Q}_{C_i}
+      \right)
+    \right) \\
+    &= \sigma_V \left(
+      \left(
+        \bigwedge_{j \in J_V} A_j(\vec{u}_j)
+      \right) \wedge \left(
+        \bigwedge_{i \in I_V}
+          \exists \vec{C_i}. \bigwedge_{j \in J'_{C_i}} A_j(\vec{u}_j)
+      \right)
+    \right) \\
+    &\equiv \sigma_V \left(
+      \left(
+        \bigwedge_{j \in J_V} A_j(\vec{u}_j)
+      \right) \wedge \left(
+        \exists \vec{C_{i_1}}, \ldots ,\vec{C_{i_{|I_V|}}}.
+        \bigwedge_{i \in I_V}
+          \bigwedge_{j \in J'_{C_i}} A_j(\vec{u}_j)
+      \right)
+    \right) \\
+    &\equiv \sigma_V \left(
+      \exists \vec{C_{i_1}}, \ldots ,\vec{C_{i_{|I_V|}}}.
+      \left(
+        \bigwedge_{j \in J_V} A_j(\vec{u}_j)
+      \right) \wedge \left(
+        \bigwedge_{i \in I_V}
+          \bigwedge_{j \in J'_{C_i}} A_j(\vec{u}_j)
+      \right)
+    \right) \\
+    &= \sigma_V \left(
+      \exists \vec{C_{i_1}}, \ldots ,\vec{C_{i_{|I_V|}}}.
+      \bigwedge_{j \in J} A_j(\vec{u}_j)
+    \right)
+\end{align}
+$$where $J'_{C_i} = \set{ j \in J \mid \vec{u}_j \text{ only mentions variables from } \overline{C_i}}$, and the last equality is justified by the fact that $J_V \cup \bigcup \set{J'_{C_i} \mid i \in I_V} = J$ (which is straightforward to check). Therefore $$I \wedge \Sigma
+  \models \sigma_V \left(
+      \exists \vec{C_{i_1}}, \ldots ,\vec{C_{i_{|I_V|}}}.
+      \bigwedge_{j \in J} A_j(\vec{u}_j)
+    \right).
+  $$Now, restricting $\sigma_V$ to $\elems(\vec{z})$ yields $\sigma_\mathrm{sol}$, and existentially quantifying all variables in $V \setminus \elems(\vec{z})$ from the formula $\exists \vec{C_{i_1}}, \ldots ,\vec{C_{i_{|I_V|}}}. \bigwedge_{j \in J} A_j(\vec{u}_j)$ yields the original query $Q$, since $\set{\elems(C_i) \mid i \in I_V}$ is a disjoint cover of $(\elems(\vec{q} \concat \vec{z})) \setminus V$.
+> >
+> > We therefore conclude that $I \wedge \Sigma \models \sigma_\mathrm{sol}(Q)$.
