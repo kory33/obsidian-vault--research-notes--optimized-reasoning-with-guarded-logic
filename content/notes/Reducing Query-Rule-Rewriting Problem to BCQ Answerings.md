@@ -160,12 +160,12 @@ $$Now $$
           \bigwedge_{j \in J'_{C_i}} A_j(\vec{u}_j)
       \right)
     \right) \\
-    &= \sigma_V \left(
+    &\equiv \sigma_V \left(
       \exists \vec{C_{i_1}}, \ldots ,\vec{C_{i_{|I_V|}}}.
       \bigwedge_{j \in J} A_j(\vec{u}_j)
     \right)
 \end{align}
-$$where $J'_{C_i} = \set{ j \in J \mid \vec{u}_j \text{ only mentions variables from } \overline{C_i}}$, and the last equality is justified by the fact that $J_V \cup \bigcup \set{J'_{C_i} \mid i \in I_V} = J$ (which is straightforward to check). Therefore $$I \wedge \Sigma
+$$where $J'_{C_i} = \set{ j \in J \mid \vec{u}_j \text{ only mentions variables from } \overline{C_i}}$, and the last equivalence is justified by the fact that $J_V \cup \bigcup \set{J'_{C_i} \mid i \in I_V} = J$ (which is straightforward to check) and by the $\wedge$-commutativity. Therefore $$I \wedge \Sigma
   \models \sigma_V \left(
       \exists \vec{C_{i_1}}, \ldots ,\vec{C_{i_{|I_V|}}}.
       \bigwedge_{j \in J} A_j(\vec{u}_j)
