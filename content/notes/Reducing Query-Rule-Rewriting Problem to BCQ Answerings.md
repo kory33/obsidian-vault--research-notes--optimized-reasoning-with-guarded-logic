@@ -113,7 +113,7 @@ $$Let $J_\overline{V} = \set{ j \in J \mid \vec{u}_j \text{ only mentions variab
   &=
     (\sigma \upharpoonright \partial V)(\overline{Q}_V)
 \end{align}
-$$where the second equivalence is deletion of existential quantification of variables in $(\elems(\vec{x}) \setminus \partial V) \setminus V$ (since they do not appear free in the inner formula).
+$$where the second equivalence is deletion of existential quantification of variables in $(\elems(\vec{x}) \setminus \partial V) \setminus V$, as they do not occur freely in the inner formula.
 
 > **Theorem**. $\mathrm{QueryRuleRewrite1}(\Sigma, Q)$ is a query-rule-rewriting of $(\Sigma, Q)$.
 > 
