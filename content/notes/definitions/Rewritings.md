@@ -27,4 +27,4 @@ Through the language of substitutions, we define what it means to *answer* a con
 > 
 > We say that a pair of a Datalog program $\Sigma^Q_\rew$ (with a suitably extended set of predicates) together with a (possibly fresh) *$|\vec{z}|$-ary goal predicate* $\mathrm{Goal^Q}(\underbrace{-, \ldots, -}_{|\vec{z}|\text{ arguments}})$ is a *query-rule-rewriting of $(\Sigma, Q)$* if, for every base instance $I$, $$\QueryAnswers(Q, I; \Sigma) = \QueryAnswers(\mathrm{Goal}^Q(\vec{z}), I; \Sigma^Q_\mathrm{rew}).$$ holds.
 > 
-> > *Remark*. This is equivalent to saying that, for all base instance $I$ and every ground substitution $\sigma$ that exactly covers $\elems(\vec{z})$, $$I \wedge \Sigma \models \sigma(Q) \Longleftrightarrow I \wedge \Sigma^Q_\rew \models \sigma(\mathrm{Goal^Q}(\vec{z})). $$ holds.
+> > *Remark*. This is equivalent to saying that, for all base instance $I$ and every ground substitution $\sigma$ that exactly covers $\elems(\vec{z})$, $$I \wedge \Sigma \models \sigma(Q) \Longleftrightarrow I \wedge \Sigma^Q_\rew \models \sigma(\mathrm{Goal^Q}(\vec{z})) $$ holds.
