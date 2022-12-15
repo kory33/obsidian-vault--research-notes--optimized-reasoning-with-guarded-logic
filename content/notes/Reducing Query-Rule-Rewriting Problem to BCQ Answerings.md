@@ -74,7 +74,7 @@ Now consider the following algorithm. Note that we make use of an oracle for BCQ
 > > 
 > > Let $V = \touchDowners(\sigma)$ be the touchdowners of $\sigma$. Since $\sigma \supseteq \sigma_\mathrm{sol}$, $V \supseteq \elems(\vec{z})$. Now let $\set{C_i}_{i \in I_V}$ be the set of connected components of $\mathcal{H}(\overline{Q}-V)$, and let $J_V = \set{ j \in J \mid \vec{u}_j \text{ only contains variables from } V}$. By the base-fact completeness of Datalog saturations, it suffices see that the rule $$\forall \vec{V}. \left(\bigwedge_{j \in J_V} A_j(\vec{u}_j)\right) \wedge \left(\bigwedge_{i \in I_V} \mathrm{Subgoal}_{C_i}(\partial C_i)\right) \rightarrow \mathrm{Goal}^Q(\vec{z})$$is applicable to $\FullSat_{\Sigma_\mathrm{qrr}}(I)$ with the ground substitution $\sigma \upharpoonright V$.
 > > 
-> > For each $j \in J_V$, $\sigma(A_j(\vec{u}_j))) \in \TreeFacts(\SatTree_\Sigma(I))$, but by choice of $j$, $\vec{u}_j$ only contains variables from $V$, so $\sigma(A_j(\vec{u}_j)))$ is a ground fact and therefore $\sigma(A_j(\vec{u}_j))) \in \FullSat_{\Sigma_\mathrm{qrr}}(I)$.
+> > For each $j \in J_V$, $\vec{u}_j$ only contains variables from $V$, so $\sigma(A_j(\vec{u}_j)))$ is a ground fact. Since $\sigma(A_j(\vec{u}_j))) \in \TreeFacts(\SatTree_\Sigma(I))$, we have $\sigma(A_j(\vec{u}_j))) \in \FullSat_{\Sigma_\mathrm{qrr}}(I)$.
 > > 
 > > Take $i \in I_V$. It remains to see that $\sigma(\mathrm{Subgoal}_{C_i}(\partial C_i)) \in \FullSat_{\Sigma_\mathrm{qrr}}(I)$. (TODO: prove that a fragmentation of a witness induces the subgoal fact)
 > > 
