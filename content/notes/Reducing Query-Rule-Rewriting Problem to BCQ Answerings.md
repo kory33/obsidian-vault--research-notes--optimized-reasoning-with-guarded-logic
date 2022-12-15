@@ -11,12 +11,12 @@ tags:
 
 We first make precise the terms that will be useful in describing the algorithm.
 
-> **Definition**. Given a boolean conjunctive query $\overline{Q} = \exists \vec{x}. \bigwedge_{j \in J} A_j(\vec{u}_j)$ and a subset $V$,
+> **Definition**. Given a boolean conjunctive query $\overline{Q} = \exists \vec{x}. \bigwedge_{j \in J} A_j(\vec{u}_j)$ and a subset $V$ of $\elems(\vec{x})$,
 >  - the *closure $\overline{V}$ of $V$ in $\overline{Q}$* is the set of variables given by $$
 \overline{V} = \Set{ x \in \elems(\vec{x})\ \biggm\vert
-\begin{array}{l}
-  \text{ there are } j \in J \text{ and } x' \in \elems(\vec{x}) \\
-  \text{ such that } \vec{u_j} \text{ contains both $x$ and $x'$}
+\begin{array}{c}
+  \text{ there are } j \in J \text{ and } x' \in V \text{ such that} \\
+  \vec{u_j} \text{ contains both $x$ and $x'$}
 \end{array}
 }
 $$
@@ -80,12 +80,40 @@ $$
 
 We will also use the following proposition:
 
-> **Proposition (Boolean Subquery Entailment)**. Let $\overline{Q} = \exists \vec{x}. \bigwedge_{j \in J} A_j(\vec{u}_j)$ be a boolean conjunctive query, and $C$ a connected component of the query structure hypergraph $\mathcal{H}(\overline{Q})$. If $\sigma$ covers exactly $\elems(\vec{x})$, then $$
+> **Proposition (Boolean Subquery Entailment)**. Let $\overline{Q} = \exists \vec{x}. \bigwedge_{j \in J} A_j(\vec{u}_j)$ be a boolean conjunctive query and $V \subseteq \elems(\vec{x})$. If $\sigma$ covers exactly $\elems(\vec{x})$, then $$
 \sigma \left(
   \bigwedge_{j \in J} A_j(\vec{u}_j)
-\right) \models (\sigma \upharpoonright \partial C)(\overline{Q}_C)
-$$
-> > *Proof*. (TODO).
+\right) \models (\sigma \upharpoonright \partial V)(\overline{Q}_V)
+$$where $\partial V$ is the boundary of $V$ in $\overline{Q}$.
+>
+> > *Proof*. Suppose $\mathcal{A} \models \sigma \left(\bigwedge_{j \in J} A_j(\vec{u}_j)\right)$. Then by restricting $\sigma$ to $\partial V$ and existentially quantifying all variables in $\elems(\vec{x}) \setminus \partial V$, we have $$
+\mathcal{A} \models
+  \exists (\vec{x} \setminus \partial V).
+    (\sigma \upharpoonright \partial V) \left(
+      \bigwedge_{j \in J} A_j(\vec{u}_j)
+    \right).
+$$Let $J_\overline{V} = \set{ j \in J \mid \vec{u}_j \text{ only mentions variables from } \overline{V}}$, then by $\wedge$-elimination, $$
+\begin{align}
+\mathcal{A}
+  &\models
+    \exists (\vec{x} \setminus \partial V).
+      (\sigma \upharpoonright \partial V) \left(
+        \bigwedge_{j \in J_\overline{V}} A_j(\vec{u}_j)
+      \right) \\
+  &\equiv
+    \exists \vec{V}.
+      (\sigma \upharpoonright \partial V) \left(
+        \bigwedge_{j \in J_\overline{V}} A_j(\vec{u}_j)
+      \right) \\
+  &= 
+    (\sigma \upharpoonright \partial V) \left(
+      \exists \vec{V}.
+        \bigwedge_{j \in J_\overline{V}} A_j(\vec{u}_j)
+    \right) \\
+  &=
+    (\sigma \upharpoonright \partial V)(\overline{Q}_V)
+\end{align}
+$$where the second equivalence is deletion of existential quantification of variables in $(\elems(\vec{x}) \setminus \partial V) \setminus V$ (since they do not appear free in the inner formula).
 
 > **Theorem**. $\mathrm{QueryRuleRewrite1}(\Sigma, Q)$ is a query-rule-rewriting of $(\Sigma, Q)$.
 > 
