@@ -71,7 +71,7 @@ We now describe a way to "abstract" an actual tentacle to a tentacle ejection te
 
 The next proposition shows that we can always abstract a valid generative $\Sigma$-chase-path on a base instance.
 
-> **Proposition (existence of abstraction)**. Let $(\tau = (\forall \vec{x}. \beta \rightarrow \exists \vec{y}. \eta), \sigma)$ be a valid generative $\Sigma$-chase-path on a base instance $I$. Then there exists an abstraction of $(\tau, \sigma)$ over $I$.
+> **Proposition (existence of abstraction)**. Let $(\tau = (\forall \vec{x}. \beta \rightarrow \exists \vec{y}. \eta), \sigma)$ be a valid generative $\Sigma$-chase-path on a base instance $I$. Then there exists an abstraction of $(\tau, \sigma)$ over $I$. ^d4d09d
 > 
 > > *Proof*.
 > > Let $E = \exports_\Sigma(I, (\tau, \sigma))$, $D = (\operatorname{im} \sigma \cap \consts(E)) \setminus \consts(\Sigma)$ and $V \subseteq \elems(\vec{x})$ be variables in $\vec{x}$ that appear in some atom in $\eta$ (these are the *exported variables of $\tau$*).
@@ -96,9 +96,6 @@ The next proposition shows that we can always abstract a valid generative $\Sigm
   &= \sigma^{-1}(B) \\
   &= A
 \end{align}
-
-^d4d09d
-
 $$
 > > 
 > > We now claim that $F$ is a $(\tau, \Sigma)$-export template. Since every atom $A$ in $F$ can be written as $A = \sigma^{-1}(R(\vec{c}))$ for some fact $R(\vec{c}) \in E$, we need to check that for each $R(\vec{c}) \in E$, the atom $\sigma^{-1}(R(\vec{c})) \in F$
