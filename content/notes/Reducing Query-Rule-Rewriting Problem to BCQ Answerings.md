@@ -60,7 +60,7 @@ Now consider the following algorithm. Note that we make use of an oracle for BCQ
 >      3. Add a full TGD rule $$\forall \vec{V}. \left(\bigwedge_{j \in J_V} A_j(\vec{u}_j)\right) \wedge \left(\bigwedge_{i \in I_V} \mathrm{Subgoal}_{C_i}(\partial C_i)\right) \rightarrow \mathrm{Goal}(\vec{z})$$ to $\Sigma'$
 >  9. Return $(\Sigma_\mathrm{rew} \cup \Sigma', \mathrm{Goal})$
 
-Towards the correctness proof of this algorithm, we prepare the following lemma, which clarifies the semantics of $\mathrm{Subgoal}$ predicates.
+The $\mathrm{Subgoal}_C$ predicate essentially captures the fulfilment of the subquery, with variables in $C$ being witnessed by nulls and variables in $\partial C$ being witnessed by constants in the base instance. To make this idea precise, we prove the following lemma, which also turns out to be useful for the correctness proof of the $\mathrm{QueryRuleRewrite1}$ algorithm.
 
 > **Lemma (Subquery-Subgoal Correspondence)**. Let $\Sigma$ be a finite set of GTDGs, $Q = \exists \vec{q}. \bigwedge_{j \in J} A_j(\vec{u}_j)$ a conjunctive query and $I$ a ground instance. 
 > 
@@ -71,49 +71,28 @@ Towards the correctness proof of this algorithm, we prepare the following lemma,
 >
 > Take any connected sub-hypergraph $C$ of $\mathcal{H}(\overline{Q})$.
 > 
-> Let $\overline{Q}_C$ be the subquery of $\overline{Q}$ induced by $C$, and $\sigma_{\partial C}$ be the ground substitution exactly covering $\partial C$. Then $$
-I \wedge \Sigma \models \sigma_{\partial C}(\overline{Q}_C)
-  \Longleftrightarrow
-    I \wedge \Sigma_\mathrm{qrr} \models \sigma_{\partial C}(\mathrm{Subgoal}_C(\vec{\partial C})).
+> Let $\overline{Q}_C = \exists \vec{C}. \bigwedge_{j \in J_\overline{C}} A_j(\vec{u}_j)$ be the subquery of $\overline{Q}$ induced by $C$. Then the following implications hold.
+> 
+>  1. If $\sigma_\overline{C}$ is a factual substitution that exactly covers $\overline{C}$ with $\touchDowners(\sigma_\overline{C}) = \partial C$, then $$
+\sigma_\overline{C} \left(
+  \bigwedge_{j \in J_\overline{C}} A_j(\vec{u}_j)      
+\right) \in \TreeFacts(\SatTree_\Sigma(I))
+  \Longrightarrow
+    I \wedge \Sigma_\mathrm{qrr} \models \sigma_\overline{C}(\mathrm{Subgoal}_C(\vec{\partial C})).
 $$
+>  2. If $\sigma_{\partial C}$ is a ground substitution that covers exactly $\partial C$, then $$
+I \wedge \Sigma_\mathrm{qrr}
+  \models
+    \sigma_{\partial C}(
+      \mathrm{Subgoal}_C(\vec{\partial C})
+    )
+  \Longrightarrow
+I \wedge \Sigma
+    \models
+      \sigma_{\partial C}(\overline{Q}_C)
+$$
+> 
 > > *Proof*. (TODO).
-
-We will also use the following proposition:
-
-> **Proposition (Boolean Subquery Entailment)**. Let $\overline{Q} = \exists \vec{x}. \bigwedge_{j \in J} A_j(\vec{u}_j)$ be a boolean conjunctive query and $V \subseteq \elems(\vec{x})$. If $\sigma$ covers exactly $\elems(\vec{x})$, then $$
-\sigma \left(
-  \bigwedge_{j \in J} A_j(\vec{u}_j)
-\right) \models (\sigma \upharpoonright \partial V)(\overline{Q}_V)
-$$where $\partial V$ is the boundary of $V$ in $\overline{Q}$.
->
-> > *Proof*. Suppose $\mathcal{A} \models \sigma \left(\bigwedge_{j \in J} A_j(\vec{u}_j)\right)$. Then by restricting $\sigma$ to $\partial V$ and existentially quantifying all variables in $\elems(\vec{x}) \setminus \partial V$, we have $$
-\mathcal{A} \models
-  \exists (\vec{x} \setminus \partial V).
-    (\sigma \upharpoonright \partial V) \left(
-      \bigwedge_{j \in J} A_j(\vec{u}_j)
-    \right).
-$$Let $J_\overline{V} = \set{ j \in J \mid \vec{u}_j \text{ only mentions variables from } \overline{V}}$, then by $\wedge$-elimination, $$
-\begin{align}
-\mathcal{A}
-  &\models
-    \exists (\vec{x} \setminus \partial V).
-      (\sigma \upharpoonright \partial V) \left(
-        \bigwedge_{j \in J_\overline{V}} A_j(\vec{u}_j)
-      \right) \\
-  &\equiv
-    \exists \vec{V}.
-      (\sigma \upharpoonright \partial V) \left(
-        \bigwedge_{j \in J_\overline{V}} A_j(\vec{u}_j)
-      \right) \\
-  &= 
-    (\sigma \upharpoonright \partial V) \left(
-      \exists \vec{V}.
-        \bigwedge_{j \in J_\overline{V}} A_j(\vec{u}_j)
-    \right) \\
-  &=
-    (\sigma \upharpoonright \partial V)(\overline{Q}_V)
-\end{align}
-$$where the second equivalence is deletion of existential quantification of variables in $(\elems(\vec{x}) \setminus \partial V) \setminus V$, as they do not occur freely in the inner formula.
 
 > **Theorem**. $\mathrm{QueryRuleRewrite1}(\Sigma, Q)$ is a query-rule-rewriting of $(\Sigma, Q)$.
 > 
@@ -131,15 +110,19 @@ $$where the second equivalence is deletion of existential quantification of vari
 > > 
 > > For each $j \in J_V$, $\vec{u}_j$ only contains variables from $V$, so $\sigma(A_j(\vec{u}_j)))$ is a ground fact. Since $\sigma(A_j(\vec{u}_j))) \in \TreeFacts(\SatTree_\Sigma(I))$ and $\Sigma_\mathrm{qrr}$ contains a Datalog rewriting of $\Sigma$, we have $\sigma(A_j(\vec{u}_j))) \in \TreeFacts(\SatTree_{\Sigma_\mathrm{qrr}}(I))$. As $\sigma(A_j(\vec{u}_j)))$ is a ground fact, $\sigma(A_j(\vec{u}_j))) \in \FullSat_{\Sigma_\mathrm{qrr}}(I)$.
 > > 
-> > Take $i \in I_V$. It remains to see that $\sigma(\mathrm{Subgoal}_{C_i}(\partial C_i)) \in \FullSat_{\Sigma_\mathrm{qrr}}(I)$. Since $$
-I \wedge \Sigma
-  \models
-    \sigma \left(
-      \bigwedge_{j \in J} A_j(\vec{u}_j)
-    \right),
-$$by the Boolean Subquery Entailment, $I \wedge \Sigma \models (\sigma \upharpoonright \partial C)(\overline{Q}_C)$. Now by the Subquery-Subgoal Correspondence Lemma, $$
-I \wedge \Sigma_\mathrm{qrr} \models (\sigma \upharpoonright \partial C)(\mathrm{Subgoal}_C(\vec{\partial C})).
-$$Since $\sigma(\mathrm{Subgoal}_{C_i}(\partial C_i)) = (\sigma \upharpoonright \partial C)(\mathrm{Subgoal}_{C_i}(\partial C_i))$ is a ground fact, we conclude that $\sigma(\mathrm{Subgoal}_{C_i}(\partial C_i)) \in \FullSat_{\Sigma_\mathrm{qrr}}(I)$.
+> > Take $i \in I_V$. It remains to see that $\sigma(\mathrm{Subgoal}_{C_i}(\partial C_i)) \in \FullSat_{\Sigma_\mathrm{qrr}}(I)$. Since $V \cap \overline{C_i} = \partial C_i$, $(\sigma \upharpoonright \overline{C_i})$ exactly covers $\overline{C_i}$ while $\touchDowners(\sigma \upharpoonright \overline{C_i}) = \partial C_i$. As $$
+\sigma\left(\bigwedge_{j \in J} A_j(\vec{u}_j) \right)
+  \in \TreeFacts(\SatTree_\Sigma(I)),
+$$and $J_\overline{C_i} \subseteq J$, *a fortiori* $$
+(\sigma \upharpoonright \overline{C_i})\left(\bigwedge_{j \in J_\overline{C_i}} A_j(\vec{u}_j) \right)
+  \in \TreeFacts(\SatTree_\Sigma(I)).
+$$Therefore by (1) of the Subquery-Subgoal Correspondence Lemma, $$
+\begin{align}
+  I \wedge \Sigma_\mathrm{qrr}
+    &\models (\sigma \upharpoonright \overline{C_i})(\mathrm{Subgoal}_{C_i}(\vec{\partial C_i})) \\
+    &= \sigma(\mathrm{Subgoal}_{C_i}(\vec{\partial C_i})).
+\end{align}
+$$Since $\sigma(\mathrm{Subgoal}_{C_i}(\partial C_i))$ is a ground fact, we conclude that $\sigma(\mathrm{Subgoal}_{C_i}(\partial C_i)) \in \FullSat_{\Sigma_\mathrm{qrr}}(I)$.
 > > 
 > > ($\Longleftarrow$, the "soundness" of the rewrite):
 > > Suppose $I \wedge \Sigma_\mathrm{qrr} \models \sigma_\mathrm{sol}(\mathrm{Goal^Q}(\vec{z}))$. By construction of $\Sigma_\mathrm{qrr}$, there must be some subset $V \supseteq \elems(\vec{z})$ of $\mathcal{V}$ such that if we write
@@ -152,7 +135,7 @@ $$Since $\sigma(\mathrm{Subgoal}_{C_i}(\partial C_i)) = (\sigma \upharpoonright 
 \right) \subseteq \FullSat_{\Sigma_\mathrm{qrr}}(I)
 $$holds, so that the base fact $\sigma_\mathrm{sol}(\mathrm{Goal^Q}(\vec{z}))$ is $\Sigma_\mathrm{qrr}$-derived through the rule $$\forall \vec{V}. \left(\bigwedge_{j \in J_V} A_j(\vec{u}_j)\right) \wedge \left(\bigwedge_{i \in I_V} \mathrm{Subgoal}_{C_i}(\partial C_i)\right) \rightarrow \mathrm{Goal}^Q(\vec{z}).$$together with $\sigma_V$.
 > > 
-> > Now for each $i \in I_V$, $\sigma_V \upharpoonright (\partial C_i)$ is a ground substitution exactly covering $\partial C_i$, so by the Subquery-Subgoal Correspondence Lemma, $I \wedge \Sigma \models (\sigma_V \upharpoonright (\partial C_i))(\overline{Q}_{C_i}) = \sigma_V(\overline{Q}_{C_i})$.
+> > Now for each $i \in I_V$, $\sigma_V \upharpoonright (\partial C_i)$ is a ground substitution exactly covering $\partial C_i$, so by (2) of the Subquery-Subgoal Correspondence Lemma, $I \wedge \Sigma \models (\sigma_V \upharpoonright (\partial C_i))(\overline{Q}_{C_i}) = \sigma_V(\overline{Q}_{C_i})$.
 > > 
 > > Also for each $j \in J_V$, $I \wedge \Sigma_\mathrm{qrr} \models \sigma_V(A_j(\vec{u}_j))$, but since $\Sigma_\mathrm{qrr}$ proves no new instance of existing predicates (i.e. predicates that are not $\mathrm{Subgoal}$s and $\mathrm{Goal}^Q$), $I \wedge \Sigma \models \sigma_V(A_j(\vec{u}_j))$.
 > > 
