@@ -92,7 +92,43 @@ I \wedge \Sigma
       \sigma_{\partial C}(\overline{Q}_C)
 $$
 > 
-> > *Proof*. (TODO).
+> > *Proof of (1)*. Suppose that $\sigma_\overline{C}$ is a factual substitution that exactly covers $\overline{C}$ with $\touchDowners(\sigma_\overline{C}) = \partial C$. Suppose further that $$
+\sigma_\overline{C}\left(
+  \bigwedge_{j \in J_\overline{C}} A_j(\vec{u}_j)
+\right) \in \TreeFacts(\SatTree_\Sigma(I))$$holds.
+> >
+> > Then all of $\overline{C} \setminus \partial C = C$ are mapped to nulls by $\sigma_\overline{C}$, and by connectedness of $C$ and the definition of $J_\overline{C}$, there exists some valid generative path $(\tau, \sigma)$ such that all nulls in $\sigma[C]$ are introduced within the tentacle hanging from $(\tau, \sigma)$ (TODO: write this fact as a lemma somewhere: this follows from the witness decomposition). Let $T = (\tau, \sim, F)$ be an abstraction of $(\tau, \sigma)$ as constructed in [[Tentacle Ejection Templates#^d4d09d]]. (TODO: prove that $T$ with an appropriate closing map on $\overline{Q}_C$ generically proves $\overline{Q}_C$)
+>
+> > *Proof of (2)*. Suppose that $\sigma_{\partial C}$ is a ground substitution that covers exactly $\partial C$. Suppose further that $$
+I \wedge \Sigma_\mathrm{qrr}
+  \models
+    \sigma_{\partial C}(
+      \mathrm{Subgoal}_C(\vec{\partial C})
+    )$$holds. By construction of $\Sigma_\mathrm{qrr}$, there must be some
+> >     - $\Sigma$-ejection template $T = (\tau_T = \forall \vec{x}. (\beta \rightarrow \exists \vec{y}. \eta) \in \Sigma, \sim_T, F_T)$,
+> >     - a $T$-closing map $\sigma_T: \partial C \rightarrow {\sim_T}$,
+> >     - an injection $\mathrm{remap}: {\sim}_T \rightarrow \Vars$ and
+> >     - a substitution $\sigma_{\mathrm{Subgoal}_C}$ that exactly covers $\operatorname{im} (\mathrm{remap} \circ \mathrm{quotient})$
+> >
+> > such that $$
+\begin{align}
+(
+  \sigma_{\mathrm{Subgoal}_C}
+    \circ \mathrm{remap}
+    \circ \mathrm{quotient}
+)(\beta \wedge F_T)
+  &\in
+    \FullSat_{\Sigma_\mathrm{qrr}}(I), \\
+(
+  \sigma_{\mathrm{Subgoal}_C}
+    \circ \mathrm{remap}
+    \circ \sigma_T
+)(\mathrm{Subgoal}_C(\vec{\partial C}))
+ &=
+   \sigma_{\partial C}(\mathrm{Subgoal}_C(\vec{\partial C})).
+\end{align}
+$$
+> > (TODO: prove, using the fact that $(T, \sigma_T)$ generically proves $\overline{Q}_C$, that the subquery must be witnessed).
 
 > **Theorem**. $\mathrm{QueryRuleRewrite1}(\Sigma, Q)$ is a query-rule-rewriting of $(\Sigma, Q)$.
 > 
@@ -110,7 +146,7 @@ $$
 > > 
 > > For each $j \in J_V$, $\vec{u}_j$ only contains variables from $V$, so $\sigma(A_j(\vec{u}_j)))$ is a ground fact. Since $\sigma(A_j(\vec{u}_j))) \in \TreeFacts(\SatTree_\Sigma(I))$ and $\Sigma_\mathrm{qrr}$ contains a Datalog rewriting of $\Sigma$, we have $\sigma(A_j(\vec{u}_j))) \in \TreeFacts(\SatTree_{\Sigma_\mathrm{qrr}}(I))$. As $\sigma(A_j(\vec{u}_j)))$ is a ground fact, $\sigma(A_j(\vec{u}_j))) \in \FullSat_{\Sigma_\mathrm{qrr}}(I)$.
 > > 
-> > Take $i \in I_V$. It remains to see that $\sigma(\mathrm{Subgoal}_{C_i}(\partial C_i)) \in \FullSat_{\Sigma_\mathrm{qrr}}(I)$. Since $V \cap \overline{C_i} = \partial C_i$, $(\sigma \upharpoonright \overline{C_i})$ exactly covers $\overline{C_i}$ while $\touchDowners(\sigma \upharpoonright \overline{C_i}) = \partial C_i$. As $$
+> > Take $i \in I_V$. It remains to see that $\sigma(\mathrm{Subgoal}_{C_i}(\partial C_i)) \in \FullSat_{\Sigma_\mathrm{qrr}}(I)$. Since $V \cap \overline{C_i} = \partial C_i$, $(\sigma \upharpoonright \overline{C_i})$ exactly covers $\overline{C_i}$ while $\touchDowners(\sigma \upharpoonright \overline{C_i}) = \partial C_i$. Since $$
 \sigma\left(\bigwedge_{j \in J} A_j(\vec{u}_j) \right)
   \in \TreeFacts(\SatTree_\Sigma(I)),
 $$and $J_\overline{C_i} \subseteq J$, *a fortiori* $$

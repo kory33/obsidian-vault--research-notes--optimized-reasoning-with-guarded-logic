@@ -96,6 +96,9 @@ The next proposition shows that we can always abstract a valid generative $\Sigm
   &= \sigma^{-1}(B) \\
   &= A
 \end{align}
+
+^d4d09d
+
 $$
 > > 
 > > We now claim that $F$ is a $(\tau, \Sigma)$-export template. Since every atom $A$ in $F$ can be written as $A = \sigma^{-1}(R(\vec{c}))$ for some fact $R(\vec{c}) \in E$, we need to check that for each $R(\vec{c}) \in E$, the atom $\sigma^{-1}(R(\vec{c})) \in F$
