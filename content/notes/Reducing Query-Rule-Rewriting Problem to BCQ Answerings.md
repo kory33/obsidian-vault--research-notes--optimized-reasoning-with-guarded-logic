@@ -97,7 +97,9 @@ $$
   \bigwedge_{j \in J_\overline{C}} A_j(\vec{u}_j)
 \right) \in \TreeFacts(\SatTree_\Sigma(I))$$holds.
 > >
-> > Then all of $\overline{C} \setminus \partial C = C$ are mapped to nulls by $\sigma_\overline{C}$, and by connectedness of $C$ and the definition of $J_\overline{C}$, there exists some valid generative path $(\tau, \sigma)$ such that all nulls in $\sigma[C]$ are introduced within the tentacle hanging from $(\tau, \sigma)$ (TODO: write this fact as a lemma somewhere: this follows from the witness decomposition). Let $T = (\tau, \sim, F)$ be an abstraction of $(\tau, \sigma)$ as constructed in [[Tentacle Ejection Templates#^d4d09d]]. (TODO: prove that $T$ with an appropriate closing map on $\overline{Q}_C$ generically proves $\overline{Q}_C$)
+> > Then all of $\overline{C} \setminus \partial C = C$ are mapped to nulls by $\sigma_\overline{C}$, and by connectedness of $C$ and the definition of $J_\overline{C}$, there exists some valid generative path $(\tau, \sigma)$ such that all nulls in $\sigma_\overline{C}[C]$ are introduced within the tentacle hanging from $(\tau, \sigma)$ (TODO: write this fact as a lemma somewhere: this follows from the witness decomposition).
+> > 
+> > Let $T = (\tau, \sim, F)$ be an abstraction of $(\tau, \sigma)$ as constructed in [[Tentacle Ejection Templates#^d4d09d]]. (TODO: prove that $T$ with an appropriate closing map on $\overline{Q}_C$ generically proves $\overline{Q}_C$)
 >
 > > *Proof of (2)*. Suppose that $\sigma_{\partial C}$ is a ground substitution that covers exactly $\partial C$. Suppose further that $$
 I \wedge \Sigma_\mathrm{qrr}
@@ -110,7 +112,7 @@ I \wedge \Sigma_\mathrm{qrr}
 > >     - an injection $\mathrm{remap}: {\sim}_T \rightarrow \Vars$ and
 > >     - a substitution $\sigma_{\mathrm{Subgoal}_C}$ that exactly covers $\operatorname{im} (\mathrm{remap} \circ \mathrm{quotient})$
 > >
-> > such that $$
+> > such that $(T, \sigma_T)$ generically proves $\overline{Q}_C$ and $$
 \begin{align}
 (
   \sigma_{\mathrm{Subgoal}_C}
