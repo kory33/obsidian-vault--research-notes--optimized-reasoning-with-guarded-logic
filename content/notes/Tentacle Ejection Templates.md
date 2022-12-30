@@ -159,11 +159,11 @@ From now on, we shall assume that, for each $\Sigma$, we have decided a choice o
   (\GenConst_\Sigma \circ \mathrm{quotient})(F_\tau \cup \beta)
 $$ where $\mathrm{quotient}: \elems(\vec{x}) \rightarrow {\sim_\tau}$ is the quotient map $x \mapsto [x]_{\sim_\tau}$.
 
-> **Definition**. Let $T = (\tau = \forall \vec{x}. (\beta \rightarrow \exists \vec{y}. \eta) \in \Sigma, \sim_\tau, F_\tau)$ be a $\Sigma$-tentacle ejection template, and let $Q$ be a (*not necessarily boolean*) conjunctive query.  A *$T$-closing map on $Q$* is a map $\sigma: \operatorname{FV}(Q) \rightarrow {\sim}_\tau$.
+> **Definition**. Let $T = (\tau = \forall \vec{x}. (\beta \rightarrow \exists \vec{y}. \eta) \in \Sigma, \sim_\tau, F_\tau)$ be a $\Sigma$-tentacle ejection template, and let $Q$ be a (*not necessarily boolean*) conjunctive query.  A *$T$-closing map on $Q$* is a map $\gamma: \operatorname{FV}(Q) \rightarrow {\sim}_\tau$.
 
-> **Definition**. Let $T = (\tau, \sim_\tau, F_\tau)$ be a $\Sigma$-tentacle ejection template, $Q = \exists \vec{z}. \bigwedge_{i \in I} A_i(\vec{w_i})$ a conjunctive query and $\sigma: \mathrm{FV}(Q) \rightarrow {\sim_\tau}$ a $T$-closing map on $Q$. The *$T$-generic closure of $Q$ by $\sigma$* is a boolean conjunctive query $\mathrm{cl}_\sigma(Q)$ given by $$\mathrm{cl}_\sigma(Q) = \exists \vec{z}. \bigwedge_{i \in I} A_i((\GenConst_\Sigma \circ \sigma)(\vec{w_i}))$$
+> **Definition**. Let $T = (\tau, \sim_\tau, F_\tau)$ be a $\Sigma$-tentacle ejection template, $Q = \exists \vec{z}. \bigwedge_{i \in I} A_i(\vec{w_i})$ a conjunctive query and $\gamma: \mathrm{FV}(Q) \rightarrow {\sim_\tau}$ a $T$-closing map on $Q$. The *$T$-generic closure of $Q$ by $\gamma$* is a boolean conjunctive query $\mathrm{cl}_\gamma(Q)$ given by $$\mathrm{cl}_\gamma(Q) = \exists \vec{z}. \bigwedge_{i \in I} A_i((\GenConst_\Sigma \circ \gamma)(\vec{w_i}))$$
 
-> **Definition**. Let $T$ be a $\Sigma$-tentacle ejection template, $Q$ a conjunctive query and $\sigma_Q: \mathrm{FV}(Q) \rightarrow {\sim_\tau}$ a $T$-closing map on $Q$. We say that $(T, \sigma_Q)$ *generically proves* $Q$ when $\GenInst_\Sigma(T) \wedge \Sigma \models \mathrm{cl}_\sigma(Q)$.
+> **Definition**. Let $T$ be a $\Sigma$-tentacle ejection template, $Q$ a conjunctive query and $\gamma_Q: \mathrm{FV}(Q) \rightarrow {\sim_\tau}$ a $T$-closing map on $Q$. We say that $(T, \gamma_Q)$ *generically proves* $Q$ when $\GenInst_\Sigma(T) \wedge \Sigma \models \mathrm{cl}_\gamma(Q)$.
 
 (TODO: We probably need the following two results in order to prove the correctness of the rewrite algorithm:
  1. If there is a generic proof of a subquery, then the instantiation of the template induces an actual witness on $\SatTree$ of the subquery

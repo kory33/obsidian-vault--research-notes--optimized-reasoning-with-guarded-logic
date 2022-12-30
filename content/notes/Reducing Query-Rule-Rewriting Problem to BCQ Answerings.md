@@ -47,12 +47,12 @@ Now consider the following algorithm. Note that we make use of an oracle for BCQ
 >      1. Let $\partial C$ be the boundary of $C$ in $\overline{Q}$, and let $\mathrm{Subgoal_C}$ be a fresh $|\partial C|$-ary predicate symbol associated with $C$
 >      2. Let $\overline{Q}_C$ be the subquery of $\overline{Q}$ induced by $C$
 >      3. For each $\Sigma$-tentacle ejection template $T = (\tau = \forall \vec{x}. (\beta \rightarrow \exists \vec{y}. \eta) \in \Sigma, \sim_\tau, F_\tau)$, do:
->          1. For every possible $T$-closing map $\sigma: \partial C \rightarrow {\sim}_\tau$ on $\overline{Q}_C$ do:
->              1. If $(T, \sigma)$ generically $\Sigma$-proves $\overline{Q}_C$, then
+>          1. For every possible $T$-closing map $\gamma: \partial C \rightarrow {\sim}_\tau$ on $\overline{Q}_C$ do:
+>              1. If $(T, \gamma)$ generically $\Sigma$-proves $\overline{Q}_C$, then
 >                  1. Let $\operatorname{remap}: {\sim_\tau} \rightarrow \Vars$ be any injection from $\sim_\tau$ to the set of variables (for instance, a choice function on $\sim_\tau$)
 >                  2. Let $\mathrm{quotient}: (\bigcup {\sim_\tau}) \rightarrow {\sim_\tau}$ be the quotient map sending an element in $\bigcup {\sim_\tau}$ to its equivalence class under $\sim_\tau$
 >                  3. Let $\vec{v}$ be the sequence of variables in $\operatorname{im} (\mathrm{remap} \circ \mathrm{quotient})$ (in some order)
->                  4. Add a full TGD rule $$\forall \vec{v}. (\mathrm{remap} \circ \mathrm{quotient})(\beta \wedge F_\tau) \rightarrow (\mathrm{remap} \circ \sigma)(\mathrm{Subgoal}_C(\vec{\partial C}))$$ to $\Sigma'$
+>                  4. Add a full TGD rule $$\forall \vec{v}. (\mathrm{remap} \circ \mathrm{quotient})(\beta \wedge F_\tau) \rightarrow (\mathrm{remap} \circ \gamma)(\mathrm{Subgoal}_C(\vec{\partial C}))$$ to $\Sigma'$
 >  7. Let $\mathrm{Goal}$ be a fresh $|\vec{z}|$-ary goal predicate
 >  8. For each subset $V \supseteq \elems(\vec{z})$ of $\mathcal{V}$, do the following:
 >      1. Let $\set{C_i}_{i \in I_V}$ be the set of connected components of $\mathcal{H}(\overline{Q}-V)$
@@ -97,9 +97,9 @@ $$
   \bigwedge_{j \in J_\overline{C}} A_j(\vec{u}_j)
 \right) \in \TreeFacts(\SatTree_\Sigma(I))$$holds.
 > >
-> > Then all of $\overline{C} \setminus \partial C = C$ are mapped to nulls by $\sigma_\overline{C}$, and by connectedness of $C$ and the definition of $J_\overline{C}$, there exists some valid generative path $(\tau, \sigma)$ such that all nulls in $\sigma_\overline{C}[C]$ are introduced within the tentacle hanging from $(\tau, \sigma)$ (TODO: write this fact as a lemma somewhere: this follows from the witness decomposition).
+> > Then all of $\overline{C} \setminus \partial C = C$ are mapped to nulls by $\sigma_\overline{C}$ , and by connectedness of $C$ and the definition of $J_\overline{C}$ , there exists some valid generative path $(\tau, \sigma)$ such that all nulls in $\sigma_\overline{C}[C]$ are introduced within the tentacle hanging from $(\tau, \sigma)$ (TODO: write this fact as a lemma somewhere: this follows from the witness decomposition).
 > > 
-> > Let $T = (\tau, \sim, F)$ be an abstraction of $(\tau, \sigma)$ as constructed in [[Tentacle Ejection Templates#^d4d09d]]. (TODO: prove that $T$ with an appropriate closing map on $\overline{Q}_C$ generically proves $\overline{Q}_C$)
+> > Let $T = (\tau, \sim, F)$ be an abstraction of $(\tau, \sigma)$ as constructed in [[Tentacle Ejection Templates#^d4d09d]]. **We wish to construct an appropriate closing map $\gamma_\sigma$ on $\overline{Q}_C$ so that $(T, \gamma_\sigma)$ generically proves $\overline{Q}_C$**. 
 >
 > > *Proof of (2)*. Suppose that $\sigma_{\partial C}$ is a ground substitution that covers exactly $\partial C$. Suppose further that $$
 I \wedge \Sigma_\mathrm{qrr}
@@ -108,11 +108,11 @@ I \wedge \Sigma_\mathrm{qrr}
       \mathrm{Subgoal}_C(\vec{\partial C})
     )$$holds. By construction of $\Sigma_\mathrm{qrr}$, there must be some
 > >     - $\Sigma$-ejection template $T = (\tau_T = \forall \vec{x}. (\beta \rightarrow \exists \vec{y}. \eta) \in \Sigma, \sim_T, F_T)$,
-> >     - a $T$-closing map $\sigma_T: \partial C \rightarrow {\sim_T}$,
+> >     - a $T$-closing map $\gamma_T: \partial C \rightarrow {\sim_T}$,
 > >     - an injection $\mathrm{remap}: {\sim}_T \rightarrow \Vars$ and
 > >     - a substitution $\sigma_{\mathrm{Subgoal}_C}$ that exactly covers $\operatorname{im} (\mathrm{remap} \circ \mathrm{quotient})$
 > >
-> > such that $(T, \sigma_T)$ generically proves $\overline{Q}_C$ and $$
+> > such that $(T, \gamma_T)$ generically proves $\overline{Q}_C$ and $$
 \begin{align}
 (
   \sigma_{\mathrm{Subgoal}_C}
@@ -124,13 +124,13 @@ I \wedge \Sigma_\mathrm{qrr}
 (
   \sigma_{\mathrm{Subgoal}_C}
     \circ \mathrm{remap}
-    \circ \sigma_T
+    \circ \gamma_T
 )(\mathrm{Subgoal}_C(\vec{\partial C}))
  &=
    \sigma_{\partial C}(\mathrm{Subgoal}_C(\vec{\partial C})).
 \end{align}
 $$
-> > (TODO: prove, using the fact that $(T, \sigma_T)$ generically proves $\overline{Q}_C$, that the subquery must be witnessed).
+> > (TODO: prove, using the fact that $(T, \gamma_T)$ generically proves $\overline{Q}_C$, that the subquery must be witnessed).
 
 > **Theorem**. $\mathrm{QueryRuleRewrite1}(\Sigma, Q)$ is a query-rule-rewriting of $(\Sigma, Q)$.
 > 
