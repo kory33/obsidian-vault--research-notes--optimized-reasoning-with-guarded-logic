@@ -97,9 +97,41 @@ $$
   \bigwedge_{j \in J_\overline{C}} A_j(\vec{u}_j)
 \right) \in \TreeFacts(\SatTree_\Sigma(I))$$holds.
 > >
-> > Then all of $\overline{C} \setminus \partial C = C$ are mapped to nulls by $\sigma_\overline{C}$ , and by connectedness of $C$ and the definition of $J_\overline{C}$ , there exists some valid generative path $(\tau, \sigma)$ such that all nulls in $\sigma_\overline{C}[C]$ are introduced within the tentacle hanging from $(\tau, \sigma)$ (TODO: write this fact as a lemma somewhere: this follows from the witness decomposition).
+> > Then all of $\overline{C} \setminus \partial C = C$ are mapped to nulls by $\sigma_\overline{C}$ , and by connectedness of $C$ and the definition of $J_\overline{C}$ , there exists some valid generative path $(\tau = \forall \vec{x}. \beta \rightarrow \exists \vec{y}. \eta, \sigma)$ such that all nulls in $\sigma_\overline{C}[C]$ are introduced within the tentacle hanging from $(\tau, \sigma)$ (TODO: write this fact as a lemma somewhere: this follows from the witness decomposition).
 > > 
-> > Let $T = (\tau, \sim, F)$ be an abstraction of $(\tau, \sigma)$ as constructed in [[Tentacle Ejection Templates#^d4d09d]]. **We wish to construct an appropriate closing map $\gamma_\sigma$ on $\overline{Q}_C$ so that $(T, \gamma_\sigma)$ generically proves $\overline{Q}_C$**. 
+> > Let $T = (\tau, \sim_T, F_T)$ be an abstraction of $(\tau, \sigma)$ as constructed in [[Tentacle Ejection Templates#^d4d09d]]. We wish to construct an appropriate closing map $\gamma_\sigma: \partial C \rightarrow {\sim} \cup \consts(\Sigma)$ on $\overline{Q}_C$ so that $(T, \gamma_\sigma)$ generically proves $\overline{Q}_C$ and the added rule corresponding to $(T, \gamma_\sigma)$ can be invoked on $\FullSat(I)$ to obtain $\mathrm{Subgoal}_C(\vec{\partial C})$. For a variable $w \in \partial C$ such that $\sigma_\overline{C}(w) \in \consts(\Sigma)$, set $\gamma_\sigma(w) = \sigma_\overline{C}(w)$. Otherwise, if $w \in \partial C$ has $\sigma_\overline{C}(w) \not\in \consts(\Sigma)$, then as $\sigma_\overline{C}\left(\bigwedge_{j \in J_\overline{C}} A_j(\vec{u}_j)\right)$ contains a fact that mentions both $\sigma_\overline{C}(w)$ and a null occuring in $\Tentacle_\Sigma(T, \sigma)$, $\sigma$ must send some variable $\tilde{w} \in \vec{x}$ to $\sigma_\overline{C}(w)$ (TODO: We might want to make this argument a bit more precise. The reasoning is informally as follows: as there is no way $\sigma_\overline{C}(w)$ can be introduced during the chase process, $\sigma_\overline{C}(w)$ must be mentioned in one of exported facts at the root of the tentacle). So choose such $\tilde{w}$ for each $w \in \partial C$ with $\sigma_\overline{C}(w) \not \in \consts(\Sigma)$, and set $\gamma_\sigma(w) = [\tilde{w}]_{\sim_T}$ for all such $w$.
+> >
+> > We make the following claim:
+> >
+> > > **Claim 1**. $(T, \gamma_\sigma)$ generically proves $\overline{Q}_C$.
+> > > 
+> > > *Proof*. (TODO)
+> >
+> > Now that Claim 1 has been established, $\Sigma_\mathrm{qrr}$ contains a rule $$\tau_\mathrm{Subgoal} = \forall \vec{v}. (\mathrm{remap} \circ \mathrm{quotient})(\beta \wedge F_T) \rightarrow (\mathrm{remap} \circ \gamma_\sigma)(\mathrm{Subgoal}_C(\vec{\partial C})).$$for some remapping function $\mathrm{remap}: {\sim_T} \rightarrow \Vars$ and some ordering $\vec{v}$ of variables in $(\mathrm{remap} \circ \mathrm{quotient})(\beta \wedge F_T)$.
+> > 
+> > We now wish to set up a substitution $\sigma_\vec{v}$ exactly covering $\vec{v}$ such that $\FullSat(I)$ can be $\tau_\mathrm{Subgoal}$-chased with $\sigma_\vec{v}$ and $\sigma_\vec{v}((\mathrm{remap} \circ \gamma_\sigma)(\mathrm{Subgoal}_C(\vec{\partial C}))) = \sigma_\overline{C}(\mathrm{Subgoal}_C(\vec{\partial C}))$. Pick a retraction $\mathrm{remap}^{-1}$ of $\mathrm{remap}$ and a section $\mathrm{quotient}^{-1}$ of $\mathrm{quotient}$. Now let $\sigma_\vec{v} = \sigma \circ \mathrm{quotient}^{-1} \circ \mathrm{remap}^{-1}$.
+> > 
+> > Then $\sigma_\vec{v}((\mathrm{remap} \circ \mathrm{quotient})(\beta \wedge F_T)) = \sigma(\beta \wedge F_T)$. Since $T$ is an abstraction of $(\tau, \sigma)$, we have $\sigma(\beta \wedge F_T) \in \FullSat(I)$, so $\FullSat(I)$ can be $\tau_\mathrm{Subgoal}$-chased with $\sigma_\vec{v}$.
+> > 
+> > To check the remaining equality, pick any $w \in \partial C$. If $\sigma_\overline{C}(w) \in \consts(\Sigma)$, then $$
+\begin{align}
+  \sigma_\vec{v}(\mathrm{remap}(\gamma_\sigma(w)))
+    &= \sigma_\vec{v}(\mathrm{remap}(\sigma_\overline{C}(w))) \\
+    &= \sigma_\vec{v}(\sigma_\overline{C}(w)) \\
+    &= \sigma_\overline{C}(w) \\
+\end{align}
+$$ as $\sigma_\overline{C}(w)$ is just a constant. On the other hand, if $\sigma_\overline{C}(w) \not \in \consts(\Sigma)$, then $$
+\begin{align}
+  \sigma_\vec{v}(\mathrm{remap}(\gamma_\sigma(w)))
+    &= \sigma_\vec{v}(\mathrm{remap}([\tilde{w}]_{\sim_T})) \\
+    &= (\sigma \circ \mathrm{quotient}^{-1} \circ \mathrm{remap}^{-1})(\mathrm{remap}([\tilde{w}]_{\sim_T})) \\
+    &= (\sigma \circ \mathrm{quotient}^{-1})([\tilde{w}]_{\sim_T}) \\
+    &= \sigma(\tilde{w}) \\
+    &= \sigma_\overline{C}(w),
+\end{align}
+$$where the second last equality is due to $\sigma$ conforming to $\sim_T$, and the last equality follows from the choice of $\tilde{w}$.
+> > 
+> > From these calculations we have $((\mathrm{remap} \circ \gamma_\sigma)(\mathrm{Subgoal}_C(\vec{\partial C}))) = \sigma_\overline{C}(\mathrm{Subgoal}_C(\vec{\partial C}))$. Therefore $\tau_\mathrm{Subgoal}$-chasing $\FullSat(I)$ with $\sigma_\vec{v}$ indeed yields $\sigma_\overline{C}(\mathrm{Subgoal}_C(\vec{\partial C}))$. We conclude that $I \wedge \Sigma_\mathrm{qrr} \models \sigma_\overline{C}(\mathrm{Subgoal}_C(\vec{\partial C}))$.
 >
 > > *Proof of (2)*. Suppose that $\sigma_{\partial C}$ is a ground substitution that covers exactly $\partial C$. Suppose further that $$
 I \wedge \Sigma_\mathrm{qrr}

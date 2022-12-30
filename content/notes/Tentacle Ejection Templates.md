@@ -115,7 +115,7 @@ $$
 
 As expected, instantiation of an abstraction of chase-step direction $(\tau, \sigma)$ equals the tentacle hanging from $(\tau, \sigma)$, as formulated in the following lemma.
 
-> **Lemma (abstraction-instantiation)**. Let $(\tau, \sigma)$ be a valid generative $\Sigma$-chase-path on $I$, and $T = (\tau, \sim, F)$ be an abstraction of $(\tau, \sigma)$ over $I$.
+> **Lemma (abstraction-instantiation)**. Let $(\tau, \sigma)$ be a valid generative $\Sigma$-chase-path on $I$, and $T = (\tau, \sim, F)$ be an abstraction of $(\tau, \sigma)$ over $I$. ^efa86e
 > 
 > Then for all nonempty valid generative $\Sigma$-chase-path $\vec{d}$ on $I$, if $\vec{d}$ starts with $(\tau, \sigma)$, then $\Instance_{\Tentacle_\Sigma(T, \sigma)}(\vec{d}) = \Instance_{\SatTree_\Sigma(I)}(\vec{d})$.
 > 
@@ -130,6 +130,7 @@ As expected, instantiation of an abstraction of chase-step direction $(\tau, \si
 > > > ($\supseteq$): Follows from the fact that $I \supseteq \exports_\Sigma(I, (\tau, \sigma)) \cup \sigma(\beta)$.
 > >
 > > Now $$
+
 \begin{align}
 \Instance_{\SatTree_{\Sigma(I)}}(\vec{d})
   &= \FullSat_\Sigma(\chase_{\widehat{\#_{\vec{d}}}}(\operatorname{SC}_{\Sigma, ()}(I), (\tau, \sigma))) \\
