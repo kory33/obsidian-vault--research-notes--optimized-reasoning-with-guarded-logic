@@ -47,7 +47,7 @@ Now consider the following algorithm. Note that we make use of an oracle for BCQ
 >      1. Let $\partial C$ be the boundary of $C$ in $\overline{Q}$, and let $\mathrm{Subgoal_C}$ be a fresh $|\partial C|$-ary predicate symbol associated with $C$
 >      2. Let $\overline{Q}_C$ be the subquery of $\overline{Q}$ induced by $C$
 >      3. For each $\Sigma$-tentacle ejection template $T = (\tau = \forall \vec{x}. (\beta \rightarrow \exists \vec{y}. \eta) \in \Sigma, \sim_\tau, F_\tau)$, do:
->          1. For every possible $T$-closing map $\gamma: \partial C \rightarrow {\sim}_\tau$ on $\overline{Q}_C$ do:
+>          1. For every possible $T$-closing map $\gamma: \partial C \rightarrow {\sim}_\tau \cup \consts(\Sigma)$ on $\overline{Q}_C$ do:
 >              1. If $(T, \gamma)$ generically $\Sigma$-proves $\overline{Q}_C$, then
 >                  1. Let $\operatorname{remap}: {\sim_\tau} \rightarrow \Vars$ be any injection from $\sim_\tau$ to the set of variables (for instance, a choice function on $\sim_\tau$)
 >                  2. Let $\mathrm{quotient}: (\bigcup {\sim_\tau}) \rightarrow {\sim_\tau}$ be the quotient map sending an element in $\bigcup {\sim_\tau}$ to its equivalence class under $\sim_\tau$
@@ -99,7 +99,7 @@ $$
 > >
 > > Then all of $\overline{C} \setminus \partial C = C$ are mapped to nulls by $\sigma_\overline{C}$ , and by connectedness of $C$ and the definition of $J_\overline{C}$ , there exists some valid generative path $(\tau = \forall \vec{x}. \beta \rightarrow \exists \vec{y}. \eta, \sigma)$ such that all nulls in $\sigma_\overline{C}[C]$ are introduced within the tentacle hanging from $(\tau, \sigma)$ (TODO: write this fact as a lemma somewhere: this follows from the witness decomposition).
 > > 
-> > Let $T = (\tau, \sim_T, F_T)$ be an abstraction of $(\tau, \sigma)$ as constructed in [[Tentacle Ejection Templates#^d4d09d]]. We wish to construct an appropriate closing map $\gamma_\sigma: \partial C \rightarrow {\sim} \cup \consts(\Sigma)$ on $\overline{Q}_C$ so that $(T, \gamma_\sigma)$ generically proves $\overline{Q}_C$ and the added rule corresponding to $(T, \gamma_\sigma)$ can be invoked on $\FullSat(I)$ to obtain $\mathrm{Subgoal}_C(\vec{\partial C})$. For a variable $w \in \partial C$ such that $\sigma_\overline{C}(w) \in \consts(\Sigma)$, set $\gamma_\sigma(w) = \sigma_\overline{C}(w)$. Otherwise, if $w \in \partial C$ has $\sigma_\overline{C}(w) \not\in \consts(\Sigma)$, then as $\sigma_\overline{C}\left(\bigwedge_{j \in J_\overline{C}} A_j(\vec{u}_j)\right)$ contains a fact that mentions both $\sigma_\overline{C}(w)$ and a null occuring in $\Tentacle_\Sigma(T, \sigma)$, $\sigma$ must send some variable $\tilde{w} \in \vec{x}$ to $\sigma_\overline{C}(w)$ (TODO: We might want to make this argument a bit more precise. The reasoning is informally as follows: as there is no way $\sigma_\overline{C}(w)$ can be introduced during the chase process, $\sigma_\overline{C}(w)$ must be mentioned in one of exported facts at the root of the tentacle). So choose such $\tilde{w}$ for each $w \in \partial C$ with $\sigma_\overline{C}(w) \not \in \consts(\Sigma)$, and set $\gamma_\sigma(w) = [\tilde{w}]_{\sim_T}$ for all such $w$.
+> > Let $T = (\tau, \sim_T, F_T)$ be an abstraction of $(\tau, \sigma)$ as constructed in [[Tentacle Ejection Templates#^d4d09d]]. We wish to construct an appropriate closing map $\gamma_\sigma: \partial C \rightarrow {\sim} \cup \consts(\Sigma)$ on $\overline{Q}_C$ so that $(T, \gamma_\sigma)$ generically proves $\overline{Q}_C$ and the added rule corresponding to $(T, \gamma_\sigma)$ can be invoked on $\FullSat(I)$ to obtain $\mathrm{Subgoal}_C(\vec{\partial C})$. For a variable $w \in \partial C$ such that $\sigma_\overline{C}(w) \in \consts(\Sigma)$, set $\gamma_\sigma(w) = \sigma_\overline{C}(w)$. Otherwise, if $w \in \partial C$ has $\sigma_\overline{C}(w) \not\in \consts(\Sigma)$, then as $\sigma_\overline{C}\left(\bigwedge_{j \in J_\overline{C}} A_j(\vec{u}_j)\right)$ contains a fact that mentions both $\sigma_\overline{C}(w)$ and a null occuring in $\Tentacle_\Sigma(T, \sigma)$, $\sigma$ must send some variable $\tilde{w} \in \vec{x}$ to $\sigma_\overline{C}(w)$ (TODO: We might want to make this argument a bit more precise. The reasoning is informally as follows: as there is no way $\sigma_\overline{C}(w)$ can be introduced during the chase process (since $\sigma_\overline{C}(w)$ does not appear in $\Sigma$), $\sigma_\overline{C}(w)$ must be mentioned in one of exported facts at the root of the tentacle). So choose such $\tilde{w}$ for each $w \in \partial C$ with $\sigma_\overline{C}(w) \not \in \consts(\Sigma)$, and set $\gamma_\sigma(w) = [\tilde{w}]_{\sim_T}$ for all such $w$.
 > >
 > > We make the following claim:
 > >
@@ -140,21 +140,21 @@ I \wedge \Sigma_\mathrm{qrr}
       \mathrm{Subgoal}_C(\vec{\partial C})
     )$$holds. By construction of $\Sigma_\mathrm{qrr}$, there must be some
 > >     - $\Sigma$-ejection template $T = (\tau_T = \forall \vec{x}. (\beta \rightarrow \exists \vec{y}. \eta) \in \Sigma, \sim_T, F_T)$,
-> >     - a $T$-closing map $\gamma_T: \partial C \rightarrow {\sim_T}$,
+> >     - a $T$-closing map $\gamma_T: \partial C \rightarrow {\sim_T} \cup \consts(\Sigma)$,
 > >     - an injection $\mathrm{remap}: {\sim}_T \rightarrow \Vars$ and
-> >     - a substitution $\sigma_{\mathrm{Subgoal}_C}$ that exactly covers $\operatorname{im} (\mathrm{remap} \circ \mathrm{quotient})$
+> >     - a substitution $\sigma_\vec{v}$ that exactly covers $\vec{v} = \operatorname{im} (\mathrm{remap} \circ \mathrm{quotient})$
 > >
 > > such that $(T, \gamma_T)$ generically proves $\overline{Q}_C$ and $$
 \begin{align}
 (
-  \sigma_{\mathrm{Subgoal}_C}
+  \sigma_\vec{v}
     \circ \mathrm{remap}
     \circ \mathrm{quotient}
 )(\beta \wedge F_T)
   &\in
     \FullSat_{\Sigma_\mathrm{qrr}}(I), \\
 (
-  \sigma_{\mathrm{Subgoal}_C}
+  \sigma_\vec{v}
     \circ \mathrm{remap}
     \circ \gamma_T
 )(\mathrm{Subgoal}_C(\vec{\partial C}))
@@ -162,7 +162,7 @@ I \wedge \Sigma_\mathrm{qrr}
    \sigma_{\partial C}(\mathrm{Subgoal}_C(\vec{\partial C})).
 \end{align}
 $$
-> > (TODO: prove, using the fact that $(T, \gamma_T)$ generically proves $\overline{Q}_C$, that the subquery must be witnessed).
+> > (TODO: prove, using the fact that $(T, \gamma_T)$ generically proves $\overline{Q}_C$, that the subquery must be witnessed within $\SatTree_\Sigma(I)$).
 
 > **Theorem**. $\mathrm{QueryRuleRewrite1}(\Sigma, Q)$ is a query-rule-rewriting of $(\Sigma, Q)$.
 > 
