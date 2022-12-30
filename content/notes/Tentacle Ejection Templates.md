@@ -156,12 +156,12 @@ From now on, we shall assume that, for each $\Sigma$, we have decided a choice o
 
 > **Definition**. Let $T = (\tau = \forall \vec{x}. (\beta \rightarrow \exists \vec{y}. \eta) \in \Sigma, \sim_\tau, F_\tau)$ be a $\Sigma$-tentacle ejection template. The *generic instance $\GenInst_\Sigma(T)$ associated with $T$* is the instance $$
 \GenInst_\Sigma(T) :=
-  (\GenConst_\Sigma \circ \mathrm{quotient})(F_\tau \cup \beta)
-$$ where $\mathrm{quotient}: \elems(\vec{x}) \rightarrow {\sim_\tau}$ is the quotient map $x \mapsto [x]_{\sim_\tau}$.
+  (\GenConst_\Sigma \circ \mathrm{quotient}_{\sim_T})(F_\tau \cup \beta)
+$$ where $\mathrm{quotient}_{\sim_T}: \elems(\vec{x}) \rightarrow {\sim_\tau}$ is the quotient map $x \mapsto [x]_{\sim_\tau}$.
 
-> **Definition**. Let $T = (\tau = \forall \vec{x}. (\beta \rightarrow \exists \vec{y}. \eta) \in \Sigma, \sim_\tau, F_\tau)$ be a $\Sigma$-tentacle ejection template, and let $Q$ be a (*not necessarily boolean*) conjunctive query.  A *$T$-closing map on $Q$* is a map $\gamma: \operatorname{FV}(Q) \rightarrow {\sim}_\tau$.
+> **Definition**. Let $T = (\tau = \forall \vec{x}. (\beta \rightarrow \exists \vec{y}. \eta) \in \Sigma, \sim_\tau, F_\tau)$ be a $\Sigma$-tentacle ejection template, and let $Q$ be a (*not necessarily boolean*) conjunctive query.  A *$T$-closing map on $Q$* is a map $\gamma: \operatorname{FV}(Q) \rightarrow ({\sim}_\tau \cup \consts(\Sigma))$.
 
-> **Definition**. Let $T = (\tau, \sim_\tau, F_\tau)$ be a $\Sigma$-tentacle ejection template, $Q = \exists \vec{z}. \bigwedge_{i \in I} A_i(\vec{w_i})$ a conjunctive query and $\gamma: \mathrm{FV}(Q) \rightarrow {\sim_\tau}$ a $T$-closing map on $Q$. The *$T$-generic closure of $Q$ by $\gamma$* is a boolean conjunctive query $\mathrm{cl}_\gamma(Q)$ given by $$\mathrm{cl}_\gamma(Q) = \exists \vec{z}. \bigwedge_{i \in I} A_i((\GenConst_\Sigma \circ \gamma)(\vec{w_i}))$$
+> **Definition**. Let $T = (\tau, \sim_\tau, F_\tau)$ be a $\Sigma$-tentacle ejection template and $Q = \exists \vec{z}. \bigwedge_{i \in I} A_i(\vec{w_i})$ a conjunctive query. Write $\vec{z'}$ for $\mathrm{FV}(Q)$ in some order, and $\gamma: \elems(\vec{z'}) \rightarrow ({\sim}_\tau \cup \consts(\Sigma))$ a $T$-closing map on $Q$. The *$T$-generic closure of $Q$ by $\gamma$* is a boolean conjunctive query $\mathrm{cl}_\gamma(Q)$ given by $$\mathrm{cl}_\gamma(Q) = \exists \vec{z'}, \vec{z}. \bigwedge_{i \in I} A_i((\GenConst_\Sigma \circ \gamma)(\vec{w_i}))$$
 
 > **Definition**. Let $T$ be a $\Sigma$-tentacle ejection template, $Q$ a conjunctive query and $\gamma_Q: \mathrm{FV}(Q) \rightarrow {\sim_\tau}$ a $T$-closing map on $Q$. We say that $(T, \gamma_Q)$ *generically proves* $Q$ when $\GenInst_\Sigma(T) \wedge \Sigma \models \mathrm{cl}_\gamma(Q)$.
 
