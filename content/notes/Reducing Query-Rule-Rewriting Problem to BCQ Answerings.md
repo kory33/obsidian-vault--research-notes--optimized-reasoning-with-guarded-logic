@@ -131,7 +131,7 @@ $$ as $\sigma_\overline{C}(w)$ is just a constant. On the other hand, if $\sigma
 \end{align}
 $$where the second last equality is due to $\sigma$ conforming to $\sim_T$, and the last equality follows from the choice of $\tilde{w}$.
 > > 
-> > From these calculations we have $((\mathrm{remap} \circ \gamma_\sigma)(\mathrm{Subgoal}_C(\vec{\partial C}))) = \sigma_\overline{C}(\mathrm{Subgoal}_C(\vec{\partial C}))$. Therefore $\tau_\mathrm{Subgoal}$-chasing $\FullSat(I)$ with $\sigma_\vec{v}$ indeed yields $\sigma_\overline{C}(\mathrm{Subgoal}_C(\vec{\partial C}))$. We conclude that $I \wedge \Sigma_\mathrm{qrr} \models \sigma_\overline{C}(\mathrm{Subgoal}_C(\vec{\partial C}))$.
+> > From these calculations we have $\sigma_\vec{v}((\mathrm{remap} \circ \gamma_\sigma)(\mathrm{Subgoal}_C(\vec{\partial C}))) = \sigma_\overline{C}(\mathrm{Subgoal}_C(\vec{\partial C}))$. Therefore $\tau_\mathrm{Subgoal}$-chasing $\FullSat(I)$ with $\sigma_\vec{v}$ indeed yields $\sigma_\overline{C}(\mathrm{Subgoal}_C(\vec{\partial C}))$. We conclude that $I \wedge \Sigma_\mathrm{qrr} \models \sigma_\overline{C}(\mathrm{Subgoal}_C(\vec{\partial C}))$.
 >
 > > *Proof of (2)*. Suppose that $\sigma_{\partial C}$ is a ground substitution that covers exactly $\partial C$. Suppose further that $$
 I \wedge \Sigma_\mathrm{qrr}
@@ -162,6 +162,8 @@ I \wedge \Sigma_\mathrm{qrr}
    \sigma_{\partial C}(\mathrm{Subgoal}_C(\vec{\partial C})).
 \end{align}
 $$
+> > Let $\sigma: \elems(\vec{x}) \rightarrow \Consts$ be the ground substitution defined by $\sigma_\vec{v} \circ \mathrm{remap} \circ \mathrm{quotient}$.
+> >
 > > (TODO: prove, using the fact that $(T, \gamma_T)$ generically proves $\overline{Q}_C$, that the subquery must be witnessed within $\SatTree_\Sigma(I)$).
 
 > **Theorem**. $\mathrm{QueryRuleRewrite1}(\Sigma, Q)$ is a query-rule-rewriting of $(\Sigma, Q)$.
