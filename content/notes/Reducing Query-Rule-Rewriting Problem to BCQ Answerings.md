@@ -151,7 +151,7 @@ I \wedge \Sigma_\mathrm{qrr}
     \circ \mathrm{remap}
     \circ \mathrm{quotient}
 )(\beta \wedge F_T)
-  &\in
+  &\subseteq
     \FullSat_{\Sigma_\mathrm{qrr}}(I), \\
 (
   \sigma_\vec{v}
@@ -162,9 +162,18 @@ I \wedge \Sigma_\mathrm{qrr}
    \sigma_{\partial C}(\mathrm{Subgoal}_C(\vec{\partial C})).
 \end{align}
 $$
-> > Let $\sigma: \elems(\vec{x}) \rightarrow \Consts$ be the ground substitution defined by $\sigma_\vec{v} \circ \mathrm{remap} \circ \mathrm{quotient}$.
 > >
-> > (TODO: prove, using the fact that $(T, \gamma_T)$ generically proves $\overline{Q}_C$, that the subquery must be witnessed within $\SatTree_\Sigma(I)$).
+> > Let $\phi: {\sim}_T \rightarrow \Consts$ be the map defined by $\sigma_\vec{v} \circ \mathrm{remap}$. Since $(\phi \circ \mathrm{quotient})(\beta \wedge F_T) \subseteq \FullSat_{\Sigma_\mathrm{qrr}}(I)$, and as $\Sigma_\mathrm{qrr}$ is a conservative extenstion of $\Sigma$ (where we consider $\mathrm{Subgoal}_C$-s and $\mathrm{Goal}$ as newly introduced predicate symbols) by construction of $\Sigma_\mathrm{qrr}$, $(\phi \circ \mathrm{quotient})(\beta \wedge F_T) \subseteq \FullSat_{\Sigma}(I)$. As $(\phi \circ \mathrm{quotient})(\beta)$ is a set of base facts, $I \wedge \Sigma \models (\phi \circ \mathrm{quotient})(\beta \wedge F_T)$.
+> >
+> > Now, by the application of Genericity of Generic Proofs to $(T, \gamma_T)$ and $\phi$, $(\phi \circ \mathrm{quotient})(\beta \wedge F_T) \models (\phi \circ \gamma_T)(\overline{Q}_C)$. As $(\sigma_\vec{v} \circ \mathrm{remap} \circ \gamma_T)(\mathrm{Subgoal}_C(\vec{\partial C})) = \sigma_{\partial C}(\mathrm{Subgoal}_C(\vec{\partial C}))$, we have $(\sigma_\vec{v} \circ \mathrm{remap} \circ \gamma_T) = \sigma_{\partial C}$. Therefore $$
+\begin{align}
+  (\phi \circ \gamma_T)(\overline{Q}_C)
+    &= (\sigma_\vec{v} \circ \mathrm{remap} \circ \gamma_T)(\overline{Q}_C) \\
+    &= \sigma_{\partial C}(\overline{Q}_C),
+\end{align}
+$$and hence $(\phi \circ \mathrm{quotient})(\beta \wedge F_T) \models \sigma_{\partial C}(\overline{Q}_C)$.
+> >
+> > By transitivity of the $\models$ relation, we conclude that $I \wedge \Sigma \models \sigma_{\partial C}(\overline{Q}_C)$.
 
 > **Theorem**. $\mathrm{QueryRuleRewrite1}(\Sigma, Q)$ is a query-rule-rewriting of $(\Sigma, Q)$.
 > 

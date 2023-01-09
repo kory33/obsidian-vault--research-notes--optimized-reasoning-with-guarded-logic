@@ -43,7 +43,7 @@ Next, we define what is means to "instantiate" $\Sigma$-tentacle ejection templa
 \end{array}
 $$ conforms to $\sim_\vec{x}$.
 
-> **Definition** Let $\Sigma$ be a finite set of GTGDs, and $T = (\tau = \forall \vec{x}. \beta \rightarrow \exists \vec{y}. \eta, \sim_\tau, F_\tau)$ be a $\Sigma$-tentacle ejection template. Given a ground substitution $\sigma_{F_\tau}$ that conforms to $\sim_\tau$, the *$\Sigma$-instantiation $\Tentacle_\Sigma(T, \sigma)$ of $T$ fired with $\sigma$* is defined as the subtree of $\SatTree_\Sigma(\sigma(F_\tau \cup \beta))$ induced by the set of nodes in $\SatTree_\Sigma(\sigma(F_\tau \cup \beta))$ that either
+> **Definition** Let $\Sigma$ be a finite set of GTGDs, and $T = (\tau = \forall \vec{x}. \beta \rightarrow \exists \vec{y}. \eta, \sim_\tau, F_\tau)$ be a $\Sigma$-tentacle ejection template. Given a ground substitution $\sigma$ that conforms to $\sim_\tau$, the *$\Sigma$-instantiation $\Tentacle_\Sigma(T, \sigma)$ of $T$ fired with $\sigma$* is defined as the subtree of $\SatTree_\Sigma(\sigma(F_\tau \cup \beta))$ induced by the set of nodes in $\SatTree_\Sigma(\sigma(F_\tau \cup \beta))$ that either
 >   1. is the root node, or
 >   2. corresponds to a valid generative $\Sigma$-chase-path on $\sigma(F_\tau)$ and starts with $(\tau, \sigma)$.
 
@@ -162,11 +162,14 @@ $$ where $\mathrm{quotient}_{\sim_T}: \elems(\vec{x}) \rightarrow {\sim_\tau}$ i
 
 > **Definition**. Let $T = (\tau = \forall \vec{x}. (\beta \rightarrow \exists \vec{y}. \eta) \in \Sigma, \sim_\tau, F_\tau)$ be a $\Sigma$-tentacle ejection template, and let $Q$ be a (*not necessarily boolean*) conjunctive query.  A *$T$-closing map on $Q$* is a map $\gamma: \operatorname{FV}(Q) \rightarrow ({\sim}_\tau \cup \consts(\Sigma))$.
 
-> **Definition**. Let $T = (\tau, \sim_\tau, F_\tau)$ be a $\Sigma$-tentacle ejection template and $Q = \exists \vec{z}. \bigwedge_{i \in I} A_i(\vec{w_i})$ a conjunctive query. Write $\vec{z'}$ for $\mathrm{FV}(Q)$ in some order, and $\gamma: \elems(\vec{z'}) \rightarrow ({\sim}_\tau \cup \consts(\Sigma))$ a $T$-closing map on $Q$. The *$T$-generic closure of $Q$ by $\gamma$* is a boolean conjunctive query $\mathrm{cl}_\gamma(Q)$ given by $$\mathrm{cl}_\gamma(Q) = \exists \vec{z'}, \vec{z}. \bigwedge_{i \in I} A_i((\GenConst_\Sigma \circ \gamma)(\vec{w_i}))$$
+> **Definition**. Let $T$ be a $\Sigma$-tentacle ejection template, $Q$ a conjunctive query and $\gamma: \mathrm{FV}(Q) \rightarrow ({\sim_T} \cup \mathrm{consts}(\Sigma))$ a $T$-closing map on $Q$. We say that $(T, \gamma)$ *generically proves* $Q$ when $\GenInst_\Sigma(T) \wedge \Sigma \models (\mathrm{GenConst}_\Sigma \circ \gamma)(Q)$.
 
-> **Definition**. Let $T$ be a $\Sigma$-tentacle ejection template, $Q$ a conjunctive query and $\gamma_Q: \mathrm{FV}(Q) \rightarrow {\sim_\tau}$ a $T$-closing map on $Q$. We say that $(T, \gamma_Q)$ *generically proves* $Q$ when $\GenInst_\Sigma(T) \wedge \Sigma \models \mathrm{cl}_\gamma(Q)$.
+Generic proofs are "generic" because there is no assumption on constants symbols appearing in $\mathrm{GenInst}_\Sigma(T)$, and we can treat them essentially as universally quantified variables (just like the usual Generalization Rule in the first-order calculus). The reason we are not working with variables and with constants is to make clear how we are reducing query-rewriting problem into the BCQ answering problem over GTGD rules.
 
-(TODO: We probably need the following two results in order to prove the correctness of the rewrite algorithm:
- 1. If there is a generic proof of a subquery, then the instantiation of the template induces an actual witness on $\SatTree$ of the subquery
- 2. If there is a witness of the subquery in a tentacle, then the abstraction of the tentacle, together with the induced $T$-expectation (we should make this precise), generically proves the subquery.
-)
+The next proposition formalizes this idea.
+
+> **Proposition** (Genericity of Generic Proofs). Suppose $T$ is a $\Sigma$-tentacle ejection template, $Q$ a conjunctive query and $\gamma: \mathrm{FV}(Q) \rightarrow ({\sim_T} \cup \consts(\Sigma))$ a $T$-closing map on $Q$.
+> 
+> If $(T, \gamma)$ generically proves $Q$ and $\phi: {\sim_T} \rightarrow \Consts$ is any map with the displayed signature, then $(\phi \circ \mathrm{quotient}_{\sim_T})(F_T \cup \beta) \models (\phi \circ \gamma)(Q)$.
+> 
+> > *Proof*. (TODO)
