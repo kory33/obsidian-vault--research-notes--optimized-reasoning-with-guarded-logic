@@ -41,6 +41,75 @@ An immediate consequence of the lemma is the following:
 > > 
 > > Now for all $t \in \elems(\vec{t})$, $\Intro(t)$ is the root node $()$, which is an ancestor of $n$. Therefore by the Fact Introduction lemma $P(\vec{t}) \in \Instance_{\SatTree_\Sigma(I)}(()) = \Sat_\Sigma(I)$.
 
-## Universality of $\SatTree$s
+## Acting Consts Translations on SatTrees
 
-> **Fact**. Let $\Sigma$ be a finite set of GTGDs, $I$ a base instance and $Q = \exists \vec{z}. \bigwedge_{j \in J} A_j(\vec{u}_j)$ a conjunctive query. Then $$I \wedge \Sigma \models Q \Longleftrightarrow \TreeFacts(\SatTree_\Sigma(I)) \text{ witnesses } Q$$
+> **Proposition**. Let $\Sigma$ be a finite set of GTGDs, $I$ an instance and $t: \Consts \rightarrow \Consts$ a consts translation. Then $t(\FullSat_\Sigma(I)) \subseteq \FullSat_\Sigma(t(I))$.
+> 
+> > *Proof*. Choose a rewriting $\Sigma_\mathrm{rew}$ of $\Sigma$, then $$
+\begin{align}
+  t(\FullSat_\Sigma(I))
+   &= t(\Sat_{\Sigma_\mathrm{rew}}(I)) \\
+   &= t(\bigcup_{k \in \mathbb{N}} \Sat^k_{\Sigma_\mathrm{rew}}(I)),
+\end{align}
+$$and $$
+\begin{align}
+  \FullSat_\Sigma(t(I))
+   &= \Sat_{\Sigma_\mathrm{rew}}(t(I)) \\
+   &= \bigcup_{k \in \mathbb{N}} \Sat^k_{\Sigma_\mathrm{rew}}(t(I)).
+\end{align}
+$$
+> > So it suffices to show that $t(\Sat^k_{\Sigma_\mathrm{rew}}(I)) \subseteq \Sat^k_{\Sigma_\mathrm{rew}}(t(I))$. We proceed by induction on $k$. The base case is $t(\Sat_{\Sigma_\mathrm{rew}}^0(I)) = t(I) = \Sat_{\Sigma_\mathrm{rew}}^0(t(I))$. To see the inductive part, suppose $t(\Sat^k_{\Sigma_\mathrm{rew}}(I)) \subseteq \Sat^k_{\Sigma_\mathrm{rew}}(t(I))$. Then $$
+\begin{align}
+  t(\Sat^{k+1}_{\Sigma_\mathrm{rew}}(I))
+    &= t(\Sat^k_\Sigma(I) \cup \set{\ \sigma(\eta) \mid (\forall \vec{x}. \beta \rightarrow \eta) \in \Sigma, \sigma \text{ covers } \vec{x}, \sigma(\beta) \subseteq \Sat^k_\Sigma(I)\ }) \\
+    &= t(\Sat^k_\Sigma(I)) \cup \set{\ (t \circ \sigma)(\eta) \mid (\forall \vec{x}. \beta \rightarrow \eta) \in \Sigma, \sigma \text{ covers } \vec{x}, \sigma(\beta) \subseteq \Sat^k_\Sigma(I)\ } \\
+    &\subseteq \Sat^k_\Sigma(t(I)) \cup \set{\ \sigma'(\eta) \mid (\forall \vec{x}. \beta \rightarrow \eta) \in \Sigma, \sigma' \text{ covers } \vec{x}, \sigma'(\beta) \subseteq \Sat^k_\Sigma(t(I))\ } \\
+	&= \Sat^{k+1}_{\Sigma_\mathrm{rew}}(t(I))
+\end{align}
+$$where the third subset relation follows from the fact that if $\sigma$ covers $\vec{x} = \mathrm{FV}(\beta)$ and $\sigma(\beta) \subseteq \mathrm{Sat}^k_\Sigma(I)$, then $t \circ \sigma$ is a factual substitution covering $\vec{x}$ and $(t \circ \sigma)(\beta) \subseteq t(\Sat^k_\Sigma(I)) \subseteq \Sat^k_\Sigma(t(I))$ by induction hypothesis. 
+
+> **Proposition**. Let $\Sigma$ be a finite set of GTGDs, $I$ a base instance and $t: \Consts \rightarrow \Consts$ a consts translation. Then for any valid $\Sigma$-chase path $\vec{d} = ((\tau_1, \sigma_1), \ldots, (\tau_n, \sigma_n))$ on $I$, $\mathrm{map}_t(\vec{d}) = ((\tau_1, t \circ \sigma_1), \ldots, (\tau_n, t \circ \sigma_n))$ is a valid $\Sigma$-chase path on $t(I)$, and moreover $$t(\Instance_{\SatTree_\Sigma(I)}(\vec{d})) \subseteq \Instance_{\SatTree_\Sigma(t(I))}(\mathrm{map}_t(\vec{d})).$$
+> > *Proof*. By induction on the length of $\vec{d}$. The base case is proven in the preceding proposition.
+> > 
+> > For the inductive part, take a valid $\Sigma$-chase path $\vec{d} = ((\tau_1, \sigma_1), \ldots, (\tau_{n-1}, \sigma_{n-1}))$ on $I$, a chase-step direction $(\tau_n, \sigma_n)$ with $\vec{d} \concat (\tau_n, \sigma_n)$ being a valid $\Sigma$-chase path on $I$, and suppose that $\mathrm{map}_t(\vec{d})$ is a valid $\Sigma$-chase path on $t(I)$ with $$t(\Instance_{\SatTree_\Sigma(I)}(\vec{d})) \subseteq \Instance_{\SatTree_\Sigma(t(I))}(\mathrm{map}_t(\vec{d})).$$
+> > Now $$
+\begin{align}
+  t(\Instance_{\SatTree_\Sigma(I)}(\vec{d} \concat (\tau_n, \sigma_n)))
+    &= t(\FullSat_\Sigma(\chase_{\widehat{\#_{\vec{d}}}}(\operatorname{SC}_{\Sigma, \vec{d}}(I), (\tau_n, \sigma_n)))) \\
+    &\subseteq \FullSat_\Sigma(t(\chase_{\widehat{\#_{\vec{d}}}}(\operatorname{SC}_{\Sigma, \vec{d}}(I), (\tau_n, \sigma_n)))) \\
+    &= \FullSat_\Sigma(
+      t(
+        \chaseHead_{\widehat{\#_{\vec{d}}}}(\tau_n, \sigma_n)
+      ) \cup t(
+        \exports_\Sigma(\operatorname{SC}_{\Sigma, \vec{d}}(I), (\tau_n, \sigma_n)
+      )
+    )) \\
+    &= \FullSat_\Sigma(
+      \chaseHead_{\widehat{\#_{\vec{d}}}}(\tau_n, t \circ \sigma_n)
+      \cup t(
+        \exports_\Sigma(\operatorname{SC}_{\Sigma, \vec{d}}(I), (\tau_n, \sigma_n)
+      )
+    )) \\
+    &\subseteq \FullSat_\Sigma(
+      \chaseHead_{\widehat{\#_{\vec{d}}}}(\tau_n, t \circ \sigma_n)
+      \cup
+        \exports_\Sigma(\operatorname{SC}_{\Sigma, \mathrm{map}_t(\vec{d})}(t(I)), (\tau_n, t \circ \sigma_n)
+      )
+    )) \\
+    &= \Instance_{\SatTree_\Sigma(t(I))}(\mathrm{map}_t(\vec{d}) \concat (\tau_n, t \circ \sigma_n))).
+\end{align}
+$$
+
+> **Corollary (facts-translation inclusion).** Let $\Sigma$ be a finite set of GTGDs, $I$ a base instance and $t: \Consts \rightarrow \Consts$ a consts translation. Then $$t(\TreeFacts(\SatTree_\Sigma(I))) \subseteq \TreeFacts(\SatTree_\Sigma(t(I))).$$
+> > *Proof*. Take $F \in t(\TreeFacts(\SatTree_\Sigma(I)))$. Then there is some $\tilde{F} \in \TreeFacts(\SatTree_\Sigma(I))$ with $t(\tilde{F}) = F$, and hence some valid $\Sigma$-chase path $\vec{d}$ on $I$ with $\tilde{F} \in \Instance_{\SatTree_\Sigma(I)}(\vec{d})$. As $$
+\begin{align}
+  F
+    &= t(\tilde{F}) \\
+    &\in t(\Instance_{\SatTree_\Sigma(I)}(\vec{d})) \\
+    &\subseteq \Instance_{\SatTree_\Sigma(t(I))}(\mathrm{map}_t(\vec{d})),
+\end{align}
+$$$F \in \TreeFacts(\SatTree_\Sigma(t(I)))$.
+
+## Universality of SatTrees
+
+> **Fact**. Let $\Sigma$ be a finite set of GTGDs, $I$ a base instance and $Q = \exists \vec{z}. \bigwedge_{j \in J} A_j(\vec{u}_j)$ a conjunctive query. Then $$I \wedge \Sigma \models Q \Longleftrightarrow \TreeFacts(\SatTree_\Sigma(I)) \text{ witnesses } Q.$$

@@ -67,6 +67,6 @@ A factual substitution canonically extends to a partial function $\Atoms \righth
 
 ### Consts translations
 
-> **Definition**. A *consts translation* is a function $\sigma: \Consts \rightarrow \Consts$.
+> **Definition**. A *consts translation* is a function $t: \Consts \rightarrow \Consts$.
 
-A consts translation $\sigma$ then canonically extends to a function $\tilde{\sigma}: \Facts \rightarrow \Facts$ that applies $\sigma$ to each constant appearing in a fact (without modifying nulls). Then $\tilde{\sigma}$ further extends to a function $\tilde{\tilde{\sigma}}: \Instance \rightarrow \Instance$ that applies $\tilde{\sigma}$ to each fact in an instance. By an abuse of notation we shall identify all of $\sigma, \tilde{\sigma}$ and $\tilde{\tilde{\sigma}}$.
+A consts translation $t$ then canonically extends to a function $\tilde{t}: \Facts \rightarrow \Facts$ that applies $t$ to each constant appearing in a fact (without modifying nulls). Then $\tilde{t}$ further extends to a function $\tilde{\tilde{t}}: \Instance \rightarrow \Instance$ that applies $\tilde{t}$ to each fact in an instance. By an abuse of notation we shall identify all of $t, \tilde{t}$ and $\tilde{\tilde{t}}$.
