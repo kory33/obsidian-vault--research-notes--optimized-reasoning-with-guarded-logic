@@ -151,25 +151,44 @@ $$so we are done.
 
 Throughout this section, whenever we take a generic $\Sigma$-tentacle ejection template $T = (\tau = \forall \vec{x}. (\beta \rightarrow \exists \vec{y}. \eta) \in \Sigma, \sim_\tau, F_\tau)$ and a (not necessarily boolean) conjunctive query $Q = \exists \vec{z}. \bigwedge_{i \in I} A_i(\vec{w_i})$, by renaming bound variables we shall assume that $\vec{x}, \vec{y}$, $\vec{z}$ and $\operatorname{FV}(Q)$ are all disjoint to each other.
 
-> **Definition**. For a set $\Sigma$ of finite GTGDs, a *$\Sigma$-generic constant assignment* is a computable function $\GenConst_\Sigma: \mathcal{P}_\mathrm{fin}(\Vars) \rightarrow \Consts$ such that $\mathrm{im}(\GenConst) \cap \consts(\Sigma) = \emptyset$.
+> **Definition**. For a set $\Sigma$ of finite GTGDs, a *$\Sigma$-generic constant assignment* is a computable injection $\GenConst_\Sigma: \mathcal{P}_\mathrm{fin}(\Vars) \rightarrow \Consts$ such that $\mathrm{im}(\GenConst) \cap \consts(\Sigma) = \emptyset$.
 
 From now on, we shall assume that, for each $\Sigma$, we have decided a choice on a $\Sigma$-generic constant assignment $\GenConst_\Sigma$. We shall refer to this particular function as *the* $\Sigma$-generic constant assignment.
 
 > **Definition**. Let $T = (\tau = \forall \vec{x}. (\beta \rightarrow \exists \vec{y}. \eta) \in \Sigma, \sim_\tau, F_\tau)$ be a $\Sigma$-tentacle ejection template. The *generic instance $\GenInst_\Sigma(T)$ associated with $T$* is the instance $$
 \GenInst_\Sigma(T) :=
-  (\GenConst_\Sigma \circ \mathrm{quotient}_{\sim_T})(F_\tau \cup \beta)
+  (\GenConst_\Sigma \circ \mathrm{quotient}_{\sim_T})(F_\tau \wedge \beta)
 $$ where $\mathrm{quotient}_{\sim_T}: \elems(\vec{x}) \rightarrow {\sim_\tau}$ is the quotient map $x \mapsto [x]_{\sim_\tau}$.
 
 > **Definition**. Let $T = (\tau = \forall \vec{x}. (\beta \rightarrow \exists \vec{y}. \eta) \in \Sigma, \sim_\tau, F_\tau)$ be a $\Sigma$-tentacle ejection template, and let $Q$ be a (*not necessarily boolean*) conjunctive query.  A *$T$-closing map on $Q$* is a map $\gamma: \operatorname{FV}(Q) \rightarrow ({\sim}_\tau \cup \consts(\Sigma))$.
 
-> **Definition**. Let $T$ be a $\Sigma$-tentacle ejection template, $Q$ a conjunctive query and $\gamma: \mathrm{FV}(Q) \rightarrow ({\sim_T} \cup \mathrm{consts}(\Sigma))$ a $T$-closing map on $Q$. We say that $(T, \gamma)$ *generically proves* $Q$ when $\GenInst_\Sigma(T) \wedge \Sigma \models (\mathrm{GenConst}_\Sigma \circ \gamma)(Q)$.
+> **Definition**. Let $T$ be a $\Sigma$-tentacle ejection template, $Q$ a conjunctive query and $\gamma: \mathrm{FV}(Q) \rightarrow ({\sim_T} \cup \mathrm{consts}(\Sigma))$ a $T$-closing map on $Q$. We say that $(T, \gamma)$ *generically $\Sigma$-proves* $Q$ when $\GenInst_\Sigma(T) \wedge \Sigma \models (\mathrm{GenConst}_\Sigma \circ \gamma)(Q)$.
 
-Generic proofs are "generic" because there is no assumption on constants symbols appearing in $\mathrm{GenInst}_\Sigma(T)$, and we can treat them essentially as universally quantified variables (just like the usual Generalization Rule in the first-order calculus). The reason we are not working with variables and with constants is to make clear how we are reducing query-rewriting problem into the BCQ answering problem over GTGD rules.
+Generic $\Sigma$-proofs are "generic" because there is no assumption on constants symbols appearing in $\mathrm{GenInst}_\Sigma(T)$ (other than those appear in $\Sigma$), and we can treat them essentially as universally quantified variables (just like the usual Generalization Rule in the first-order calculus). The reason we are not working with variables and with constants is to make clear how we are reducing query-rewriting problem into the BCQ answering problem over GTGD rules.
 
 The next proposition formalizes this idea.
 
 > **Proposition** (Genericity of Generic Proofs). Suppose $T$ is a $\Sigma$-tentacle ejection template, $Q$ a conjunctive query and $\gamma: \mathrm{FV}(Q) \rightarrow ({\sim_T} \cup \consts(\Sigma))$ a $T$-closing map on $Q$.
 > 
-> If $(T, \gamma)$ generically proves $Q$ and $\phi: {\sim_T} \rightarrow \Consts$ is any map with the displayed signature, then $(\phi \circ \mathrm{quotient}_{\sim_T})(F_T \cup \beta) \models (\phi \circ \gamma)(Q)$.
+> If $(T, \gamma)$ generically proves $Q$ and $\phi: {\sim_T} \rightarrow \Consts$ is any map with the displayed signature, then $(\phi \circ \mathrm{quotient}_{\sim_T})(F_T \wedge \beta) \wedge \Sigma \models (\phi \circ \gamma)(Q)$.
 > 
-> > *Proof*. (TODO)
+> > *Proof*. As $\mathrm{GenConst}_\Sigma$ is an injection, we may pick a retraction $\mathrm{GenConst}_\Sigma^{-1}$ of $\mathrm{GenConst}_\Sigma$.
+> > 
+> > By assumption, $(\GenConst_\Sigma \circ \mathrm{quotient}_{\sim_T})(F_\tau \wedge \beta) \wedge \Sigma \models (\mathrm{GenConst}_\Sigma \circ \gamma)(Q)$. Now, consider the consts translation $\psi := \phi \circ \mathrm{GenConst}_\Sigma^{-1}: \Consts \rightarrow \Consts$ that fixes all constants not in the image of $\mathrm{GenConst}_\Sigma$. As $\psi$ fixes $\consts(\Sigma)$ and rule-query entailment is preserved by $\consts(\Sigma)$-fixing consts translations, we have $$
+\begin{align}
+  (
+    \phi \circ
+    \mathrm{quotient}_{{\sim}_T}
+  )(
+    F_T \wedge \beta
+  ) \wedge \Sigma
+  &= \psi((
+    \mathrm{GenConst}_\Sigma \circ
+    \mathrm{quotient}_{{\sim}_T}
+  )(F_T \wedge \beta)) \wedge \Sigma \\
+  &\models \psi(
+    (\mathrm{GenConst}_\Sigma \circ \gamma)(Q)
+  ) \\
+  &= (\phi \circ \gamma)(Q) \\
+\end{align}
+$$
