@@ -69,9 +69,7 @@ The $\mathrm{Subgoal}_C$ predicate essentially captures the fulfilment of the su
 >  - $\vec{z} = \mathrm{FV}(Q)$ and $\overline{Q} = \exists \vec{z}. Q$, and
 >  - $\mathcal{H}(\overline{Q}) = (\mathcal{V}, \mathcal{E})$ for the query hypergraph of $\overline{Q}$.
 >
-> Take any connected sub-hypergraph $C$ of $\mathcal{H}(\overline{Q})$.
-> 
-> Let $\overline{Q}_C = \exists \vec{C}. \bigwedge_{j \in J_\overline{C}} A_j(\vec{u}_j)$ be the subquery of $\overline{Q}$ induced by $C$. Then the following implications hold.
+> Take any connected sub-hypergraph $C$ of $\mathcal{H}(\overline{Q})$, and let $\overline{Q}_C = \exists \vec{C}. \bigwedge_{j \in J_\overline{C}} A_j(\vec{u}_j)$ be the subquery of $\overline{Q}$ induced by $C$. Then the following implications hold.
 > 
 >  1. If $\sigma_\overline{C}$ is a factual substitution that exactly covers $\overline{C}$ with $\touchDowners(\sigma_\overline{C}) = \partial C$, then $$
 \sigma_\overline{C} \left(
@@ -99,13 +97,22 @@ $$
 > >
 > > Then all of $\overline{C} \setminus \partial C = C$ are mapped to nulls by $\sigma_\overline{C}$ , and by connectedness of $C$ and the definition of $J_\overline{C}$ , there exists some valid generative path $(\tau = \forall \vec{x}. \beta \rightarrow \exists \vec{y}. \eta, \sigma)$ such that all nulls in $\sigma_\overline{C}[C]$ are introduced within the tentacle hanging from $(\tau, \sigma)$ (TODO: write this fact as a lemma somewhere: this follows from the witness decomposition).
 > > 
-> > Let $T = (\tau, \sim_T, F_T)$ be an abstraction of $(\tau, \sigma)$ as constructed in [[Tentacle Ejection Templates#^d4d09d]]. We wish to construct an appropriate closing map $\gamma_\sigma: \partial C \rightarrow {\sim} \cup \consts(\Sigma)$ on $\overline{Q}_C$ so that $(T, \gamma_\sigma)$ generically proves $\overline{Q}_C$ and the added rule corresponding to $(T, \gamma_\sigma)$ can be invoked on $\FullSat(I)$ to obtain $\mathrm{Subgoal}_C(\vec{\partial C})$. For a variable $w \in \partial C$ such that $\sigma_\overline{C}(w) \in \consts(\Sigma)$, set $\gamma_\sigma(w) = \sigma_\overline{C}(w)$. Otherwise, if $w \in \partial C$ has $\sigma_\overline{C}(w) \not\in \consts(\Sigma)$, then as $\sigma_\overline{C}\left(\bigwedge_{j \in J_\overline{C}} A_j(\vec{u}_j)\right)$ contains a fact that mentions both $\sigma_\overline{C}(w)$ and a null occuring in $\Tentacle_\Sigma(T, \sigma)$, $\sigma$ must send some variable $\tilde{w} \in \vec{x}$ to $\sigma_\overline{C}(w)$ (TODO: We might want to make this argument a bit more precise. The reasoning is informally as follows: as there is no way $\sigma_\overline{C}(w)$ can be introduced during the chase process (since $\sigma_\overline{C}(w)$ does not appear in $\Sigma$), $\sigma_\overline{C}(w)$ must be mentioned in one of exported facts at the root of the tentacle). So choose such $\tilde{w}$ for each $w \in \partial C$ with $\sigma_\overline{C}(w) \not \in \consts(\Sigma)$, and set $\gamma_\sigma(w) = [\tilde{w}]_{\sim_T}$ for all such $w$.
+> > 
+> > For a variable $w \in \partial C$ such that $\sigma_\overline{C}(w) \in \consts(\Sigma)$, set $\gamma_\sigma(w) = \sigma_\overline{C}(w)$. Otherwise, if $w \in \partial C$ has $\sigma_\overline{C}(w) \not\in \consts(\Sigma)$, then as $\sigma_\overline{C}\left(\bigwedge_{j \in J_\overline{C}} A_j(\vec{u}_j)\right)$ contains a fact that mentions both $\sigma_\overline{C}(w)$ and a null occuring in $\Tentacle_\Sigma(T, \sigma)$, $\sigma$ must send some variable $\tilde{w} \in \vec{x}$ to $\sigma_\overline{C}(w)$ (TODO: We might want to make this argument a bit more precise. The reasoning is informally as follows: as there is no way $\sigma_\overline{C}(w)$ can be introduced during the chase process (since $\sigma_\overline{C}(w)$ does not appear in $\Sigma$), $\sigma_\overline{C}(w)$ must be mentioned in one of exported facts at the root of the tentacle). So choose such $\tilde{w}$ for each $w \in \partial C$ with $\sigma_\overline{C}(w) \not \in \consts(\Sigma)$, and set $\gamma_\sigma(w) = [\tilde{w}]_{\sim_T}$ for all such $w$.
 > >
 > > We make the following claim:
 > >
 > > > **Claim 1**. $(T, \gamma_\sigma)$ generically proves $\overline{Q}_C$.
 > > > 
-> > > *Proof*. (TODO)
+> > > *Proof*. We need to prove that $(\GenConst_\Sigma \circ \mathrm{quotient}_{\sim_T})(F_T \wedge \beta) \wedge \Sigma \models (\mathrm{GenConst}_\Sigma \circ \gamma_\sigma)(\overline{Q}_C)$.
+> > > 
+> > > By the assumption on $\sigma$ and $\sigma_\overline{C}$, we have $\sigma(F_T \wedge \beta) \wedge \Sigma \models \sigma_\overline{C}(\overline{Q}_C)$. As $\mathrm{ker}(\sigma) = {\sim}_T$, $\sigma$ factors through the quotient map and an injection, i.e. there is an injective map $\phi: {\sim}_T \rightarrow \Consts$ such that $\sigma = \phi \circ \mathrm{quotient}_{{\sim}_T}$. 
+> > > 
+> > > **If $\consts(\Sigma)$ is empty,** then for any $w \in \partial C$,  $(\phi^{-1} \circ \sigma_\overline{C})(w) = \gamma_\sigma(w)$ by the construction of $\gamma_\sigma$.
+> > > 
+> > > (TODO: Unfortunately, we do not have $\phi^{-1} \circ \sigma_\overline{C} = \gamma_\sigma$ when $\Sigma$ contains constants. For such cases to work, we need to include the data of "which equivalence classes are mapped to which elements in $\consts(\Sigma)$", likely in a form of partial function $\sigma_T \rightharpoonup \consts(\Sigma)$.)
+> > > 
+> > > So $\phi^{-1} \circ \sigma_\overline{C} = \gamma_\sigma$, and as $\mathrm{GenConst}_\Sigma \circ \phi^{-1}$ is a $\consts(\Sigma)$-fixing consts translation, $(\mathrm{GenConst}_\Sigma \circ \phi^{-1} \circ \sigma)(F_T \wedge \beta) \wedge \Sigma = (\GenConst_\Sigma \circ \mathrm{quotient}_{\sim_T})(F_T \wedge \beta) \wedge \Sigma$ entails $(\mathrm{GenConst}_\Sigma \circ \phi^{-1} \circ \sigma_\overline{C}) = (\mathrm{GenConst}_\Sigma \circ \gamma_\sigma)$.
 > >
 > > Now that Claim 1 has been established, $\Sigma_\mathrm{qrr}$ contains a rule $$\tau_\mathrm{Subgoal} = \forall \vec{v}. (\mathrm{remap} \circ \mathrm{quotient})(\beta \wedge F_T) \rightarrow (\mathrm{remap} \circ \gamma_\sigma)(\mathrm{Subgoal}_C(\vec{\partial C})).$$for some remapping function $\mathrm{remap}: {\sim_T} \rightarrow \Vars$ and some ordering $\vec{v}$ of variables in $(\mathrm{remap} \circ \mathrm{quotient})(\beta \wedge F_T)$.
 > > 
