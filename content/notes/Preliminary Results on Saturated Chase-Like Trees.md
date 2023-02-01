@@ -88,23 +88,23 @@ $$where the third subset relation follows from the fact that if $\sigma$ covers 
 > > Now $$
 \begin{align}
   t(\Instance_{\SatTree_\Sigma(I)}(\vec{d} \concat (\tau_n, \sigma_n)))
-    &= t(\FullSat_\Sigma(\chase_{\widehat{\#_{\vec{d}}}}(\operatorname{SC}_{\Sigma, \vec{d}}(I), (\tau_n, \sigma_n)))) \\
-    &\subseteq \FullSat_\Sigma(t(\chase_{\widehat{\#_{\vec{d}}}}(\operatorname{SC}_{\Sigma, \vec{d}}(I), (\tau_n, \sigma_n)))) \\
+    &= t(\FullSat_\Sigma(\chase_{\widehat{\#_{\vec{d} \concat (\tau, \sigma)}}}(\operatorname{SC}_{\Sigma, \vec{d}}(I), (\tau_n, \sigma_n)))) \\
+    &\subseteq \FullSat_\Sigma(t(\chase_{\widehat{\#_{\vec{d} \concat (\tau, \sigma)}}}(\operatorname{SC}_{\Sigma, \vec{d}}(I), (\tau_n, \sigma_n)))) \\
     &= \FullSat_\Sigma(
       t(
-        \chaseHead_{\widehat{\#_{\vec{d}}}}(\tau_n, \sigma_n)
+        \chaseHead_{\widehat{\#_{\vec{d} \concat (\tau, \sigma)}}}(\tau_n, \sigma_n)
       ) \cup t(
         \exports_\Sigma(\operatorname{SC}_{\Sigma, \vec{d}}(I), (\tau_n, \sigma_n)
       )
     )) \\
     &= \FullSat_\Sigma(
-      \chaseHead_{\widehat{\#_{\mathrm{map}_t(\vec{d})}}}(\tau_n, t \circ \sigma_n)
+      \chaseHead_{\widehat{\#_{\mathrm{map}_t(\vec{d} \concat (\tau, \sigma))}}}(\tau_n, t \circ \sigma_n)
       \cup t(
         \exports_\Sigma(\operatorname{SC}_{\Sigma, \vec{d}}(I), (\tau_n, \sigma_n)
       )
     )) \\
     &\subseteq \FullSat_\Sigma(
-      \chaseHead_{\widehat{\#_{\mathrm{map}_t(\vec{d})}}}(\tau_n, t \circ \sigma_n)
+      \chaseHead_{\widehat{\#_{\mathrm{map}_t(\vec{d} \concat (\tau, \sigma))}}}(\tau_n, t \circ \sigma_n)
       \cup
         \exports_\Sigma(\operatorname{SC}_{\Sigma, \mathrm{map}_t(\vec{d})}(t(I)), (\tau_n, t \circ \sigma_n)
       )

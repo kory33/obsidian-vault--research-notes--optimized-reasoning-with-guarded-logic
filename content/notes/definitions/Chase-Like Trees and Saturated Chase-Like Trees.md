@@ -40,7 +40,7 @@ We shall describe how an instance can be "extended" by applying a GTGD.
 
 > **Definition**. For a chase-like tree $T$ with the instance assignment $\operatorname{Instance}_T$, we define the instance $\TreeFacts(T)$ as the union $\bigcup \mathrm{im} \operatorname{Instance}_T$ of images of the instance assignment.
 
-### The Canonical Global Null-Picking Function
+### The Global Null-Picking Function
 
 > **Definition**. We write $\ChaseStepDir$ for the set $\GTGDFormulae \times \FactualSubstitutions$, and call a pair $(\tau, \sigma) \in \ChaseStepDir$ a *generic chase-step direction*. We call a finite (resp. infinite) sequence of generic chase-step directions a *finite (resp. infinite) generic chase-path*.
 
@@ -48,7 +48,7 @@ We shall describe how an instance can be "extended" by applying a GTGD.
 
 By precomposing $\#$ to the canonical null-picking function $\nu_{\mathrm{id}}(i \in \mathbb{N}) = n_i$ and currying, we obtain a $\ChaseStepDir^{< \omega}$-indexed family $\set{ \widehat{\#_\vec{d}}}_{\vec{d} \in \ChaseStepDir^{< \omega}}$ of null-picking functions. More explicitly, we have the following:
 
->**Definition**. For each $\vec{d} \in \ChaseStepDir^{< \omega}$, we define *the canonical null-picking function $\widehat{\#_{\vec{d}}}$ at $\vec{d}$* to be the function $$
+>**Definition**. For each $\vec{d} \in \ChaseStepDir^{< \omega}$, we define *the global null-picking function $\widehat{\#_{\vec{d}}}$ at $\vec{d}$* to be the function $$
 \begin{align}
 \widehat{\#_{\vec{d}}} : \mathbb{N} & \rightarrow \Nulls\\
                                    i & \mapsto n_{\#(\vec{d}, i)}
@@ -72,7 +72,7 @@ From now on, we would like to work with specialized chase-step directions:
   \operatorname{SC}_{\Sigma, ()}(I) &= \FullSat_\Sigma(I) \\
   \operatorname{SC}_{\Sigma, \vec{d} \concat (\tau, \sigma)}(I) &=
     \begin{cases}
-      \FullSat_\Sigma(\chase_{\widehat{\#_{\vec{d}}}}(\operatorname{SC}_{\Sigma, \vec{d}}(I), (\tau, \sigma))) & \text{if $\operatorname{SC}_{\Sigma, \vec{d}}(I)$ can be $\tau$-chased with $\sigma$} \\
+      \FullSat_\Sigma(\chase_{\widehat{\#_{\vec{d} \concat(\tau, \sigma)}}}(\operatorname{SC}_{\Sigma, \vec{d}}(I), (\tau, \sigma))) & \text{if $\operatorname{SC}_{\Sigma, \vec{d}}(I)$ can be $\tau$-chased with $\sigma$} \\
       \emptyset & \text{otherwise}
     \end{cases}
 \end{align}
@@ -106,8 +106,8 @@ $$
 > >    2. as $\chase$ is clearly monotonic in its first argument, we have $$
 \begin{align}
 \Instance_{\SatTree_\Sigma(I)}(\vec{d} \concat (\tau, \sigma))
- &= \FullSat_\Sigma(\chase_{\widehat{\#_{\vec{d}}}}(\Instance_{\SatTree_\Sigma(I)}(\vec{d}), (\tau, \sigma))) \\
- &\subseteq \FullSat_\Sigma(\chase_{\widehat{\#_{\vec{d}}}}(\Instance_{\SatTree_\Sigma(I')}(\vec{d}), (\tau, \sigma))) \\
+ &= \FullSat_\Sigma(\chase_{\widehat{\#_{\vec{d}\concat(\tau, \sigma)}}}(\Instance_{\SatTree_\Sigma(I)}(\vec{d}), (\tau, \sigma))) \\
+ &\subseteq \FullSat_\Sigma(\chase_{\widehat{\#_{\vec{d}\concat(\tau, \sigma)}}}(\Instance_{\SatTree_\Sigma(I')}(\vec{d}), (\tau, \sigma))) \\
  &= \Instance_{\SatTree_\Sigma(I')}(\vec{d} \concat (\tau, \sigma)).
 \end{align}
 $$
