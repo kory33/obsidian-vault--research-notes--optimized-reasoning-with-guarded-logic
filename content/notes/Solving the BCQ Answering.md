@@ -16,29 +16,35 @@ The following is the problem we need to decide.
 > 
 > The problem $\mathrm{GuardedBCQOverSmallInsts}_{\Sigma, Q}$ is the set of all $(\mathcal{L}, \Sigma)$-small base instances $I$ such that $I \wedge \Sigma \models Q$.
 
-The assumption that existential rules in $\Sigma$ must be single-headed will be exploited soon. This assumption is not a loss of generality, because given any GTGD $\tau = \forall \vec{x}. \beta \rightarrow \exists \vec{y}. \eta$ that is not necessarily single-headed, by introducing an intermediate predicate $P_\tau$ of arity $|\vec{x}| + |\vec{y}|$, we can "split" $\tau$ into two rules $\forall \vec{x}. \beta \rightarrow \exists \vec{y}.   P_\tau(\vec{x}, \vec{y})$ and $\forall \vec{x}, \vec{y}. P_\tau(\vec{x}, \vec{y}) \rightarrow \eta$.
+The assumption that existential rules in $\Sigma$ must be single-headed is not a loss of generality, because given any GTGD $\tau = \forall \vec{x}. \beta \rightarrow \exists \vec{y}. \eta$ that is not necessarily single-headed, by introducing an intermediate predicate $P_\tau$ of arity $|\vec{x}| + |\vec{y}|$, we can "split" $\tau$ into two rules $\forall \vec{x}. \beta \rightarrow \exists \vec{y}.   P_\tau(\vec{x}, \vec{y})$ and $\forall \vec{x}, \vec{y}. P_\tau(\vec{x}, \vec{y}) \rightarrow \eta$.
 
 > *Note*: We can do a bit better than $|\vec{x}| + |\vec{y}|$ for arity of $P_\tau$; in fact, $|\vars(\eta)|$ is enough (so that variables "discarded" by the rule $\tau$ do not carry over to the rule $\forall \vec{z}. P_\tau \rightarrow \eta$).
 
 > *Question*: This splitting process unavoidably increases maximum arity in the signature, which we would like to keep as small as possible. How much can we do better if we drop this assumption and begin with the original $\Sigma$? Put more precisely, if $\Sigma$ is the original set of rules and $\Sigma'$ is the single-headed variant of $\Sigma$, does the chase of $I \wedge \Sigma$ ever have a smaller treewidth compared to the chase of $I \wedge \Sigma'$ ?
 
-To decide this, we shall explicitly define the class of tree structures that act as possible witnesses to instances of $\mathrm{GuardedBCQOverSmallInst}$.
+## The Strategy
+
+To decide $\mathrm{GuardedBCQOverSmallInsts}_{\Sigma, Q}$, we shall explicitly define the class of tree structures that act as possible witnesses to instances of $\mathrm{GuardedBCQOverSmallInsts}_{\Sigma, Q}$.
 
 Notice first the following:
 
-> **Proposition**. If $I$ is a $(\mathcal{L}, \Sigma)$-small base instance, then for all node $\vec{d}$ in $\SatTree_\Sigma(I)$, $\Instance_{\SatTree_\Sigma(I)}(\vec{d})$ is $(\mathcal{L}, \Sigma)$-small.
+> **Proposition**. If $\Sigma$ is a finite set of $\mathcal{L}$-GTGDs whose existential rules are single-headed and $I$ is a $(\mathcal{L}, \Sigma)$-small base instance, then for all node $\vec{d}$ in $\SatTree_\Sigma(I)$, $\Instance_{\SatTree_\Sigma(I)}(\vec{d})$ is $(\mathcal{L}, \Sigma)$-small.
 > 
 > > *Proof*. By induction on $\vec{d}$.
 > > 
-> > To see the base case, $I$ is $(\mathcal{L}, \Sigma)$-small, so $\FullSat(I) = \Instance_{\SatTree_\Sigma(I)}(())$ is also $(\mathcal{L}, \Sigma)$-small, since $\FullSat$ cannot introduce new factual terms (other than the constants in $\Sigma$) into the instance.
+> > To see the base case, $I$ is $(\mathcal{L}, \Sigma)$-small, so $\FullSat(I) = \Instance_{\SatTree_\Sigma(I)}(())$ is also $(\mathcal{L}, \Sigma)$-small, since $\FullSat$ cannot introduce new non-$\Sigma$-constant factual terms into the instance.
 > > 
-> > For the inductive part, suppose $\vec{d} \concat (\tau, \sigma)$ is a valid generative $\Sigma$-chase path. Then $\Instance_{\SatTree_\Sigma(I)}(\vec{d} \concat (\tau, \sigma))$ is $(\mathcal{L}, \Sigma)$-small since it is a $\FullSat$ of an instance $\Sigma$-guarded by $\chaseHead_\nu(\tau, \sigma)$ (TODO: we are using single-headedness here. Be explicit.) for some null-picking function $\nu$, which again is $(\mathcal{L}, \Sigma)$-small.
+> > For the inductive part, suppose $\vec{d} \concat (\tau = \forall \vec{x}. \beta \rightarrow \exists \vec{y}. H(\vec{u}), \sigma)$ is a valid generative $\Sigma$-chase path. Notice that $\tau$ is generative and single-headed, so it has a single atom $H$ in its head. By definition, $\Instance_{\SatTree_\Sigma(I)}(\vec{d} \concat (\tau, \sigma))$ is a $\FullSat$ of an instance $\Sigma$-guarded by $\chaseHead_\nu(\tau, \sigma) = H(\sigma[\vec{y} \xrightarrow{\nu} \Nulls](\vec{u}))$ for some null-picking function $\nu$. Since $H(\sigma[\vec{y} \xrightarrow{\nu} \Nulls](\vec{u}))$ contains at most $|\Arity(H)|$ factual terms, $\Instance_{\SatTree_\Sigma(I)}(\vec{d} \concat (\tau, \sigma))$ can contain at most $|\Arity(H)| \leq \mathrm{maxArity}_\mathcal{L}$ non-$\Sigma$-constant factual terms, so $\Instance_{\SatTree_\Sigma(I)}(\vec{d} \concat (\tau, \sigma))$ is $(\mathcal{L}, \Sigma)$-small.
 
 Together with the universality of $\SatTree$s, this proposition implies that a chase-like tree with a treewidth of at most $\mathrm{maxArity}_\mathcal{L} + |\consts(\Sigma)|$, that is also a finite prefix of $\SatTree_\Sigma(I)$ and witnesses $Q$, is the witness of $I \in \mathrm{GuardedBCQOverSmallInsts}_{\Sigma, Q}$, and conversely there is such a chase-like tree whenever $I \in \mathrm{GuardedBCQOverSmallInsts}_{\Sigma, Q}$.
 
 ### The Data Structure Describing Chase-Like Trees
 
-We now describe the data structure, which we shall call *finite $(\mathcal{L}, k)$-tree codes*, which is able encode finite chase-like trees over $\mathcal{L}$ with a specified maximum treewidth $k$. Later on, we will define an automaton that recognizes precisely the set of all finite $(\mathcal{L}, \mathrm{maxArity}_\mathcal{L} + |\consts(\Sigma)|$)-tree codes that encode prefixes of $\SatTree_\Sigma(I)$ witnessing the input query $Q$. (TODO: this is technically inaccurate, because prefixes of $\SatTree_\Sigma(I)$ are Herbrand $\mathcal{L}^+$-structures (where $\mathcal{L}^+$ have all the nulls as extra constant symbols) but finite $(\mathcal{L}, k)$-tree codes encode $\mathcal{L}^-$-structures as we will see shortly. Maybe clarify what's going on.)
+We shall temporarily move away from considering models of $I \wedge \Sigma$, and work with a more unconstrained structures of (a sublanguage of) $\mathcal{L}$. We will describe a data structure, which we shall call *finite $(\mathcal{L}, k)$-tree codes*, that is able encode finite chase-like trees over (a sublanguage of) $\mathcal{L}$ with a specified maximum treewidth $k$.
+
+Later on, we will define an automaton that recognizes precisely the set of all finite $(\mathcal{L}, \mathrm{maxArity}_\mathcal{L} + |\consts(\Sigma)|$)-tree codes that encode prefixes of $\SatTree_\Sigma(I)$ witnessing the input query $Q$.
+
+> *Remark*. The previous paragraph is technically inaccurate because prefixes of $\SatTree_\Sigma(I)$ are actually Herbrand $\mathcal{L}^+$-structures (where $\mathcal{L}^+$ have all the nulls as extra constant symbols) but finite $(\mathcal{L}, k)$-tree codes encode $\mathcal{L}^-$-structures as we will see shortly. However, we will construct the automaton in such a way that if (a tree code of) an $\mathcal{L}^-$-structure is recognized by the automaton, there will be a canonical way to extend the recognized $\mathcal{L}^-$-structure to a $\mathcal{L}^+$-structure that is isomorphic to a prefix of $\SatTree_\Sigma(I)$. The isomorphism then carries the witness of the query in $\mathcal{L}^-$-structure to a witness in a prefix of $\SatTree_\Sigma(I)$. (Question: should we be explicit about this?)
 
 We begin with the formal description of the structure. This definition is adopted from [[Papers#`Decidable Logics via Automata`]].
 
@@ -59,14 +65,12 @@ $$
 > We say that two global names $(v_1, n_1)$ and $(v_2, n_2)$ are *linked in $\mathcal{C}$* if $n_1 = n_2$ and $v_1$ is adjacent to $v_2$ in $T$.
 > 
 > Let $\sim_\mathcal{C}$ be the reflexive transitive closure of the relation "linked in $\mathcal{C}$" on $\mathrm{GNames}(\mathcal{C}) \times \mathrm{GNames}(\mathcal{C})$. The *$\mathcal{L}^-$-structure $\mathrm{Decode}(\mathcal{C})$ coded by $\mathcal{C}$* is the quotient $\mathcal{L}^-$-structure $$
-\mathrm{Decode}(\mathcal{C}) = \left(
+\mathrm{Decode}(\mathcal{C}) := \left(
   \coprod_{v \in V_T} \lambda(v)
 \right) \Bigg/ \sim_\mathcal{C}.
 $$
 
-(TODO: Maybe provide a reference of what union of structures and a quotient structure is? I believe what I have in my mind is fairly standard, but just in case.)
-
-> *Remark*. Elements in the numeral $\overline{2k}$ are often referred to as "local names", for instance in [[Papers#`Decidable Logics via Automata`]]. This is because the same local name $n \in \overline{2k}$ at two different nodes $v_1, v_2$ correspond to different global names $(v_1, n)$ and $(v_2, n)$, which in turn can represent distinct elements in $\mathrm{Decode}(\mathcal{C})$ when $v_1$ and $v_2$ are not adjacent in $T$.
+> *Remark*. Elements in the numeral $\overline{2k}$ are often referred to as "local names", for instance in [[Papers#`Decidable Logics via Automata`]]. This is because the same local name $n \in \overline{2k}$ at two different nodes $v_1, v_2$ correspond to different global names $(v_1, n)$ and $(v_2, n)$, which in turn *may* represent distinct elements in $\mathrm{Decode}(\mathcal{C})$ when $v_1$ and $v_2$ are not adjacent in $T$.
 
 > *Remark*. The variant used here encodes "equality between local names" (this is an abuse of notation; what we really mean is the equality of the elements in the structure encoded by the local names) in adjacent nodes *implicitly*, by asserting that two equal local names in adjacent nodes encode the same element in the original chase-like structure.
 > 
@@ -74,9 +78,11 @@ $$
 
 > *Example*. TODO: add a nice example featuring a couple of diagrams.
 
-### The Strategy
+### The High-Level Algorithm
 
-This motivates us to consider the following basic algorithm for deciding $\mathrm{GuardedBCQOverSmallInsts}_{\Sigma, Q}$:
+(TODO: we should make clear how a certain class of finite $\mathcal{L}^-$-structure can be "reinterpreted" as a finite prefix of $\SatTree_\Sigma(I)$, which are Herbrand $\mathcal{L}^+$-structures.)
+
+The preceding arguments motivate the following basic algorithm for deciding $\mathrm{GuardedBCQOverSmallInsts}_{\Sigma, Q}$:
    1. Build a finite tree automaton $\mathcal{A}_{\Sigma\text{-chase}}$ (the *chase automaton*) over $(\mathcal{L}, \mathrm{maxArity}_\mathcal{L} + |\consts(\Sigma)|)$-tree codes that recognizes all tree codes which encode finite prefixes of $\SatTree_\Sigma(I)$.
    2. Build another finite tree automaton $\mathcal{A}_Q$ (the *query automaton*) over $(\mathcal{L}, \mathrm{maxArity}_\mathcal{L} + |\consts(\Sigma)|)$-tree-codes that recognizes all tree codes which encode finite chase-like trees satisfying $Q$.
    3. Formally intersect $\mathcal{A}_{\Sigma\text{-chase}}$ and $\mathcal{A}_Q$ to form the product automaton $\mathcal{A}$, so that $L(\mathcal{A}) = \mathcal{A}_{\Sigma\text{-chase}} \cap \mathcal{A}_Q$.
