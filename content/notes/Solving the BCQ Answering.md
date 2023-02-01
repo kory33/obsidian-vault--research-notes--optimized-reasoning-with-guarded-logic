@@ -44,7 +44,7 @@ We shall temporarily move away from considering models of $I \wedge \Sigma$, and
 
 Later on, we will define an automaton that recognizes precisely the set of all finite $(\mathcal{L}, \mathrm{maxArity}_\mathcal{L} + |\consts(\Sigma)|$)-tree codes that encode prefixes of $\SatTree_\Sigma(I)$ witnessing the input query $Q$.
 
-> *Remark*. The previous paragraph is technically inaccurate because prefixes of $\SatTree_\Sigma(I)$ are actually Herbrand $\mathcal{L}^+$-structures (where $\mathcal{L}^+$ have all the nulls as extra constant symbols) but finite $(\mathcal{L}, k)$-tree codes encode $\mathcal{L}^-$-structures as we will see shortly. However, we will construct the automaton in such a way that if (a tree code of) an $\mathcal{L}^-$-structure is recognized by the automaton, there will be a canonical way to extend the recognized $\mathcal{L}^-$-structure to a $\mathcal{L}^+$-structure that is isomorphic to a prefix of $\SatTree_\Sigma(I)$. The isomorphism then carries the witness of the query in $\mathcal{L}^-$-structure to a witness in a prefix of $\SatTree_\Sigma(I)$. (Question: should we be explicit about this?)
+> *Remark*. The previous paragraph is technically inaccurate because prefixes of $\SatTree_\Sigma(I)$ are actually Herbrand $\mathcal{L}^+$-structures (where $\mathcal{L}^+$ have all the nulls as extra constant symbols) but finite $(\mathcal{L}, k)$-tree codes encode $\mathcal{L}^-$-structures as we will see shortly. However, we will construct the automaton in such a way that if (a tree code of) an $\mathcal{L}^-$-structure is recognized by the automaton, there will be a way to extend the recognized $\mathcal{L}^-$-structure to a $\mathcal{L}^+$-structure that satisfies $Q$ if and only if a finite prefix of $\SatTree_\Sigma(I)$ does. The isomorphism then carries the witness of the query in $\mathcal{L}^-$-structure to a witness in a prefix of $\SatTree_\Sigma(I)$
 
 We begin with the formal description of the structure. This definition is adopted from [[Papers#`Decidable Logics via Automata`]].
 
@@ -52,11 +52,11 @@ We begin with the formal description of the structure. This definition is adopte
 
 > **Definition**. Let $X$ be a set. The set $\mathrm{PStructuresOver}_\mathcal{L}(X)$ of *predicate structures over the set $X$* is defined to be the set of all $\mathcal{L}^-$-structures having the universe as $X$. For $\mathcal{S} \in \mathrm{StructuresOver}_\mathcal{L}(X)$, the subset $\mathrm{ActiveValues}(\mathcal{S})$ of $X$ is the set given by $$\mathrm{ActiveValues}(\mathcal{S}) = \set{ x \in X \mid (\vec{y}_1, x, \vec{y}_2) \in P_\mathcal{S} \text { for some predicate } P \text{ and } \vec{y}_1, \vec{y}_2 \subseteq X }.$$
 
-> **Definition**. Let $k \geq 1$. A *finite $(\mathcal{L}, k)$-tree code* is a pair of a rooted tree $(T, r)$ and a *labelling function* $\lambda: V_T \rightarrow \mathrm{PStructuresOver}_\mathcal{L}(\overline{2k})$ where $V_T$ is the vertex tree of $T$ and $\overline{2k}$ is the set $\set{0, 1, \ldots, 2k-1}$, such that $$|\mathrm{ActiveValues}(\lambda(v))| \leq k.$$
+> **Definition**. Let $k \geq 1$. A *finite $(\mathcal{L}, k)$-tree code* is a pair of a rooted tree $(T, v_0)$ and a *labelling function* $\lambda: V_T \rightarrow \mathrm{PStructuresOver}_\mathcal{L}(\overline{2k})$ where $V_T$ is the vertex tree of $T$ and $\overline{2k}$ is the set $\set{0, 1, \ldots, 2k-1}$, such that $$|\mathrm{ActiveValues}(\lambda(v))| \leq k.$$
 
 Each finite $(\mathcal{L}, k)$-tree code encodes a finite $\mathcal{L}^-$-structure having a treewidth at most $k$, in the following sense.
 
-> **Definition**. Let $\mathcal{C} = ((T, r), \lambda: V_T \rightarrow \mathrm{PStructuresOver}_\mathcal{L}(\overline{2k}))$ be a finite $(\mathcal{L}, k)$-tree code.
+> **Definition**. Let $\mathcal{C} = ((T, v_0), \lambda: V_T \rightarrow \mathrm{PStructuresOver}_\mathcal{L}(\overline{2k}))$ be a finite $(\mathcal{L}, k)$-tree code.
 > 
 > The set $\mathrm{GNames}(\mathcal{C})$ of *global names in $\mathcal{C}$* is the subset of $V_T \times \overline{2k}$ defined by $$
 \mathrm{GNames}(\mathcal{C}) =
@@ -76,7 +76,9 @@ $$
 > 
 > We could also demand that there are only $k$ local names, and equality between local names to be encoded by explicit *equality predicates*. This is referred to as the *explicit equality coding* in [[Papers#`Decidable Logics via Automata`]].
 
-> *Example*. TODO: add a nice example featuring a couple of diagrams.
+> *Example*. Let $\Predicates_\mathcal{L} = \set{ U, Edge }$ with arities $\Arity(U) = 1$ and $\Arity(Edge) = 2$.
+> 
+> Consider the following $(\mathcal{L}, k)$-tree code, with $k = 3$, depicted below: (TODO: insert image) 
 
 ### The High-Level Algorithm
 
