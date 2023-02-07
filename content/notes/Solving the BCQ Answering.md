@@ -78,7 +78,13 @@ $$
 
 > *Example*. Let $\Predicates_\mathcal{L} = \set{ U, Edge }$ with arities $\Arity(U) = 1$ and $\Arity(Edge) = 2$.
 > 
-> Consider the following $(\mathcal{L}, k)$-tree code, with $k = 3$, depicted below: (TODO: insert image) 
+> Consider the following $(\mathcal{L}, k)$-tree code $\mathcal{C}$, with $k = 3$, depicted below:
+> 
+> ![[tree-codes-example--code.drawio.svg]]
+> 
+> For $i \in \set{1, 2}$, the global names $(v_0, i)$ and $(v_1, i)$ are linked, so in $\mathrm{Decode}(\mathcal{C})$ will have these global names identified. Moreover, these are the only global names that form nontrivial equivalence classes of $\sim_\mathcal{C}$ (where $\sim_\mathcal{C}$ is as in the defintion of the coded structure). Therefore $\mathrm{Decode}(\mathcal{C})$ has a structure as in the following picture:
+> 
+> ![[tree-codes-example--decoded.drawio.svg]]
 
 ### The High-Level Algorithm
 
