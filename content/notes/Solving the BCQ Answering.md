@@ -1,3 +1,9 @@
+---
+title: Solving the BCQ Answering
+tags:
+  - notes
+---
+
 In [[Reducing Query-Rule-Rewriting Problem to BCQ Answerings]], we saw how to reduce the query-rewriting problem to exponentially many, mostly independent subproblems of BCQ answerings. While the independence allows easy parallelization of the rewrite algorithm, solving these subproblems is not at all trivial.
 
 After the reduction, we had to solve BCQ answering problems on "small" base instances. These instances only contain generic constants, constants in rules and constants in the query, and the number of constants appearing in such instances is bounded by the sum of $|\consts(\Sigma)|$ and the maximum arity $\mathrm{maxArity}_\mathcal{L}$ of predicates in the relation schema $\mathcal{L}$ (because they are $\Sigma$-guarded by a single guard in the single rule that is supposed to fire a tentacle witnessing a subquery).
