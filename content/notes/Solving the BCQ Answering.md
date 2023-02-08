@@ -120,7 +120,7 @@ $$
 > 
 > Finally, we say that *$\mathcal{C}$ conforms to $\SatTree_\Sigma(I)$* if $\mathcal{C}$ extends $\Sigma$ and chases $I$.
 
-(TODO: define how $\mathcal{C}$ "witnesses" $Q$; this actually gets very tricky because we need to handle constants in $Q$ (but not in $\Sigma$) with a special care. We cannot just say "$\mathrm{Decode}(\mathcal{C}) \models Q$" because this simply does not make sense, as $\mathrm{Decode}(\mathcal{C})$ does not define how constants in $\mathcal{L}$ should be interpreted in its universe. We will need to first describe how part of $I$ must be related to $Q$, then how $\mathcal{C}$ is related to $I$ and finally we are able to define what it means for $\mathcal{C}$ to witness $Q$. Since this is very cumbersome, we seek the other way; see (TODO: put a link here))
+(TODO: define how $\mathcal{C}$ "witnesses" $Q$; this actually gets very tricky because we need to handle constants in $Q$ (but not in $\Sigma$) with a special care. We cannot just say "$\mathrm{Decode}(\mathcal{C}) \models Q$" because this simply does not make sense, as $\mathrm{Decode}(\mathcal{C})$ does not define how constants in $\mathcal{L}$ should be interpreted in its universe. We will need to first describe how part of $I$ must be related to $Q$, then how $\mathcal{C}$ is related to $I$ and finally we are able to define what it means for $\mathcal{C}$ to witness $Q$. Since this is very cumbersome, we seek the other way; see [[The Dynamic Programming Algorithm]])
 
 ### The High-Level Strategy
 
