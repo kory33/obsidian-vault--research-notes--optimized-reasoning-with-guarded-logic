@@ -16,7 +16,7 @@ Consider the following recursively defined problem:
 > such that either
 >   - $Q' = \emptyset$, or
 >   - if $\mathcal{I}$ is the set of *all* saturated local instances over $W$ obtainable from $I$ without dropping any local name in $\operatorname{dom}(\sigma)$, then there is some $I' \in \mathcal{I}$ (called a *successful branching point under $<Q', I, \sigma>$*) and a proper extension $\sigma'$ of $\sigma$ with $\operatorname{dom}(\sigma') \subseteq V$ such that
->       - for every connected component $V'$ of $\mathcal{H}(Q' - \operatorname{dom}(\sigma'))$, $$\langle Q_\overline{V'}, I', \sigma' \upharpoonright \partial V' \rangle {} \in \mathrm{SubqueryEntailments}_Q$$and
+>       - for every connected component $V'$ of $\mathcal{H}(Q' - \operatorname{dom}(\sigma'))$, $$\langle Q_\overline{V'}, I', \sigma' \upharpoonright \partial V' \rangle {} \in \mathrm{SubqueryEntailments}_Q$$where $\overline{V}$ and $\partial V'$ in the above expression are the closure and the boundary of $V'$ inside $\mathcal{H}(Q')$, and
 >       - for every atom $A_j(\vec{u}_j)$ of $Q$, if $\vars(\vec{u}_j) \subseteq \operatorname{dom}(\sigma')$ then $A_j(\sigma'(\vec{u}_j)) \in I'$.
 
 > *Remark*. The definition of $\mathrm{SubqueryEntailments}_Q$ is recursive on the complexity of the subquery.
