@@ -42,7 +42,7 @@ Notice first the following:
 > > 
 > > For the inductive part, suppose $\vec{d} \concat (\tau = \forall \vec{x}. \beta \rightarrow \exists \vec{y}. H(\vec{u}), \sigma)$ is a valid generative $\Sigma$-chase path. Notice that $\tau$ is generative and single-headed, so it has a single atom $H$ in its head. By definition, $\Instance_{\SatTree_\Sigma(I)}(\vec{d} \concat (\tau, \sigma))$ is a $\FullSat$ of an instance $\Sigma$-guarded by $\chaseHead_\nu(\tau, \sigma) = H(\sigma[\vec{y} \xrightarrow{\nu} \Nulls](\vec{u}))$ for some null-picking function $\nu$. Since $H(\sigma[\vec{y} \xrightarrow{\nu} \Nulls](\vec{u}))$ contains at most $|\Arity(H)|$ factual terms, $\Instance_{\SatTree_\Sigma(I)}(\vec{d} \concat (\tau, \sigma))$ can contain at most $|\Arity(H)| \leq \mathrm{maxArity}_\mathcal{L}$ non-$\Sigma$-constant factual terms, so $\Instance_{\SatTree_\Sigma(I)}(\vec{d} \concat (\tau, \sigma))$ is $(\mathcal{L}, \Sigma)$-small.
 
-Together with the universality of $\SatTree$s, this proposition implies that a chase-like tree with a treewidth of at most $\mathrm{maxArity}_\mathcal{L} + |\consts(\Sigma)|$, that is also a "finite prefix" of $\SatTree_\Sigma(I)$ and witnesses $Q$, is the witness of an instance of $\mathrm{GuardedBCQOverSmallInsts}_{\Sigma, Q}$, and conversely there is such a chase-like tree whenever $I \in \mathrm{GuardedBCQOverSmallInsts}_{\Sigma, Q}$.
+Together with the universality of $\SatTree$s, this proposition implies that a chase-like tree with a treewidth of at most $\mathrm{maxArity}_\mathcal{L} + |\consts(\Sigma)|$, that is also a "finite prefix" of $\SatTree_\Sigma(I)$ and witnesses $Q$, is a witness of an instance of $\mathrm{GuardedBCQOverSmallInsts}_{\Sigma, Q}$, and conversely there is such a chase-like tree whenever $I \in \mathrm{GuardedBCQOverSmallInsts}_{\Sigma, Q}$.
 
 ### The Data Structure Describing Chase-Like Trees With Bounded Width
 
@@ -84,7 +84,7 @@ $$
 > 
 > ![[tree-codes-example-code.drawio.svg]]
 > 
-> For $i \in \set{1, 2}$, the global names $(v_0, i)$ and $(v_1, i)$ are linked, so in $\mathrm{Decode}(\mathcal{C})$ will have these global names identified. Moreover, these are the only global names that form nontrivial equivalence classes of $\sim_\mathcal{C}$ (where $\sim_\mathcal{C}$ is as in the defintion of the coded structure). Therefore $\mathrm{Decode}(\mathcal{C})$ has a structure as in the following picture:
+> For $i \in \set{1, 2}$, the global names $(v_0, i)$ and $(v_1, i)$ are linked, so in $\mathrm{Decode}(\mathcal{C})$ will have these global names identified under $\sim_\mathcal{C}$, that is, $[(v_0, i)] = \set{ (v_0, i), (v_1, i) }$ for $i \in \set{1, 2}$, where $\sim_\mathcal{C}$ is as in the defintion of the coded structure. Moreover, these are the only global names that form nontrivial equivalence classes of $\sim_\mathcal{C}$. Therefore $\mathrm{Decode}(\mathcal{C})$ has a structure as in the following picture:
 >
 > ![[tree-codes-example-decoded.drawio.svg]]
 
@@ -92,15 +92,43 @@ $$
 
 We now describe the condition of finite tree codes being a witness to the problem $\mathrm{GuardedBCQOverSmallInsts}_{\Sigma, Q}$.
 
-(TODO)
+> **Remark**. From this section onwards, we
+>    - fix a finite set $\Sigma$ of GTGDs whose existential rules are single-headed,
+>    - fix an enumeration $\set{(c_\Sigma)_i}_{0 \leq i < |\consts(\Sigma)|}$ of $\consts(\Sigma)$, and
+>    - write $W_{\mathcal{L}, \Sigma} = \mathrm{maxArity}_\mathcal{L} + |\consts(\Sigma)|$.
+>    - fix an enumeration $\set{(c_I)_i}_{0 \leq i < |\consts(I) \setminus \consts(\Sigma)|}$ of $\consts(I) \setminus \consts(\Sigma)$ for each $(\mathcal{L}, \Sigma)$-small instance $I$.
 
-### The High-Level Algorithm
+We first describe how a finite tree code can mimic a finite prefix of the $\Sigma$-chase on $I$.
+
+> **Definition**. Let $I$ be a $(\mathcal{L}, \Sigma)$-small instance and $\mathcal{C} = ((T, v_0), \lambda)$ a finite $(\mathcal{L}, W_{\mathcal{L, \Sigma}})$-tree code.
+>
+> Let $\mathrm{recover}_{I, \Sigma}: \overline{|\consts(I) \cup \consts(\Sigma)|} \rightarrow (\consts(I) \cup \consts(\Sigma))$ be defined by $$
+\mathrm{recover}_{I, \Sigma}(i) = \left\{
+  \begin{array}{c c l}
+    (c_I)_i & & \text{if } 0 \leq i < |\consts(I) \setminus \consts(\Sigma)| \\
+    (c_\Sigma)_{(i - |\consts(I) \setminus \consts(\Sigma)|)} & & \text{if } |\consts(I) \setminus \consts(\Sigma)| \leq i < |\consts(I) \cup \consts(\Sigma)|
+  \end{array}
+\right.
+$$
+> > *Remark*. Our intention here is that the function $\mathrm{recover}_{I, \Sigma}$ "recovers" constants in $I$ (or in $\Sigma$) from local names in $\lambda(v_0)$.
+>
+> We say that *$\mathcal{C}$ extends $I$* if
+>     - $\mathrm{ActiveValues}(\lambda(v_0)) \subseteq \overline{|\consts(I) \cup \consts(\Sigma)|}$, and
+>     - for every predicate symbol $P \in \Predicates_\mathcal{L}$ with arity $n_P$ and every sequence $\vec{j} \subseteq \overline{|\consts(I) \cup \consts(\Sigma)|}$ of length $n_P$, $\lambda(v_0) \models P(\vec{j}) \Longleftrightarrow I \models P(\mathrm{recover}_{I, \Sigma}(\vec{j}))$ holds.
+
+> **Definition**. Let $\mathcal{C} = ((T, v_0), \lambda)$ be a finite $(\mathcal{L}, W_{\mathcal{L, \Sigma}})$-tree code. We say that $\mathcal{C}$ *chases $\Sigma$* if (TODO; we only need to require some condition at each branching step; namely, we always want a child to be a FullSat of the parent instance chased by some generative rule in $\Sigma$, and that is the only condition we wish to impose here.)
+> 
+> Finally, we say that *$\mathcal{C}$ conforms to $\SatTree_\Sigma(I)$* if $\mathcal{C}$ extends $\Sigma$ and chases $I$.
+
+(TODO: define how $\mathcal{C}$ "witnesses" $Q$; this actually gets very tricky because we need to handle constants in $Q$ (but not in $\Sigma$) with a special care. We cannot just say "$\mathrm{Decode}(\mathcal{C}) \models Q$" because this simply does not make sense, as $\mathrm{Decode}(\mathcal{C})$ does not define how constants in $\mathcal{L}$ should be interpreted in its universe. We will need to first describe how part of $I$ must be related to $Q$, then how $\mathcal{C}$ is related to $I$ and finally we are able to define what it means for $\mathcal{C}$ to witness $Q$. Since this is very cumbersome, we seek the other way; see (TODO: put a link here))
+
+### The High-Level Strategy
 
 (TODO: we should make clear how a certain class of finite $\mathcal{L}^-$-structure can be "reinterpreted" as a finite prefix of $\SatTree_\Sigma(I)$, which are Herbrand $\mathcal{L}^+$-structures.)
 
 The preceding arguments motivate the following basic algorithm for deciding $\mathrm{GuardedBCQOverSmallInsts}_{\Sigma, Q}$:
-   1. Build a finite tree automaton $\mathcal{A}_{\Sigma\text{-chase}}$ (the *chase automaton*) over $(\mathcal{L}, \mathrm{maxArity}_\mathcal{L} + |\consts(\Sigma)|)$-tree codes that recognizes all tree codes which encode finite prefixes of $\SatTree_\Sigma(I)$.
-   2. Build another finite tree automaton $\mathcal{A}_Q$ (the *query automaton*) over $(\mathcal{L}, \mathrm{maxArity}_\mathcal{L} + |\consts(\Sigma)|)$-tree-codes that recognizes all tree codes which encode finite chase-like trees satisfying $Q$.
+   1. Build a finite tree automaton $\mathcal{A}_{\Sigma\text{-chase}}$ (the *chase automaton*) over finite $(\mathcal{L}, W_{\mathcal{L}, \Sigma})$-tree codes that recognizes all finite tree codes that conform to $\SatTree_\Sigma(I)$.
+   2. Build another finite tree automaton $\mathcal{A}_Q$ (the *query automaton*) over $(\mathcal{L}, W_{\mathcal{L}, \Sigma})$-tree-codes that recognizes all tree codes which encode finite chase-like trees satisfying $Q$.
    3. Formally intersect $\mathcal{A}_{\Sigma\text{-chase}}$ and $\mathcal{A}_Q$ to form the product automaton $\mathcal{A}$, so that $L(\mathcal{A}) = \mathcal{A}_{\Sigma\text{-chase}} \cap \mathcal{A}_Q$.
    4. Return $L(\mathcal{A}) \neq \emptyset$.
 
