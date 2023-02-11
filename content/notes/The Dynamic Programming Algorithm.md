@@ -4,21 +4,59 @@ tags:
   - notes
 ---
 
-Consider the following recursively defined problem:
+> **Definition**. Let $\mathcal{H}$ be a hypergraph. We say that a subset $V \subseteq \mathcal{V}_\mathcal{H}$ of vertex set is *$\mathcal{H}$-coconnected* if $\mathcal{V}_\mathcal{H} \setminus V$ is connected in $\mathcal{H}$.
 
 > **Definition**. Let $\mathcal{L}$ be a language, $\Sigma$ be a set of $\mathcal{L}$-GTGDs with single-headed existential rules, $Q = \exists \vec{z}. \bigwedge_{j \in J} A_j(\vec{u}_j)$ a connected $\mathcal{L}$-conjunctive query with $\consts(Q) \subseteq \consts(\Sigma)$. Let $\mathcal{H}(Q)$ be the query structure hypergraph of $Q$.
 > 
-> Let $\mathrm{SubqueryEntailments}_Q$ be the set of triples $\langle Q', I, \sigma \rangle$ with
->   - $Q' = Q_V$ (the subquery of $Q$ induced by $V$) for some $\mathcal{H}(Q)$-connected $V \subset \elems(\vec{z}) = \mathcal{V}_\mathcal{H}$
->   - $I$ a $\Sigma$-saturated $(\mathcal{L}, \Sigma)$-small local instance over $W = \set{0, \ldots, 2 \times \mathrm{maxArity}_\mathcal{L} - 1, c_0, \ldots, c_{n-1}}$ where $\set{c_i}_{0 \leq i < n}$ is an enumeration of $\consts(\Sigma)$
->   - $\sigma$ a partial local substitution $V \rightharpoonup \overline{ 2 \times \mathrm{maxArity}_\mathcal{L}} \cap \mathrm{ActiveValues}(I)$ 
+> The set $\mathrm{Conn}_Q$ of *connected subqueries of $Q$* is the set of all $\mathcal{H}(Q)$-connected subsets of $\elems(\vec{z}) = \mathcal{V}_\mathcal{H}$.
 > 
-> such that either
+> The set $\mathrm{LocalInst}_{\mathcal{L}, \Sigma}$ of *$\Sigma$-saturated local instances* is the set of all $\mathcal{L}$-structures $I$ over the set $W_\Sigma = \set{0, \ldots, 2 \times \mathrm{maxArity}_\mathcal{L} - 1, c_0, \ldots, c_{n-1}}$ where $\set{c_i}_{0 \leq i < n}$ is an enumeration of $\consts(\Sigma)$, such that $I \models \Sigma$.
+> 
+> For $I \in \mathrm{LocalInst}_{\mathcal{L}, \Sigma}$, the *set $\mathrm{CcnPartialSubsts}_{I, Q}$ of coconnected partial substitutions of $I$ on $Q$* is defined to be the set of all partial functions $\sigma: V \rightharpoonup \overline{ 2 \times \mathrm{maxArity}_\mathcal{L}} \cap \mathrm{ActiveValues}(I)$ such that $\mathrm{dom}(\sigma)$ is $\mathcal{H}(Q)$-coconnected.
+
+Consider the following recursively defined problem on $\mathrm{Conn}_Q \times \sum_{I \in \mathrm{LocalInst}_{\mathcal{L}, \Sigma}} \mathrm{CcnPartialSubsts}_{I, Q}$:
+
+> **Definition**. Let $\mathcal{L}$ be a language, $\Sigma$ be a set of $\mathcal{L}$-GTGDs with single-headed existential rules, $Q = \exists \vec{z}. \bigwedge_{j \in J} A_j(\vec{u}_j)$ a connected $\mathcal{L}$-conjunctive query with $\consts(Q) \subseteq \consts(\Sigma)$. Let $\mathcal{H}(Q)$ be the query structure hypergraph of $Q$.
+> 
+> Let $\mathrm{SubqueryEntailments}_{\Sigma, Q}$ be the set of pairs $$\langle Q', \langle I, \sigma \rangle \rangle \in \mathrm{Conn}_Q \times \sum_{I \in \mathrm{LocalInst}_{\mathcal{L}, \Sigma}} \mathrm{CcnPartialSubsts}_{I, Q}$$such that either
 >   - $Q' = \emptyset$, or
->   - if $\mathcal{I}$ is the set of *all* saturated local instances over $W$ obtainable from $I$ without dropping any local name in $\operatorname{dom}(\sigma)$, then there is some $I' \in \mathcal{I}$ (called a *successful branching point under $<Q', I, \sigma>$*) and a proper extension $\sigma'$ of $\sigma$ with $\operatorname{dom}(\sigma') \subseteq V$ such that
->       - for every connected component $V'$ of $\mathcal{H}(Q' - \operatorname{dom}(\sigma'))$, $$\langle Q_\overline{V'}, I', \sigma' \upharpoonright \partial V' \rangle {} \in \mathrm{SubqueryEntailments}_Q$$where $\overline{V}$ and $\partial V'$ in the above expression are the closure and the boundary of $V'$ inside $\mathcal{H}(Q')$, and
->       - for every atom $A_j(\vec{u}_j)$ of $Q$, if $\vars(\vec{u}_j) \subseteq \operatorname{dom}(\sigma')$ then $A_j(\sigma'(\vec{u}_j)) \in I'$.
+>   - if $\mathcal{I}_{W_\Sigma}(I)$ is the set of *all* saturated local instances over $W_\Sigma$ obtainable from $I$ without dropping any local name in $\operatorname{dom}(\sigma)$, then there is some $I' \in \mathcal{I}_{W_\Sigma}(I)$ (called a *successful branching point under $\langle Q', \langle I, \sigma \rangle \rangle$*) and a proper extension $\sigma' \in \mathrm{CcnPartialSubsts}_{I', Q}$ of $\sigma$ such that
+>       - for every connected component $V'$ of $\mathcal{H}(Q' - \operatorname{dom}(\sigma'))$, $$\langle Q_\overline{V'}, \langle I', \sigma' \upharpoonright \partial V' \rangle \rangle {} \in \mathrm{SubqueryEntailments}_{\Sigma, Q}$$where $\overline{V}$ and $\partial V'$ in the above expression are the closure and the boundary of $V'$ inside $\mathcal{H}(Q')$, and
+>       - for every atom $A_j(\vec{u}_j)$ of $Q'$, if $\vars(\vec{u}_j) \subseteq \operatorname{dom}(\sigma')$ then $A_j(\sigma'(\vec{u}_j)) \in I'$.
 
-> *Remark*. The definition of $\mathrm{SubqueryEntailments}_Q$ is recursive on the complexity of the subquery.
+> *Remark*. The definition of $\mathrm{SubqueryEntailments}_{\Sigma, Q}$ is recursive on the complexity of the subquery.
 
-> **Theorem**. (TODO: We can "lift" a conjunctive query with constants to an instance of $\mathrm{SubqueryEntailments}_Q$ problem by existentially quantifying all of $\consts(Q) \setminus \consts(\Sigma)$ and setting the partial local substitution $\sigma$ of those newly quantified variables to the local names corresponding to those variables mentioned in $I$ (if not the lifting procedure fails and we cannot hope for the entailment). Now we can state in this theorem that $I \wedge \Sigma \models Q$ if and only if $\langle Q', I', \sigma \rangle \in \mathrm{SubqueryEntailments}_Q$, where $Q'$ is the "lift" of $Q$ and $I', \sigma$ are generated simultaneously depending on $I$ and $Q'$).
+The problem $\mathrm{SubqueryEntailments}_{\Sigma, Q}$, which can be decided by a recursion if one wishes to do so, precisely models the query entailment problem as its name suggests.
+
+> **Theorem ($\mathrm{SubqueryEntailments}_{\Sigma, Q}$ is Equivalent to Subquery Entailment)**.
+> Let $\mathcal{L}$ be a language, $\Sigma$ be a set of $\mathcal{L}$-GTGDs with single-headed existential rules, $Q = \exists \vec{z}. \bigwedge_{j \in J} A_j(\vec{u}_j)$ a connected $\mathcal{L}$-conjunctive query with $\consts(Q) \subseteq \consts(\Sigma).$
+> 
+> Then for every pair $$\langle Q', \langle I, \sigma \rangle \rangle \in \mathrm{Conn}_Q \times \sum_{I \in \mathrm{LocalInst}_{\mathcal{L}, \Sigma}} \mathrm{CcnPartialSubsts}_{I, Q},$$we have $$
+I \wedge \Sigma \models \exists \overrightarrow{\vec{z} \setminus \mathrm{dom}(\sigma)}. \bigwedge_{j \in J_V} A_j(\sigma(\vec{u}_j))
+  \Longleftrightarrow \langle
+    Q_V, \langle I, \sigma \rangle
+  \rangle \in \mathrm{SubqueryEntailments}_{\Sigma, Q}.
+$$
+>> *Proof*.
+>> ($\Longrightarrow$, "completeness"): (TODO)
+>> 
+>> ($\Longleftarrow$, "soundness"): (TODO)
+
+The following procedure allows us to reduce arbitrary BCQ answering problem to an instance of $\mathrm{SubqueryEntailments}_{\Sigma, -}$.
+
+> **Definition**. Let $Q = \exists \vec{z}. \bigwedge_{j \in J} A_j(\vec{u}_j)$ be a connected boolean conjunctive query, which need not have $\consts(Q) \subseteq \consts(\Sigma)$. Let $I \in \mathrm{LocalInst}_{\mathcal{L}, \Sigma}$.
+> 
+> (TODO: "lift" $\langle I, Q \rangle$ to some $Q'_I, \sigma_{I, Q}$ so that we can test $I \wedge \Sigma \models Q$ by testing the membership $\langle Q'_I, \langle I, \sigma \rangle \rangle \in \mathrm{SubqueryEntailments}_{\Sigma, Q'_I}$)
+
+> **Proposition**. (State that $I \wedge \Sigma \models Q$ if and only if the "lift" $Q'_I, \sigma_{I, Q}$ of $\langle I, Q \rangle$ exists, and $\langle Q'_I, \langle I, \sigma_{I, Q} \rangle \rangle \in \mathrm{SubqueryEntailments}_{\Sigma, Q'_I}$.)
+> 
+> > *Proof*.
+> > ($\Longrightarrow$): (TODO)
+> >
+> > ($\Longleftarrow$): (TODO)
+
+As $\mathrm{SubqueryEntailments}_{\Sigma, Q}$ is Equivalent to Subquery Entailment, it has certain monotonicity properties.
+
+> **Definition**. (TODO: define a partial order $\preceq$ on $\mathrm{Conn}_Q \times \sum_{I \in \mathrm{LocalInst}_{\mathcal{L}, \Sigma}} \mathrm{CcnPartialSubsts}_{I, Q}$ so that $\mathrm{SubqueryEntailments}_Q$ is downward-closed in $\mathrm{Conn}_Q \times \sum_{I \in \mathrm{LocalInst}_{\mathcal{L}, \Sigma}} \mathrm{CcnPartialSubsts}_{I, Q}$.)
+
+> **Proposition**. $\mathrm{SubqueryEntailments}_Q$ is a downward-closed subset of $\langle \mathrm{Conn}_Q \times \sum_{I \in \mathrm{LocalInst}_{\mathcal{L}, \Sigma}} \mathrm{CcnPartialSubsts}_{I, Q}, \preceq \rangle$.
