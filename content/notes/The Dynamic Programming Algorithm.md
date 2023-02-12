@@ -10,12 +10,6 @@ We begin with preliminary notions of hypergraphs.
 > 
 > For a set $V \subseteq \mathcal{V}_\mathcal{H}$ of vertices, we define
 >   - the *strict $\mathcal{H}$-neighbourhood $\mathrm{nbhd}_\mathcal{H}(V)$ of $V$* as the set $$\mathrm{nbhd}_\mathcal{H}(V) = \set{\ v \in \mathcal{V}_\mathcal{H} \mid \exists E \in \mathcal{E}_\mathcal{H}. v \in E \ } \setminus V$$
->   - the *subhypergraph $\mathrm{ind}(\mathcal{H}; V)$ of $\mathcal{H}$ induced by $V$* as the hypergraph $$(V, {}\set{\ E \in \mathcal{E}_\mathcal{V} \mid E \subseteq V \ })$$
->   - the *subhypergraph $\mathrm{W\text{-}ind}(\mathcal{H}; V)$ of $\mathcal{H}$ weakly-induced by $V$* as the hypergraph $$(\mathrm{cl}_\mathcal{H}(V), {} \set{\ E \in \mathcal{E}_\mathcal{V} \mid E \cap V \neq \emptyset \ })$$
-
-> *Remark*. $\mathrm{W\text{-}ind}(\mathcal{H}; V)$ is the maximal subhypergraph of $\mathcal{H}$ that is covered by $V$.
-
-> *Remark*. $\mathrm{W\text{-}ind}(\mathcal{H}; V)$ is $\mathrm{ind}(\mathcal{H}; V \cup \mathrm{nbhd}_\mathcal{H}(V))$ with edges that are in $\mathrm{ind}(\mathcal{H}; \mathrm{nbhd}_\mathcal{H}(V))$ removed. In particular, we have $$\mathrm{ind}(\mathcal{H}; V) \subseteq \mathrm{W\text{-}ind}(\mathcal{H}; V) \subseteq \mathrm{ind}(\mathcal{H}; V \cup \mathrm{nbhd}_\mathcal{H}(V)).$$
 
 Now we describe the structure that will be used in describing the DP algorithm.
 
@@ -38,7 +32,11 @@ Consider the following recursively defined problem on the set $$\sum_{\substack{
 
 > *Remark*. The definition of $\mathrm{SubqueryEntailments}_{\Sigma, Q}$ is recursive on the size of $V \in \mathrm{Conn}_Q$.
 
-The problem $\mathrm{SubqueryEntailments}_{\Sigma, Q}$, which can be decided by a recursion if one wishes to do so, precisely models the query entailment problem as its name suggests.
+The problem $\mathrm{SubqueryEntailments}_{\Sigma, Q}$, which can be decided by a recursion if one wishes to do so, precisely models the query entailment problem as its name suggests. We begin with a simple definition.
+
+> **Definition**. Let $Q = \exists \vec{z}. \bigwedge_{j \in J} A_j(\vec{u}_j)$ be a conjunctive query and $V \subseteq \elems(\vec{z})$ a set of variables existentially quantified in $Q$.
+> 
+> The *set of $V$-relevant atom indices in $Q$*, denoted $\mathrm{relv}_Q(V)$, is the subset of $J$ defined by $$\mathrm{relv}_Q(V) = \set{\ j \in J \mid \elems(\vec{u}_j) \cap V \neq \emptyset \ }.$$
 
 > **Theorem ($\mathrm{SubqueryEntailments}_{\Sigma, Q}$ is Equivalent to Subquery Entailment)**.
 > Let $\mathcal{L}$ be a language, $\Sigma$ be a set of $\mathcal{L}$-GTGDs with single-headed existential rules, $Q = \exists \vec{z}. \bigwedge_{j \in J} A_j(\vec{u}_j)$ a connected $\mathcal{L}$-conjunctive query with $\consts(Q) \subseteq \consts(\Sigma).$
@@ -47,12 +45,12 @@ The problem $\mathrm{SubqueryEntailments}_{\Sigma, Q}$, which can be decided by 
 \left(
   I \wedge \Sigma \models
     \exists \overrightarrow{V}.
-      \bigwedge_{j \in J(V)}
+      \bigwedge_{j \in \mathrm{relv}_Q(V)}
         A_j(\sigma(\vec{u}_j))
 \right) \Longleftrightarrow \langle
     V, I, \sigma
   \rangle \in \mathrm{SubqueryEntailments}_{\Sigma, Q}.
-$$where $J(V) = \set { j \in J \mid \elems(\vec{u}_j) \cap V \neq \emptyset }$ (TODO: we should define what this is!).
+$$
 >
 > > *Proof*.
 > > ($\Longrightarrow$, "completeness"): (TODO)
