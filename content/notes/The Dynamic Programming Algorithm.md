@@ -32,7 +32,7 @@ We begin with some preliminary notions.
 
 > **Definition**. Let $\mathcal{L}$ be a language and $\Sigma$ a finite set of TGDs.
 > 
-> For a set $D$ with $D \cap \consts(\Sigma) = \emptyset$, we write $D^{+\Sigma}$ for the set $D \cup \consts(\Sigma)$. A set of formal terms of the form $F(d_1, d_2, \ldots, d_{\Arity_\mathcal{L}(F)})$ with $d \in (D^{+\Sigma})^{\Arity_\mathcal{L}(F)}$ is said to be a *$\Sigma$-formal instance over $D$*. In particular, a ground instance (resp. an instance) is a $\Sigma$-formal instance over $\Consts_\mathcal{L} \setminus \consts(\Sigma)$ (resp. $\Nulls_\mathcal{L} \cup (\Consts_\mathcal{L} \setminus \consts(\Sigma))$). By an abuse of notation, we treat generic $\Sigma$-formal instances just like ordinary instances.
+> For a set $D$ with $D \cap \consts(\Sigma) = \emptyset$, we write $D^{+\Sigma}$ for the set $D \cup \consts(\Sigma)$. A set of formal terms of the form $F(d_0, d_1, \ldots, d_{\Arity_\mathcal{L}(F) - 1})$ with $d \in (D^{+\Sigma})^{\Arity_\mathcal{L}(F)}$ is said to be a *$\Sigma$-formal instance over $D$*. In particular, a ground instance (resp. an instance) is a $\Sigma$-formal instance over $\Consts_\mathcal{L} \setminus \consts(\Sigma)$ (resp. $\Nulls_\mathcal{L} \cup (\Consts_\mathcal{L} \setminus \consts(\Sigma))$). By an abuse of notation, we treat generic $\Sigma$-formal instances just like ordinary instances.
 > 
 > For a $\Sigma$-formal instance $I$ over $D$, *the set $\mathrm{ActiveValues}_D(I)$ of $D$-active values* is the set defined by $$
 \mathrm{ActiveValues}_D(I) = \set{\ 
@@ -119,11 +119,33 @@ $$
 > > 
 > > So assume $V \neq \emptyset$. By definition of $\mathrm{SubqueryEntailments}_{\Sigma, Q}$, there exists a successful branching point $I' \in \mathcal{I}_{W_\Sigma}(I, \sigma_\text{local})$ under $\langle \sigma_\Sigma, V, I, \sigma_\text{local} \rangle$ and a nonempty $\sigma_\text{new}: V \rightharpoonup \mathrm{ActiveValues}_{\mathrm{LocalConsts}_\mathcal{L}}(I')$ satisfying branching conditions at $I'$.
 > > 
-> > Let $\set{ V'_i }_{i \in I_{V, \sigma'}}$ be the family of connected components of $\mathcal{H}(\mathrm{ind}_V(Q) - \operatorname{dom}(\sigma'))$, indexed by the set $I_{V, \sigma'}$. For each $i \in I_{V, \sigma'}$, $V' \subsetneq V$ and $V'$ satisfies the branching conditions at $I'$. Applying the inductive hypothesis to $V'_i$, we have $$
+> > Let $\set{ V'_i }_{i \in \overline{N}}$ be the family of connected components of $\mathcal{H}(\mathrm{ind}_V(Q) - \operatorname{dom}(\sigma_\text{new}))$, indexed by the set $\overline{N} = \set{0, 1, \ldots, N - 1}$.
+> > 
+> > For each $i \in \overline{N}$, $V'_i \subsetneq V$, and $$\langle \sigma_\Sigma, V'_i, I', (\sigma_\text{local} \cup \sigma_\text{new}) \upharpoonright \mathrm{nbhd}_{\mathcal{H}(Q)}(V'_i) \rangle {} \in \mathrm{SubqueryEntailments}_{\Sigma, Q}$$by the branching condition. Applying the inductive hypothesis to $V'_i$, we have $$
 I' \wedge \Sigma \models
   \exists \overrightarrow{V'_i}.
     \bigwedge_{j \in \mathrm{relv}_Q(V'_i)}
       A_j((\sigma_\Sigma \cup \sigma_\text{local} \cup \sigma_\text{new})(\vec{u}_j)).
+$$
+> >
+> > Collectively, we have $$
+\begin{align}
+I' \wedge \Sigma
+  &\models
+    \bigwedge_{i \in \overline{N}}
+      \exists \overrightarrow{V'_i}.
+        \bigwedge_{j \in \mathrm{relv}_Q(V'_i)}
+          A_j((\sigma_\Sigma \cup \sigma_\text{local} \cup \sigma_\text{new})(\vec{u}_j)) \\
+  &\equiv
+    \exists \overrightarrow{V'_0}, \ldots, \overrightarrow{V'_{N-1}}.
+      \bigwedge_{i \in \overline{N}}
+      \bigwedge_{j \in \mathrm{relv}_Q(V'_i)}
+        A_j((\sigma_\Sigma \cup \sigma_\text{local} \cup \sigma_\text{new})(\vec{u}_j)) \\
+  &\equiv
+    \exists \overrightarrow{V'_0}, \ldots, \overrightarrow{V'_{N-1}}.
+      \bigwedge_{j \in \bigcup_{i \in \overline{N}} \mathrm{relv}_Q(V'_i)}
+        A_j((\sigma_\Sigma \cup \sigma_\text{local} \cup \sigma_\text{new})(\vec{u}_j)).
+\end{align}
 $$(TODO)
 
 ## Translating Generic BCQ Answering Problems to Subquery Entailments
