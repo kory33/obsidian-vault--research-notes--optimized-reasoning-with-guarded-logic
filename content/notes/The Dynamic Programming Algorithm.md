@@ -18,8 +18,8 @@ We begin with some preliminary notions.
 > The *query-structure hypergraph $\mathcal{H}(Q)$* of $Q$ is the hypergraph having one vertex for each element in $\vec{z}$ and one hyperedge spanning $\vars(\vec{u}_j)$ for each $j \in J$.
 > 
 > For $V \subseteq \elems(\vec{z})$, we define
->   - the *set $\mathrm{relv}_Q(V)$ of $V$-relevant atom indices in $Q$* to be the set $$\mathrm{relv}_Q(V) := \set{\ j \in J \mid \elems(\vec{u}_j) \cap V \neq \emptyset \ }$$
->   - the *set $\mathrm{clidx}_Q(V)$ of $V$-closed atom indices in $Q$ to be the set* $$\mathrm{clidx}_Q(V) := \set{\ j \in J \mid \elems(\vec{u}_j) \subseteq V \ }$$
+>   - the *set $\mathrm{relv}_Q(V)$ of $V$-relevant atom indices in $Q$* to be the set $$\mathrm{relv}_Q(V) := \set{\ j \in J \mid \vars(\vec{u}_j) \cap V \neq \emptyset \ }$$
+>   - the *set $\mathrm{clidx}_Q(V)$ of $V$-closed atom indices in $Q$ to be the set* $$\mathrm{clidx}_Q(V) := \set{\ j \in J \mid \vars(\vec{u}_j) \subseteq V \ }$$
 >   - the *subquery $\mathrm{ind}_V(Q)$ strictly induced by $V$* to be the boolean conjunctive query $$\mathrm{ind}_V(Q) := \exists \vec{V}. \bigwedge_{j \in \mathrm{clidx}_Q(V)}A_j(\vec{u}_j)$$
 >   - the *$V$-masked query structure hypergraph $\mathcal{H}(Q-V)$* to be the hypergraph that can be obtained by weakly deleting all vertices in $V$ from $\mathcal{H}_V$ and then removing all empty hyperedges.
 
@@ -45,7 +45,7 @@ We begin with some preliminary notions.
 
 Now we describe the structure that will be used in describing the DP algorithm.
 
-> **Definition**. Let $\mathcal{L}$ be a language, $\Sigma$ be a set of $\mathcal{L}$-GTGDs with single-headed existential rules, $Q = \exists \vec{z}. \bigwedge_{j \in J} A_j(\vec{u}_j)$ a connected fully $\Sigma$-existential boolean $\mathcal{L}$-conjunctive query with $\consts(Q) \subseteq \consts(\Sigma)$.
+> **Definition**. Let $\mathcal{L}$ be a language, $\Sigma$ be a set of $\mathcal{L}$-GTGDs with single-headed existential rules, $Q = \exists \vec{z}. \bigwedge_{j \in J} A_j(\vec{u}_j)$ a connected fully $\Sigma$-existential boolean $\mathcal{L}$-conjunctive query.
 > 
 > Let $\mathrm{LocalConsts}_\mathcal{L} = \set{0, \ldots, 2 \times \mathrm{maxArity}_\mathcal{L} - 1}$.
 > 
@@ -58,9 +58,9 @@ $$
 > 
 > The set $\mathrm{LocalInst}_{\mathcal{L}, \Sigma}$ of *$\Sigma$-saturated local instances* is the set of all $\Sigma$-formal instances $I$ over $\mathrm{LocalConsts}_\mathcal{L}$ such that $\FullSat_\Sigma(I) = I$.
 > 
-> For $V \in \mathrm{Conn}_Q$ and $I \in \mathrm{LocalInst}_{\mathcal{L}, \Sigma}$, the *set $\mathrm{NbhdSubsts}_{V, I}$ of $V$-neighbourhood local substitutions into $I$* is the function space $$
-\mathrm{NbhdSubsts}_{V, I} :=
-  {\mathrm{nbhd}_\mathcal{H}(V)}
+> For $\sigma_\Sigma \in \mathrm{RuleConstGuess}_{\Sigma, Q}$, $V \in \mathrm{Conn}_{Q-\sigma_\Sigma}$ and $I \in \mathrm{LocalInst}_{\mathcal{L}, \Sigma}$, the *set $\mathrm{NbhdSubsts}_{\sigma_\Sigma, V, I}$ of $V$-neighbourhood local substitutions into $I$* is the function space $$
+\mathrm{NbhdSubsts}_{\sigma_\Sigma, V, I} :=
+  {\mathrm{nbhd}_{\mathcal{H}(Q - \mathrm{dom}(\sigma_\Sigma))}(V)}
     \rightarrow
   (\mathrm{ActiveValues}_{\mathrm{LocalConsts}_\mathcal{L}}(I)).
 $$
@@ -71,7 +71,7 @@ $$
   I \in \mathrm{LocalInst}_{\mathcal{L}, \Sigma}
 }}
 \sum_{V \in \mathrm{Conn}_{Q-\sigma_\Sigma}}
-  \mathrm{NbhdSubsts}_{V, I}
+  \mathrm{NbhdSubsts}_{\sigma_\Sigma, V, I}
 $$
 
 We now consider the following recursively defined problem $\mathrm{SubqueryEntailments}_{\Sigma, Q} \subseteq \mathrm{SubqueryEntailmentInstances}_{\Sigma, Q}$
@@ -146,7 +146,40 @@ I' \wedge \Sigma
       \bigwedge_{j \in \bigcup_{i \in \overline{N}} \mathrm{relv}_Q(V'_i)}
         A_j((\sigma_\Sigma \cup \sigma_\text{local} \cup \sigma_\text{new})(\vec{u}_j)).
 \end{align}
-$$(TODO)
+$$We claim the following:
+> >
+> > > **Claim**. If $j \in \mathrm{relv}_Q(V) \setminus \bigcup_{i \in \overline{N}} \mathrm{relv}_Q(V'_i)$, then $\vars(\vec{u}_j) \subseteq \operatorname{dom}(\sigma_\Sigma \cup \sigma_\text{local} \cup \sigma_\text{new})$ and $\vars(\vec{u}_j) \cap \operatorname{dom}(\sigma_\text{new}) \neq \emptyset$.
+> > > 
+> > > > *Proof*. Take any $j \in \mathrm{relv}_Q(V) \setminus \bigcup_{i \in \overline{N}} \mathrm{relv}_Q(V'_i)$.
+> > > > 
+> > > > (TODO)
+> > > > 
+> > 
+> > Now, by the previous claim and branching condition satisfied by $I'$ and $\sigma_\text{new}$, we have $$
+I' \models
+  \bigwedge_{j \in \mathrm{relv}_Q(V) \setminus \bigcup_{i \in \overline{N}} \mathrm{relv}_Q(V'_i)}
+    A_j((\sigma_\Sigma \cup \sigma_\text{local} \cup \sigma_\text{new})(\vec{u}_j)).
+$$Therefore $$
+\begin{align}
+  I' \wedge \Sigma
+    &\models
+      \exists \overrightarrow{V'_0}, \ldots, \overrightarrow{V'_{N-1}}.
+        \bigwedge_{j \in \mathrm{relv}_Q(V)}
+          A_j((\sigma_\Sigma \cup \sigma_\text{local} \cup \sigma_\text{new})(\vec{u}_j))
+\end{align},
+$$and existentially quantifying away all variables in $\operatorname{dom}(\sigma_\text{new})$, we have $$
+\begin{align}
+  I' \wedge \Sigma
+    &\models
+      \exists \overrightarrow{V'_0}, \ldots, \overrightarrow{V'_{N-1}}, \overrightarrow{\operatorname{dom}(\sigma_\text{new})}.
+        \bigwedge_{j \in \mathrm{relv}_Q(V)}
+          A_j((\sigma_\Sigma \cup \sigma_\text{local})(\vec{u}_j)) \\
+    &\equiv
+      \exists \overrightarrow{V}.
+        \bigwedge_{j \in \mathrm{relv}_Q(V)}
+          A_j((\sigma_\Sigma \cup \sigma_\text{local})(\vec{u}_j))
+\end{align}
+$$as desired.
 
 ## Translating Generic BCQ Answering Problems to Subquery Entailments
 
