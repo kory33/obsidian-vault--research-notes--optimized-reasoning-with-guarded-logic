@@ -80,17 +80,17 @@ We now consider the following recursively defined problem $\mathrm{SubqueryEntai
 > 
 > Let $\mathrm{SubqueryEntailments}_{\Sigma, Q}$ be the set of 4-tuples $$\langle \sigma_\Sigma, V, I, \sigma_\text{local} \rangle \in \mathrm{SubqueryEntailmentInstances}_{\Sigma, Q}$$such that either
 >   - $V = \emptyset$, or
->   - If $\mathcal{I}_{W_\Sigma}(I, \sigma_\text{local}) \subseteq \mathrm{LocalInst}_{\mathcal{L}, \Sigma}$ is the set of *all* $\Sigma$-saturated local instances over $\mathrm{LocalConsts}_\mathcal{L}$ that can be obtained from $I$ by applying finitely many existential rules in $\Sigma$ without dropping any local name in $\operatorname{im}(\sigma_\text{local})$, then there is some $I' \in \mathcal{I}_{W_\Sigma}(I, \sigma_\text{local})$ (which we shall call *successful branching point under $\langle \sigma_\Sigma, V, I, \sigma_\text{local} \rangle$*) and a *nonempty* partial local substitution $\sigma_\text{new}: V \rightharpoonup \mathrm{ActiveValues}_{\mathrm{LocalConsts}_\mathcal{L}}(I')$ on $V$ satisfying the following *branching conditions at $I'$*:
->       - for every $j \in J$, if $\vars(\vec{u}_j) \subseteq \operatorname{dom}(\sigma_\Sigma \cup \sigma_\text{local} \cup \sigma_\text{new})$ and $\vars(\vec{u}_j) \cap \operatorname{dom}(\sigma_\text{new}) \neq \emptyset$, then $A_j((\sigma_\Sigma \cup \sigma_\text{local} \cup \sigma_\text{new})(\vec{u}_j)) \in I'$, and
->       - for every connected component $V'$ of $\mathcal{H}(\mathrm{ind}_V(Q) - \operatorname{dom}(\sigma'))$, $$\langle \sigma_\Sigma, V', I', (\sigma_\text{local} \cup \sigma_\text{new}) \upharpoonright \mathrm{nbhd}_{\mathcal{H}(Q)}(V') \rangle {} \in \mathrm{SubqueryEntailments}_{\Sigma, Q}.$$
+>   - If $\mathcal{I}_{W_\Sigma}(I, \sigma_\text{local}) \subseteq \mathrm{LocalInst}_{\mathcal{L}, \Sigma}$ is the set of *all* $\Sigma$-saturated local instances over $\mathrm{LocalConsts}_\mathcal{L}$ that can be obtained from $I$ by applying finitely many existential rules in $\Sigma$ without dropping any local name in $\operatorname{im}(\sigma_\text{local})$, then there is some $I_\text{below} \in \mathcal{I}_{W_\Sigma}(I, \sigma_\text{local})$ (which we shall call *successful branching point under $\langle \sigma_\Sigma, V, I, \sigma_\text{local} \rangle$*) and a *nonempty* partial local substitution $\sigma_\text{new}: V \rightharpoonup \mathrm{ActiveValues}_{\mathrm{LocalConsts}_\mathcal{L}}(I_\text{below})$ on $V$ satisfying the following *branching conditions at $I_\text{below}$*:
+>       - for every $j \in J$, if $\vars(\vec{u}_j) \subseteq \operatorname{dom}(\sigma_\Sigma \cup \sigma_\text{local} \cup \sigma_\text{new})$ and $\vars(\vec{u}_j) \cap \operatorname{dom}(\sigma_\text{new}) \neq \emptyset$, then $A_j((\sigma_\Sigma \cup \sigma_\text{local} \cup \sigma_\text{new})(\vec{u}_j)) \in I_\text{below}$, and
+>       - for every connected component $V_\text{split}$ of $\mathcal{H}(\mathrm{ind}_V(Q) - \operatorname{dom}(\sigma_\text{new}))$, $$\langle \sigma_\Sigma, V_\text{split}, I_\text{below}, (\sigma_\text{local} \cup \sigma_\text{new}) \upharpoonright \mathrm{nbhd}_{\mathcal{H}(Q - \mathrm{dom}(\sigma_\Sigma)))}(V_\text{split}) \rangle {} \in \mathrm{SubqueryEntailments}_{\Sigma, Q}.$$
 
 > *Remark*. The definition of $\mathrm{SubqueryEntailments}_{\Sigma, Q}$ is recursive on the size of $V \in \mathrm{Conn}_{Q - \sigma_\Sigma}$, and the set $$
 \sum_{
-  I' \in
+  I_\text{below} \in
     \mathcal{I}_{W_\Sigma}(I, \sigma_\text{local})
 } (
   V \rightharpoonup 
-    \mathrm{ActiveValues}_{\mathrm{LocalConsts}_\mathcal{L}}(I')
+    \mathrm{ActiveValues}_{\mathrm{LocalConsts}_\mathcal{L}}(I_\text{below})
 )
 $$of all recursion branches can be computed in a finite amount of time. In particular, $\mathrm{SubqueryEntailments}_{\Sigma, Q}$ can be decided.
 
@@ -117,12 +117,12 @@ $$
 > > 
 > > If $V = \emptyset$, $\exists \overrightarrow{V}. \bigwedge_{j \in \mathrm{relv}_Q(V)} A_j((\sigma_\Sigma \cup \sigma_\text{local})(\vec{u}_j)) \equiv \top$ so we are done.
 > > 
-> > So assume $V \neq \emptyset$. By definition of $\mathrm{SubqueryEntailments}_{\Sigma, Q}$, there exists a successful branching point $I' \in \mathcal{I}_{W_\Sigma}(I, \sigma_\text{local})$ under $\langle \sigma_\Sigma, V, I, \sigma_\text{local} \rangle$ and a nonempty $\sigma_\text{new}: V \rightharpoonup \mathrm{ActiveValues}_{\mathrm{LocalConsts}_\mathcal{L}}(I')$ satisfying branching conditions at $I'$.
+> > So assume $V \neq \emptyset$. By definition of $\mathrm{SubqueryEntailments}_{\Sigma, Q}$, there exists a successful branching point $I_\text{below} \in \mathcal{I}_{W_\Sigma}(I, \sigma_\text{local})$ under $\langle \sigma_\Sigma, V, I, \sigma_\text{local} \rangle$ and a nonempty $\sigma_\text{new}: V \rightharpoonup \mathrm{ActiveValues}_{\mathrm{LocalConsts}_\mathcal{L}}(I_\text{below})$ satisfying branching conditions at $I_\text{below}$.
 > > 
 > > Let $\set{ V'_i }_{i \in \overline{N}}$ be the family of connected components of $\mathcal{H}(\mathrm{ind}_V(Q) - \operatorname{dom}(\sigma_\text{new}))$, indexed by the set $\overline{N} = \set{0, 1, \ldots, N - 1}$.
 > > 
-> > For each $i \in \overline{N}$, $V'_i \subsetneq V$, and $$\langle \sigma_\Sigma, V'_i, I', (\sigma_\text{local} \cup \sigma_\text{new}) \upharpoonright \mathrm{nbhd}_{\mathcal{H}(Q)}(V'_i) \rangle {} \in \mathrm{SubqueryEntailments}_{\Sigma, Q}$$by the branching condition. Applying the inductive hypothesis to $V'_i$, we have $$
-I' \wedge \Sigma \models
+> > For each $i \in \overline{N}$, $V'_i \subsetneq V$, and $$\langle \sigma_\Sigma, V'_i, I_\text{below}, (\sigma_\text{local} \cup \sigma_\text{new}) \upharpoonright \mathrm{nbhd}_{\mathcal{H}(Q)}(V'_i) \rangle {} \in \mathrm{SubqueryEntailments}_{\Sigma, Q}$$by the branching condition. Applying the inductive hypothesis to $V'_i$, we have $$
+I_\text{below} \wedge \Sigma \models
   \exists \overrightarrow{V'_i}.
     \bigwedge_{j \in \mathrm{relv}_Q(V'_i)}
       A_j((\sigma_\Sigma \cup \sigma_\text{local} \cup \sigma_\text{new})(\vec{u}_j)).
@@ -130,7 +130,7 @@ $$
 > >
 > > Collectively, we have $$
 \begin{align}
-I' \wedge \Sigma
+I_\text{below} \wedge \Sigma
   &\models
     \bigwedge_{i \in \overline{N}}
       \exists \overrightarrow{V'_i}.
@@ -150,26 +150,34 @@ $$We claim the following:
 > >
 > > > **Claim**. If $j \in \mathrm{relv}_Q(V) \setminus \bigcup_{i \in \overline{N}} \mathrm{relv}_Q(V'_i)$, then $\vars(\vec{u}_j) \subseteq \operatorname{dom}(\sigma_\Sigma \cup \sigma_\text{local} \cup \sigma_\text{new})$ and $\vars(\vec{u}_j) \cap \operatorname{dom}(\sigma_\text{new}) \neq \emptyset$.
 > > > 
-> > > > *Proof*. Take any $j \in \mathrm{relv}_Q(V) \setminus \bigcup_{i \in \overline{N}} \mathrm{relv}_Q(V'_i)$.
+> > > > *Proof*. Take any $j \in \mathrm{relv}_Q(V) \setminus \bigcup_{i \in \overline{N}} \mathrm{relv}_Q(V'_i)$. Then $\vars(\vec{u}_j) \cap V \neq \emptyset$ as $j \in \mathrm{relv}_Q(V)$, and $\vars(\vec{u}_j) \cap \bigcup_{i \in \overline{N}} V'_i = \emptyset$ as $j \not\in \mathrm{relv}_Q(V'_i)$ for each $i \in \overline{N}$.
 > > > > 
-> > > > (TODO)
+> > > > Since $\bigcup_{i \in \overline{N}} V'_i = V \setminus \mathrm{dom}(\sigma_\text{new})$ by definition of $\set{ V'_i }_{i \in \overline{N}}$, $\vars(\vec{u}_j) \cap (V \setminus \mathrm{dom}(\sigma_\text{new})) = \emptyset$ and thus $\vars(\vec{u}_j) \cap V \subseteq \mathrm{dom}(\sigma_\text{new})$. Since $\vars(\vec{u}_j) \cap V \neq \emptyset$, we have $\vars(\vec{u}_j) \cap \mathrm{dom}(\sigma_\text{new}) \neq \emptyset$. It now remains to see $\vars(\vec{u}_j) \subseteq \operatorname{dom}(\sigma_\Sigma \cup \sigma_\text{local} \cup \sigma_\text{new})$.
 > > > > 
+> > > > As $\vars(\vec{u}_j) \cap V \neq \emptyset$, we have $\vars(\vec{u}_j) \subseteq V \cup \mathrm{nbhd}_{\mathcal{H}(Q)}(V)$. As $V \cap \mathrm{dom}(\sigma_\Sigma) = \emptyset$, $\mathrm{nbhd}_{\mathcal{H}(Q)}(V) = \mathrm{dom}(\sigma_\Sigma) \cup \mathrm{nbhd}_{\mathcal{H}(Q - \mathrm{dom}(\sigma_\Sigma))}(V)$. Therefore $$
+\begin{align}
+  \vars(\vec{u}_j)
+    &\subseteq V \cup \mathrm{nbhd}_{\mathcal{H}(Q)}(V) \\
+    &= V \cup \mathrm{dom}(\sigma_\Sigma) \cup \mathrm{nbhd}_{\mathcal{H}(Q - \mathrm{dom}(\sigma_\Sigma))}(V) \\
+    &= V \cup \mathrm{dom}(\sigma_\Sigma) \cup \mathrm{dom}(\sigma_\text{local}).
+\end{align}
+$$Combined with $\vars(\vec{u}_j) \cap V \subseteq \mathrm{dom}(\sigma_\text{new})$, we have $\vars(\vec{u}_j) \subseteq \operatorname{dom}(\sigma_\Sigma \cup \sigma_\text{local} \cup \sigma_\text{new})$ as required.
 > > 
-> > Now, by the previous claim and branching condition satisfied by $I'$ and $\sigma_\text{new}$, we have $$
-I' \models
+> > Now, by the previous claim and the branching condition satisfied by $I_\text{below}$ and $\sigma_\text{new}$, we have $$
+I_\text{below} \models
   \bigwedge_{j \in \mathrm{relv}_Q(V) \setminus \bigcup_{i \in \overline{N}} \mathrm{relv}_Q(V'_i)}
     A_j((\sigma_\Sigma \cup \sigma_\text{local} \cup \sigma_\text{new})(\vec{u}_j)).
 $$Therefore $$
 \begin{align}
-  I' \wedge \Sigma
+  I_\text{below} \wedge \Sigma
     &\models
       \exists \overrightarrow{V'_0}, \ldots, \overrightarrow{V'_{N-1}}.
         \bigwedge_{j \in \mathrm{relv}_Q(V)}
           A_j((\sigma_\Sigma \cup \sigma_\text{local} \cup \sigma_\text{new})(\vec{u}_j))
 \end{align},
-$$and existentially quantifying away all variables in $\operatorname{dom}(\sigma_\text{new})$, we have $$
+$$and existentially quantifying away all variables in $\operatorname{dom}(\sigma_\text{new})$, we obtain $$
 \begin{align}
-  I' \wedge \Sigma
+  I_\text{below} \wedge \Sigma
     &\models
       \exists \overrightarrow{V'_0}, \ldots, \overrightarrow{V'_{N-1}}, \overrightarrow{\operatorname{dom}(\sigma_\text{new})}.
         \bigwedge_{j \in \mathrm{relv}_Q(V)}
