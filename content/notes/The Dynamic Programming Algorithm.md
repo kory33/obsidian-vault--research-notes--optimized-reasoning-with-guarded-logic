@@ -187,17 +187,32 @@ $$and existentially quantifying away all variables in $\operatorname{dom}(\sigma
         \bigwedge_{j \in \mathrm{relv}_Q(V)}
           A_j((\sigma_\Sigma \cup \sigma_\text{local})(\vec{u}_j))
 \end{align}
-$$as desired.
+$$as desired. (TODO: in some way "$I \wedge \Sigma \models I_\text{below}$". To formalize this we need to properly talk about the model encoded by "local instance tree"s with implicit equality codings... After we concluded "$I \wedge \Sigma \models I_\text{below}$", we can conclude that $I \wedge \Sigma$ models the RHS of the last expression.)
 
 ## Translating Generic BCQ Answering Problems to Subquery Entailments
 
-The following procedure allows us to reduce arbitrary BCQ answering problem to an instance of $\mathrm{SubqueryEntailments}_{\Sigma, -}$.
+The following procedure allows us to reduce arbitrary BCQ answering problem to an instance of $\mathrm{SubqueryEntailments}_{\Sigma, -}$. We begin with some definitions.
 
-> **Definition**. Let $Q = \exists \vec{z}. \bigwedge_{j \in J} A_j(\vec{u}_j)$ be a connected boolean conjunctive query, which need not be fully $\Sigma$-existential. Let $I \in \mathrm{LocalInst}_{\mathcal{L}, \Sigma}$.
+> **Definition**. Let $Q = \exists \vec{z}. \bigwedge_{j \in J} A_j(\vec{u}_j)$ be an arbitrary boolean conjunctive query. We define $CC(Q)$ to be the set of $\mathcal{H}(Q)$-connected components.
+
+> *Remark*. For each $V \in CC(Q)$, $\mathrm{ind}_V(Q)$ is a connected BCQ.
+
+> **Definition**. Let $\Sigma$ be a finite set of GTGDs and $I \in \mathrm{LocalInst}_{\mathcal{L}, \Sigma}$. Let $Q = \exists \vec{z}. \bigwedge_{j \in J} A_j(\vec{u}_j)$ a connected boolean conjunctive query.
 > 
-> (TODO: "lift" $\langle I, Q \rangle$ to some $Q'_I, \sigma_{I, Q}$ so that we can test $I \wedge \Sigma \models Q$ by testing the membership $\langle Q'_I, \langle I, \sigma \rangle \rangle \in \mathrm{SubqueryEntailments}_{\Sigma, Q'_I}$)
+> We say that for $Q$ *can be lifted to a fully $\Sigma$-existential query over $I$* if $\consts(Q) \setminus \consts(\Sigma) \subseteq \mathrm{ActiveValues}(I)$. When this is the case, we define the *fully $\Sigma$-existential lift $\mathrm{Lift_{\Sigma, I}(Q)}$ of $Q$ over $I$* to be the pair $\langle Q_\mathrm{lifted}, \sigma_\mathrm{lifted} \rangle$ with $$Q_\text{lifted} := \exists \vec{z}. \exists \vec{z'} \bigwedge_{j \in J} A_j(\vec{u'}_j)$$and$$
+\begin{array}{}
+  &\sigma_\text{lifted}: &\elems(\vec{z'}) &\longrightarrow &\mathrm{ActiveValues}(I) \\
+  & &z'_i &\longmapsto &c_i
+\end{array}
+$$where $$
+\begin{align}
+  \vec{z'} &:= \set{ z'_1, \ldots z'_n } \text{ are fresh variables}, \\
+  \set{ c_1, c_2, \ldots, c_n } &\text{ is an enumeration of } \consts(Q) \setminus \consts(\Sigma), \\
+  \vec{u'}_j &\text{'s are } \vec{u}_j \text{'s except } c_i \text{'s are replaced with } z'_i \text{'s}.
+\end{align}
+$$
 
-> **Proposition**. (State that $I \wedge \Sigma \models Q$ if and only if the "lift" $Q'_I, \sigma_{I, Q}$ of $\langle I, Q \rangle$ exists, and $\langle Q'_I, \langle I, \sigma_{I, Q} \rangle \rangle \in \mathrm{SubqueryEntailments}_{\Sigma, Q'_I}$.)
+> **Proposition**. Let $\Sigma$ be a finite set of GTGDs, $I \in \mathrm{LocalInst}_{\mathcal{L}, \Sigma}$, and $Q$ a connected boolean conjunctive query. Then $I \wedge \Sigma \models Q$ if and only if $\langle Q_\text{lifted} = \exists \vec{z''}. \bigwedge_{j \in J} A_j(\vec{u'}_j), \sigma_\text{lifted} \rangle = \mathrm{Lift}_{\Sigma, I}(Q)$ exists, and there exists $\sigma_\Sigma: \elems(\vec{z''}) \rightharpoonup \mathrm{ActiveValues}(I)$ such that for each $\mathcal{H}(Q_\text{lifted} - \mathrm{dom}(\sigma_\Sigma)))$-connected component $V$, $\langle \sigma_\Sigma, V, I, \sigma_\text{lifted} \upharpoonright _{\mathrm{nbhd}_\mathcal{H}(Q_\text{lifted} - \mathrm{dom}(\sigma_\Sigma))(V)} \rangle$ is an element of $\mathrm{SubqueryEntailments}_{\Sigma, Q}$.
 > 
 > > *Proof*.
 > > ($\Longrightarrow$): (TODO)
